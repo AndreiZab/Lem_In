@@ -45,6 +45,21 @@ t_room	*ft_room_get(t_room *rooms, int index)
 }
 
 /*
+** Return room from room's array by compare func
+*/
+
+t_room	*ft_room_get_where(t_room *rooms, int (*f)(t_room*))
+{
+	while (rooms)
+	{
+		if (f(rooms))
+			return (rooms);
+		rooms = rooms->next;
+	}
+	return (NULL);
+}
+
+/*
 ** Frees an array of rooms
 */
 
