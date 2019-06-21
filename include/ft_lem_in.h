@@ -31,22 +31,22 @@ typedef struct	s_lemin
 {
 	int		ants;
 	t_room	*rooms;
-	//char	**links_matrix;
+	/*char	**links_matrix;*/
 	t_path	*paths;
 }				t_lemin;
 
 typedef struct	s_room
 {
-	char	*name;
-	int		x;
-	int		y;
+	char		*name;
+	int			x;
+	int			y;
 	short int	*input_links;
 	short int	*output_links;
-	char	type;
-	char	ant;
-	int		index;
-	int		bfs_level;
-	t_room	*next;
+	char		type;
+	char		ant;
+	int			index;
+	int			bfs_level;
+	t_room		*next;
 }				t_room;
 
 typedef struct	s_path
@@ -56,6 +56,10 @@ typedef struct	s_path
 	int		end_index;
 	t_path	*next;
 }				t_path;
+
+int		ft_validation(int fd, t_lemin *li, t_lstr *lstr);
+int		ft_solution(t_lemin *li);
+int		ft_migration(t_lemin *li, t_lstr *lstr);
 
 /*
 ** rooms.c
