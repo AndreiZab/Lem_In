@@ -28,8 +28,11 @@
 # define FT_END (1 << 1)
 # define FT_ANT (1 << 2)
 # define FT_BFS_MARK (1 << 3)
+# define FT_DIRECTION 0
+# define FT_ALL_LINK 1
 # include <stdlib.h>
 # include <string.h>
+# include <limits.h>
 # include "libft.h"
 
 typedef struct	s_lemin
@@ -80,5 +83,11 @@ void	ft_room_full_free(t_room **rooms);
 void	ft_link_set(t_room *rooms, int room_i1, int room_i2);
 void	ft_link_unset(t_room *rooms, int from, int to, char unset_type);
 void	ft_link_restore(t_room *rooms);
+
+/*
+** bfs.c
+*/
+
+int		ft_bfs(t_lemin *li);
 
 #endif
