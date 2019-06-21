@@ -26,7 +26,8 @@
 # define FT_NO_FLAGS 0
 # define FT_START 1
 # define FT_END (1 << 1)
-# define FT_BFS_MARK (1 << 2)
+# define FT_ANT (1 << 2)
+# define FT_BFS_MARK (1 << 3)
 # include <stdlib.h>
 # include <string.h>
 # include "libft.h"
