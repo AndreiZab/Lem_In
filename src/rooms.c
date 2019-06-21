@@ -59,9 +59,9 @@ void	ft_room_full_free(t_room **rooms)
 	while (current)
 	{
 		next = current->next;
-		free(current->name);
-		free(current->input_links);
-		free(current->output_links);
+		current->name ? free(current->name) : NULL;
+		current->input_links ? free(current->input_links) : NULL;
+		current->output_links ? free(current->output_links) : NULL;
 		free(current);
 		current = next;
 	}
