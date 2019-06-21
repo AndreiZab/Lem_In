@@ -28,6 +28,8 @@
 # define FT_END (1 << 1)
 # define FT_ANT (1 << 2)
 # define FT_BFS_MARK (1 << 3)
+# define FT_DIRECTION 0
+# define FT_ALL_LINK 1
 # include <stdlib.h>
 # include <string.h>
 # include <limits.h>
