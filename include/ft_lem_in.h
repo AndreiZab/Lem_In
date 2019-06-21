@@ -23,13 +23,17 @@
 # define FT_WRONG_FORMAT 8
 # define FT_NO_PATH_TO_END 9
 # define FT_MEMORY 10
+# define FT_NO_FLAGS 0
+# define FT_START 1
+# define FT_END (1 << 1)
+# define FT_BFS_MARK (1 << 2)
 # include <stdlib.h>
 # include <string.h>
 # include "libft.h"
 
 typedef struct	s_lemin
 {
-	int		ants;
+	uint		ants;
 	t_room	*rooms;
 	/*char	**links_matrix;*/
 	t_path	*paths;
