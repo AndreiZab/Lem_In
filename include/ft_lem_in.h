@@ -46,7 +46,9 @@ typedef struct	s_room
 	int			x;
 	int			y;
 	short int	*input_links;
+	int			input_count;
 	short int	*output_links;
+	int			output_count;
 	char		type;
 	char		ant;
 	int			index;
