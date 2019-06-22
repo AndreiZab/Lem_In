@@ -6,7 +6,7 @@
 /*   By: rhealitt <rhealitt@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/21 20:30:22 by rhealitt          #+#    #+#             */
-/*   Updated: 2019/06/21 20:30:22 by rhealitt         ###   ########.fr       */
+/*   Updated: 2019/06/22 22:24:08 by rhealitt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,9 +21,9 @@ int		ft_split_link(char *line, char **name1, char **name2)
 	{
 		if (line[i] == '-')
 		{
-			*name1 = strdup(line); // поправить лишний перебор
+			*name1 = ft_strdup(line); // поправить лишний перебор
 			*name1[i] = '\0';
-			*name2 = strdup(line + i + 1);
+			*name2 = ft_strdup(line + i + 1);
 			if (*name1 == *name2)
 				return (FT_WRONG_FORMAT);
 			if (*name1 && *name2 && *name1[0] != '\0' && *name2[0] != '\0')
@@ -37,7 +37,7 @@ int		ft_split_link(char *line, char **name1, char **name2)
 t_hashtable *ft_init_hashtable()
 {
 	t_hashtable		*links;
-	
+
 	if ((links = (t_hashtable*)ft_memalloc(sizeof(t_hashtable))) == NULL)
 		return (NULL);
 //	links->next = NULL;
@@ -46,18 +46,20 @@ t_hashtable *ft_init_hashtable()
 	return(links);
 }
 
-int		ft_parse_links(char *line, t_lemin *li) 
+int		ft_parse_links(char *line, t_lemin *li)
 {
-	int status;
-	char *name1;
-	char *name2;
-	t_room *ptr1;
-	t_room *ptr2;
+	int		status;
+	char	*name1;
+	char	*name2;
+	t_room	*ptr1;
+	t_room	*ptr2;
 
 	ptr1 = NULL;
 	ptr2 = NULL;
 	status = ft_split_link(line, &name1, &name2);
-	while (li->rooms->next) 
+	if (!li->rooms)
+		return (FT_NO_ROOMS); //разве так?
+	while (li->rooms->next)
 	{
 		if (!ft_strcmp(li->rooms->name, name2))
 			ptr2 = li->rooms;
