@@ -44,7 +44,7 @@ int 	ft_check_room(char *line)
 	while (line[i] != ' ')
 		if (line[i++] == '\0')
 			return (FT_WRONG_FORMAT);
-	space = 1;
+	space = 0;
 	while (line[i] != '\0')
 	{
 		if (line[i] == ' ' && i++)
@@ -87,6 +87,7 @@ void		ft_create_room(char *line, t_lemin *li, char flag) {
 	room = ft_init_room(room);
 	room->type = flag;
 	i = -1;
+	room->name = ft_strdup(line);
 	while (line[++i] != ' ')
 		room->name[i] = line[i];
 	room->name[i + 1] = '\0';
