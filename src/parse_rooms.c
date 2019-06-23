@@ -107,11 +107,10 @@ int 	ft_parse_rooms(int fd, t_lemin *li, t_lstr *lstr)
 	char	*line;
 	int		status;
 	char	flag;
-	int j = 8;
 
 	flag = 'm';
 	status = FT_NO_ROOMS;
-	while (get_next_line(fd, &line) > 0 && j-- > 0)
+	while (get_next_line(fd, &line) > 0)
 	{
 		if (!ft_strcmp(line, "\0"))
 			break ;
