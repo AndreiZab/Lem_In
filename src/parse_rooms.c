@@ -116,10 +116,10 @@ int 	ft_parse_rooms(int fd, t_lemin *li, t_lstr *lstr)
 		ft_lstr_insert_s(lstr, line, lstr->length);
 		if (line[0] == '#' && line[1] != '#')
 			continue;
-		else if (!ft_strcmp(line, "##start"))
-			flag = 's';
-		else if (!ft_strcmp(line, "##end"))
-			flag = 'e';
+		else if (!ft_strcmp(line, "##start") && (flag = 's') != 0)
+			continue ;
+		else if (!ft_strcmp(line, "##end") && (flag = 'e') != 0)
+			continue ;
 		status = ft_check_room(line);
 		if (status == FT_OK)
 		{
