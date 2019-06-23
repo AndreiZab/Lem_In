@@ -4,7 +4,10 @@ SRC=lem_in.c \
 	paths.c \
 	solution.c \
 	bfs.c \
-	migration.c
+	migration.c \
+	validation.c \
+	parse_rooms.c \
+	parse_lins.c
 NAME=lem_in
 LIBFT=lib/libft
 CFLAGS=-Wall -Wextra -Werror

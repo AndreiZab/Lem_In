@@ -72,6 +72,7 @@ static int	ft_test_input(t_lemin *li, t_lstr *lstr)
 	ft_link_set(li->rooms->next, li->rooms);
 	ft_link_set(li->rooms->next, li->rooms->next->next);
 	ft_link_set(li->rooms->next->next, li->rooms->next);
+	
 	return (FT_OK);
 }
 
@@ -85,10 +86,13 @@ int			main(void)
 	lstr = NULL;
 	err = ft_creation(&li, &lstr);
 	if (err == FT_OK)
-		err = ft_test_input(li, lstr);
-		//err = ft_validation(0, li, lstr);
+		//err = ft_test_input(li, lstr);
+		err = ft_validation(0, li, lstr);
+	if (err != FT_OK)
+		ft_putnbr(err);
 	if (err == FT_OK)
 		err = ft_solution(li);
+	ft_path_new(&li->paths, ft_room_get(li->rooms, 1), ft_room_get(li->rooms, 1), 2);
 	if (err == FT_OK)
 		err = ft_migration(li, lstr);
 	ft_output(err, lstr);

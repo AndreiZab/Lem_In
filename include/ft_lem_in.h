@@ -35,6 +35,7 @@
 # include <string.h>
 # include <limits.h>
 # include "libft.h"
+# include "get_next_line.h"
 
 typedef struct	s_room
 {
@@ -78,6 +79,19 @@ typedef struct	s_lemin
 }				t_lemin;
 
 int		ft_validation(int fd, t_lemin *li, t_lstr *lstr);
+
+/*
+** parse_lins.c
+*/
+
+int		ft_parse_links(char *line, t_lemin *li);
+
+/*
+** parse_rooms.c
+*/
+
+int 	ft_parse_rooms(int fd, t_lemin *li, t_lstr *lstr);
+
 int		ft_solution(t_lemin *li);
 int		ft_migration(t_lemin *li, t_lstr *lstr);
 

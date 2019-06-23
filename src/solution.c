@@ -100,6 +100,5 @@ int			ft_solution(t_lemin *li)
 	ft_set_directions(li);
 	if (ft_find_shortest(li))
 		return (FT_OK);
-	
 	return (err);
 }
