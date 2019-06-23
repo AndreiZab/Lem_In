@@ -1,8 +1,10 @@
 SRC=lem_in.c \
 	rooms.c \
 	links.c \
+	paths.c \
 	solution.c \
-	bfs.c
+	bfs.c \
+	migration.c
 NAME=lem_in
 LIBFT=lib/libft
 CFLAGS=-Wall -Wextra -Werror

@@ -56,6 +56,7 @@ void			ft_link_unset_dir(t_room *from, t_room *to)
 		if (lnk->linked_room == from)
 		{
 			ft_link_destroy(&to->input_links, lnk, prev);
+			--to->input_count;
 			break ;
 		}
 		prev = lnk;
@@ -68,6 +69,7 @@ void			ft_link_unset_dir(t_room *from, t_room *to)
 		if (lnk->linked_room == to)
 		{
 			ft_link_destroy(&from->output_links, lnk, prev);
+			--from->output_count;
 			break ;
 		}
 		prev = lnk;

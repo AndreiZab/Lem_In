@@ -64,17 +64,17 @@ int			ft_solution(t_lemin *li)
 	if ((err = ft_bfs(li)) != FT_OK)
 		return (err);
 	ft_set_directions(li);
-	room = li->rooms;
-	while (room)
-	{
-		ft_putstr("BFS_level of ");
-		ft_putstr(room->name);
-		ft_putstr(" = ");
-		ft_putnbr(room->bfs_level);
-		ft_putchar('\n');
-		ft_show_links(room);
-		room = room->next;
-	}
+	// room = li->rooms;
+	// while (room)
+	// {
+	// 	ft_putstr("BFS_level of ");
+	// 	ft_putstr(room->name);
+	// 	ft_putstr(" = ");
+	// 	ft_putnbr(room->bfs_level);
+	// 	ft_putchar('\n');
+	// 	ft_show_links(room);
+	// 	room = room->next;
+	// }
 	err = FT_OK;
 	return (err);
 }

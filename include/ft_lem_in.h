@@ -22,7 +22,8 @@
 # define FT_NO_TUNNEL 7
 # define FT_WRONG_FORMAT 8
 # define FT_NO_PATH_TO_END 9
-# define FT_MEMORY 10
+# define FT_NO_PATHS 10
+# define FT_MEMORY 11
 # define FT_NO_FLAGS 0
 # define FT_START 1
 # define FT_END (1 << 1)
@@ -45,6 +46,7 @@ typedef struct	s_room
 	struct s_link	*output_links;
 	int				output_count;
 	char			flags;
+	int				ant;
 	int				index;
 	int				bfs_level;
 	struct s_room	*next;
@@ -60,16 +62,18 @@ typedef struct	s_link
 typedef struct	s_path
 {
 	int				length;
-	int				start_index;
-	int				end_index;
+	t_room			*start;
+	t_room			*end;
 	struct s_path	*next;
 }				t_path;
 
 typedef struct	s_lemin
 {
-	uint		ants;
+	uint	ants;
+	uint	ants_on_a_way;
 	t_room	*rooms;
-	/*char	**links_matrix;*/
+	t_room	*start_room;
+	t_room	*end_room;
 	t_path	*paths;
 }				t_lemin;
 
@@ -93,6 +97,12 @@ void	ft_room_full_free(t_room **rooms);
 void	ft_link_set(t_room *from, t_room *to);
 void	ft_link_unset_dir(t_room *from, t_room *to);
 void	ft_link_restore(t_room *rooms);
+
+/*
+** paths.c
+*/
+
+t_path	*ft_path_new(t_path **paths, t_room *start, t_room *end, int length);
 
 /*
 ** bfs.c

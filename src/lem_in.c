@@ -48,12 +48,14 @@ static int	ft_test_input(t_lemin *li, t_lstr *lstr)
 	t_room *room;
 
 	ft_lstr_insert_s(lstr, "5\n##start\n0 1 2\n1 5 4\n##end\n2 8 5\n0-1\n1-2\n", 0);
+	li->ants = 5;
 	room = ft_room_new(&li->rooms);
 	room->name = ft_strnew(1);
 	room->name[0] = '0';
 	room->x = 1;
 	room->y = 2;
 	room->flags = FT_START;
+	li->start_room = room;
 	room = ft_room_new(&li->rooms);
 	room->name = ft_strnew(1);
 	room->name[0] = '1';
@@ -65,10 +67,12 @@ static int	ft_test_input(t_lemin *li, t_lstr *lstr)
 	room->x = 8;
 	room->y = 5;
 	room->flags = FT_END;
+	li->end_room = room;
 	ft_link_set(li->rooms, li->rooms->next);
 	ft_link_set(li->rooms->next, li->rooms);
 	ft_link_set(li->rooms->next, li->rooms->next->next);
 	ft_link_set(li->rooms->next->next, li->rooms->next);
+	ft_path_new(&li->paths, ft_room_get(li->rooms, 1), ft_room_get(li->rooms, 1), 2);
 	return (FT_OK);
 }
 
@@ -86,8 +90,8 @@ int			main(void)
 		//err = ft_validation(0, li, lstr);
 	if (err == FT_OK)
 		err = ft_solution(li);
-	//if (err == FT_OK)
-	//	err = ft_migration(li, lstr);
+	if (err == FT_OK)
+		err = ft_migration(li, lstr);
 	ft_output(err, lstr);
 	ft_free(&li, &lstr);
 	return (0);
