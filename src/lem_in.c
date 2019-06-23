@@ -53,6 +53,7 @@ static int	ft_test_input(t_lemin *li, t_lstr *lstr)
 	room->name[0] = '0';
 	room->x = 1;
 	room->y = 2;
+	room->flags = FT_START;
 	room = ft_room_new(&li->rooms);
 	room->name = ft_strnew(1);
 	room->name[0] = '1';
@@ -63,6 +64,7 @@ static int	ft_test_input(t_lemin *li, t_lstr *lstr)
 	room->name[0] = '2';
 	room->x = 8;
 	room->y = 5;
+	room->flags = FT_END;
 	ft_link_set(li->rooms, li->rooms->next);
 	ft_link_set(li->rooms->next, li->rooms);
 	ft_link_set(li->rooms->next, li->rooms->next->next);

@@ -86,8 +86,12 @@ t_room	*ft_room_get(t_room *rooms, int index);
 t_room	*ft_room_get_where(t_room *rooms, int (*f)(t_room*));
 void	ft_room_full_free(t_room **rooms);
 
+/*
+** links.c
+*/
+
 void	ft_link_set(t_room *from, t_room *to);
-void	ft_link_unset(t_room *rooms, int from, int to, char unset_type);
+void	ft_link_unset_dir(t_room *from, t_room *to);
 void	ft_link_restore(t_room *rooms);
 
 /*

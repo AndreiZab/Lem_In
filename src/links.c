@@ -34,3 +34,43 @@ void			ft_link_set(t_room *from, t_room *to)
 	++from->output_count;
 	++to->input_count;
 }
+
+static void		ft_link_destroy(t_link **links, t_link *link, t_link *prev)
+{
+	if (prev == NULL)
+		*links = link->next;
+	else
+		prev->next = link->next;
+	free(link);
+}
+
+void			ft_link_unset_dir(t_room *from, t_room *to)
+{
+	t_link	*lnk;
+	t_link	*prev;
+
+	prev = NULL;
+	lnk = to->input_links;
+	while (lnk)
+	{
+		if (lnk->linked_room == from)
+		{
+			ft_link_destroy(&to->input_links, lnk, prev);
+			break ;
+		}
+		prev = lnk;
+		lnk = lnk->next;
+	}
+	prev = NULL;
+	lnk = from->output_links;
+	while (lnk)
+	{
+		if (lnk->linked_room == to)
+		{
+			ft_link_destroy(&from->output_links, lnk, prev);
+			break ;
+		}
+		prev = lnk;
+		lnk = lnk->next;
+	}
+}

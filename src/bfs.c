@@ -14,10 +14,10 @@ static void ft_bfs_set_output_marks(t_room *room, int bfs_mark)
 	while (lnk)
 	{
 		rm = lnk->linked_room;
-		if (rm->bfs_level == 0)
+		if (rm->bfs_level == 0 && !(rm->flags & FT_START))
 			rm->bfs_level = bfs_mark;
 		lnk = lnk->next;
-	}	
+	}
 }
 
 static int	ft_bfs_set_level(t_lemin *li, int bfs_mark, int *end_reached)

@@ -11,4 +11,4 @@ all: $(NAME)
 
 $(NAME):
 	make -C $(LIBFT)
-	gcc $(CFLAGS) -o $(NAME) $(addprefix src/,$(SRC)) -I include/ -I $(LIBFT) -L $(LIBFT) -lft
+	gcc -o $(NAME) $(addprefix src/,$(SRC)) -I include/ -I $(LIBFT) -L $(LIBFT) -lft
