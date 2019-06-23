@@ -88,6 +88,8 @@ int			main(void)
 	if (err == FT_OK)
 		//err = ft_test_input(li, lstr);
 		err = ft_validation(0, li, lstr);
+	if (err != FT_OK)
+		ft_putnbr(err);
 	if (err == FT_OK)
 		err = ft_solution(li);
 	if (err == FT_OK)
