@@ -81,11 +81,11 @@ static int		ft_find_shortest(t_lemin *li)
 		}
 		lnk = lnk->next;
 	}
-	if (min_len >= li->ants)
-	{
+	// if (min_len >= li->ants)
+	// {
 		ft_path_new(&li->paths, ft_path_start_room(li, room), room, min_len);
 		return (1);
-	}
+	//}
 	return (0);
 }
 
@@ -95,12 +95,12 @@ int			ft_solution(t_lemin *li)
 	int		err;
 	t_room	*room;
 
-	room = li->rooms;
-	while (room)
-	{
-		ft_show_links(room);
-		room = room->next;
-	}
+	// room = li->rooms;
+	// while (room)
+	// {
+	// 	ft_show_links(room);
+	// 	room = room->next;
+	// }
 	if ((err = ft_bfs(li)) != FT_OK)
 		return (err);
 	ft_set_directions(li);

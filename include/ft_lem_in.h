@@ -101,7 +101,6 @@ int		ft_migration(t_lemin *li, t_lstr *lstr);
 
 t_room	*ft_room_new(t_room **rooms);
 t_room	*ft_room_get(t_room *rooms, int index);
-t_room	*ft_room_get_where(t_room *rooms, int (*f)(t_room*));
 void	ft_room_full_free(t_room **rooms);
 
 /*

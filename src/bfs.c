@@ -1,11 +1,6 @@
 #include "ft_lem_in.h"
 
-static int	ft_is_start(t_room *room)
-{
-	return (room->flags & FT_START);
-}
-
-static void ft_bfs_set_output_marks(t_room *room, int bfs_mark)
+static void ft_bfs_set_output_marks(t_room *room, int bfs_mark, t_room *start_room)
 {
 	t_room	*rm;
 	t_link	*lnk;
@@ -14,7 +9,7 @@ static void ft_bfs_set_output_marks(t_room *room, int bfs_mark)
 	while (lnk)
 	{
 		rm = lnk->linked_room;
-		if (rm->bfs_level == 0 && !(rm->flags & FT_START))
+		if (rm->bfs_level == 0 && rm != start_room)
 			rm->bfs_level = bfs_mark;
 		lnk = lnk->next;
 	}
@@ -32,7 +27,7 @@ static int	ft_bfs_set_level(t_lemin *li, int bfs_mark, int *end_reached)
 		if (room->bfs_level == bfs_mark)
 		{
 			++counter;
-			if (room->flags & FT_END)
+			if (room == li->end_room)
 			{
 				room->bfs_level = INT_MAX;
 				*end_reached = 1;
@@ -40,7 +35,7 @@ static int	ft_bfs_set_level(t_lemin *li, int bfs_mark, int *end_reached)
 			else
 			{
 				room->bfs_level *= -1;
-				ft_bfs_set_output_marks(room, bfs_mark - 1);
+				ft_bfs_set_output_marks(room, bfs_mark - 1, li->start_room);
 			}
 		}
 		room = room->next;
@@ -55,9 +50,9 @@ int			ft_bfs(t_lemin *li)
 	int		end_reached;
 
 	end_reached = 0;
-	room = ft_room_get_where(li->rooms, &ft_is_start);
+	room = li->start_room;
 	bfs = -1;
-	ft_bfs_set_output_marks(room, bfs);
+	ft_bfs_set_output_marks(room, bfs, li->start_room);
 	while (ft_bfs_set_level(li, bfs, &end_reached) != 0)
 		--bfs;
 	return (end_reached ? FT_OK : FT_NO_PATH_TO_END);

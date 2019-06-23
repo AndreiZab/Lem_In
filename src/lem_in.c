@@ -90,8 +90,6 @@ int			main(void)
 		err = ft_validation(0, li, lstr);
 	if (err == FT_OK)
 		err = ft_solution(li);
-	if (err != FT_OK)
-		ft_putnbr(err);
 	if (err == FT_OK)
 		err = ft_migration(li, lstr);
 	ft_output(err, lstr);
