@@ -108,11 +108,14 @@ int 	ft_parse_rooms(int fd, t_lemin *li, t_lstr *lstr)
 	char	*line;
 	int		status;
 	char	flag;
+	int j = 8;
 
 	flag = 'm';
 	status = FT_NO_ROOMS;
-	while (get_next_line(fd, &line) > 0)
+	while (get_next_line(fd, &line) > 0 && j-- > 0)
 	{
+		if (!ft_strcmp(line, "\0"))
+			break ;
 		ft_lstr_insert_s(lstr, line, lstr->length);
 		if (line[0] == '#' && line[1] != '#')
 			continue;
@@ -129,5 +132,4 @@ int 	ft_parse_rooms(int fd, t_lemin *li, t_lstr *lstr)
 		else if (status == FT_LINK)
 			status = ft_parse_links(line, li);
 	}
-	return (status);
-}
+	re
