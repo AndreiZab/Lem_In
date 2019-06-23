@@ -47,7 +47,7 @@ static int	ft_test_input(t_lemin *li, t_lstr *lstr)
 {
 	t_room *room;
 
-	ft_lstr_insert_s(lstr, "5\n##start\n0 1 2\n1 5 4\n##end\n2 8 5\n0-1\n1-2\n", 0);
+	ft_lstr_insert_s(lstr, "5\n##start\n0 1 2\n1 5 4\n##end\n2 8 5\n0-1\n1-2\n\n", 0);
 	li->ants = 5;
 	room = ft_room_new(&li->rooms);
 	room->name = ft_strnew(1);
@@ -72,7 +72,6 @@ static int	ft_test_input(t_lemin *li, t_lstr *lstr)
 	ft_link_set(li->rooms->next, li->rooms);
 	ft_link_set(li->rooms->next, li->rooms->next->next);
 	ft_link_set(li->rooms->next->next, li->rooms->next);
-	ft_path_new(&li->paths, ft_room_get(li->rooms, 1), ft_room_get(li->rooms, 1), 2);
 	return (FT_OK);
 }
 
