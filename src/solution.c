@@ -95,6 +95,12 @@ int			ft_solution(t_lemin *li)
 	int		err;
 	t_room	*room;
 
+	room = li->rooms;
+	while (room)
+	{
+		ft_show_links(room);
+		room = room->next;
+	}
 	if ((err = ft_bfs(li)) != FT_OK)
 		return (err);
 	ft_set_directions(li);
