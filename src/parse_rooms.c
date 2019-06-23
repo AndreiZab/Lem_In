@@ -6,16 +6,12 @@
 /*   By: rhealitt <rhealitt@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/21 17:59:40 by rhealitt          #+#    #+#             */
-/*   Updated: 2019/06/22 22:29:43 by rhealitt         ###   ########.fr       */
+/*   Updated: 2019/06/23 18:27:28 by rhealitt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_lem_in.h"
 # define FT_LINK 99
-
-/*
- * пока нельзя считывать отрицательные координаты комнат - надо?
- */
 
 int		ft_room_atoi(const char *str)
 {
@@ -71,19 +67,12 @@ int 	ft_check_room(char *line)
 	return (FT_OK);
 }
 
-t_room		*ft_init_room(t_room *room)
+void		ft_found_flag(t_lemin *li, t_room *room, char flag)
 {
-	room->name = NULL;
-	room->x = 0;
-	room->y = 0;
-	room->input_links = NULL;
-	room->input_count = 0;
-	room->output_links = NULL;
-	room->output_count = 0;
-	room->type = 0;
-	room->ant = 0;
-	room->bfs_level = 0;
-	return (room);
+	if 	(flag == 'e')
+		li->end_room = room;
+	if 	(flag == 's')
+		li->start_room = room;
 }
 
 void		ft_create_room(char *line, t_lemin *li, char flag)
@@ -93,13 +82,14 @@ void		ft_create_room(char *line, t_lemin *li, char flag)
 	int space;
 
 	room = ft_room_new(&li->rooms);
-	room = ft_init_room(room);
-	room->type = flag;
+	room->flags = flag;
+	if (flag == 'e' || flag == 's')
+		ft_found_flag(li, room, flag);
 	i = -1;
 	room->name = ft_strdup(line);
 	while (line[++i] != ' ') //даб уже сделал это, поправь Андрей
 		room->name[i] = line[i];
-	room->name[i + 1] = '\0';
+	room->name[i] = '\0';
 	space = 1;
 	while (line[i] != '\0')
 	{
@@ -118,22 +108,19 @@ int 	ft_parse_rooms(int fd, t_lemin *li, t_lstr *lstr)
 	char	*line;
 	int		status;
 	char	flag;
-	//test
-	int j = 5;
-	//test
 
 	flag = 'm';
 	status = FT_NO_ROOMS;
-	while (get_next_line(fd, &line) > 0 && j-- > 0)
+	while (get_next_line(fd, &line) > 0)
 	{
 		ft_lstr_insert_s(lstr, line, lstr->length);
 		if (line[0] == '#' && line[1] != '#')
 			continue;
-		else if (ft_strcmp(line, "##start"))
+		else if (!ft_strcmp(line, "##start"))
 			flag = 's';
-		else if (ft_strcmp(line, "##end"))
+		else if (!ft_strcmp(line, "##end"))
 			flag = 'e';
-		status = ft_check_room(line); // приходя сюда (ИМЕНОО В ЭТОЙ СТРОКЕ) флаг принемает знаечение S O_o
+		status = ft_check_room(line);
 		if (status == FT_OK)
 		{
 			ft_create_room(line, li, flag);
