@@ -93,7 +93,7 @@ int			main(void)
 	if (err == FT_OK)
 		err = ft_solution(li);
 	if (err == FT_OK)
-		err = ft_migration(li, lstr);
+	 	err = ft_migration(li, lstr);
 	ft_output(err, lstr);
 	ft_free(&li, &lstr);
 	return (0);
