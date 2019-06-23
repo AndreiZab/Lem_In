@@ -102,7 +102,6 @@ void		ft_create_room(char *line, t_lemin *li, char flag)
 		i++;
 	}
 }
-
 int 	ft_parse_rooms(int fd, t_lemin *li, t_lstr *lstr)
 {
 	char	*line;
@@ -132,4 +131,5 @@ int 	ft_parse_rooms(int fd, t_lemin *li, t_lstr *lstr)
 		else if (status == FT_LINK)
 			status = ft_parse_links(line, li);
 	}
-	re
+	return (status);
+}
