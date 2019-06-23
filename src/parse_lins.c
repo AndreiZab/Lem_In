@@ -51,9 +51,9 @@ int		ft_parse_links(char *line, t_lemin *li)
 		return (FT_NO_ROOMS); //разве так?
 	while (ptr3)
 	{
-		if (!ft_strcmp(li->rooms->name, name2))
+		if (!ft_strcmp(ptr3->name, name2))
 			ptr2 = li->rooms;
-		if (!ft_strcmp(li->rooms->name, name1))
+		if (!ft_strcmp(ptr3->name, name1))
 			ptr1 = li->rooms;
 		if ((ptr1 && ptr2) || !ptr3->next)
 			break;
