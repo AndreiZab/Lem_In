@@ -41,21 +41,23 @@ int		ft_parse_links(char *line, t_lemin *li)
 	char	*name2;
 	t_room	*ptr1;
 	t_room	*ptr2;
+	t_room	*ptr3;
 
 	ptr1 = NULL;
 	ptr2 = NULL;
+	ptr3 = li->rooms;
 	status = ft_split_link(line, &name1, &name2);
 	if (!li->rooms)
 		return (FT_NO_ROOMS); //разве так?
-	while (li->rooms)
+	while (ptr3)
 	{
 		if (!ft_strcmp(li->rooms->name, name2))
 			ptr2 = li->rooms;
 		if (!ft_strcmp(li->rooms->name, name1))
 			ptr1 = li->rooms;
-		if ((ptr1 && ptr2) || !li->rooms->next)
+		if ((ptr1 && ptr2) || !ptr3->next)
 			break;
-		li->rooms = li->rooms->next;
+		ptr3 = ptr3->next;
 	}
 	if (!ptr1 || !ptr2)
 		return (FT_WRONG_FORMAT);
