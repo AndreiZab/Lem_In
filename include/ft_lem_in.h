@@ -35,6 +35,36 @@
 # include <limits.h>
 # include "libft.h"
 
+typedef struct	s_room
+{
+	char			*name;
+	int				x;
+	int				y;
+	struct s_link	*input_links;
+	int				input_count;
+	struct s_link	*output_links;
+	int				output_count;
+	char			flags;
+	int				index;
+	int				bfs_level;
+	struct s_room	*next;
+}				t_room;
+
+typedef struct	s_link
+{
+	t_room			*linked_room;
+	char			link_type;
+	struct s_link	*next;
+}				t_link;
+
+typedef struct	s_path
+{
+	int				length;
+	int				start_index;
+	int				end_index;
+	struct s_path	*next;
+}				t_path;
+
 typedef struct	s_lemin
 {
 	uint		ants;
@@ -42,30 +72,6 @@ typedef struct	s_lemin
 	/*char	**links_matrix;*/
 	t_path	*paths;
 }				t_lemin;
-
-typedef struct	s_room
-{
-	char		*name;
-	int			x;
-	int			y;
-	short int	*input_links;
-	int			input_count;
-	short int	*output_links;
-	int			output_count;
-	char		type;
-	char		ant;
-	int			index;
-	int			bfs_level;
-	t_room		*next;
-}				t_room;
-
-typedef struct	s_path
-{
-	int		length;
-	int		start_index;
-	int		end_index;
-	t_path	*next;
-}				t_path;
 
 int		ft_validation(int fd, t_lemin *li, t_lstr *lstr);
 int		ft_solution(t_lemin *li);
@@ -80,7 +86,7 @@ t_room	*ft_room_get(t_room *rooms, int index);
 t_room	*ft_room_get_where(t_room *rooms, int (*f)(t_room*));
 void	ft_room_full_free(t_room **rooms);
 
-void	ft_link_set(t_room *rooms, int room_i1, int room_i2);
+void	ft_link_set(t_room *from, t_room *to);
 void	ft_link_unset(t_room *rooms, int from, int to, char unset_type);
 void	ft_link_restore(t_room *rooms);
 
