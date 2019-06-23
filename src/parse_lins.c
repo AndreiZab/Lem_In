@@ -52,9 +52,9 @@ int		ft_parse_links(char *line, t_lemin *li)
 	while (ptr3)
 	{
 		if (!ft_strcmp(ptr3->name, name2))
-			ptr2 = li->rooms;
+			ptr2 = ptr3;
 		if (!ft_strcmp(ptr3->name, name1))
-			ptr1 = li->rooms;
+			ptr1 = ptr3;
 		if ((ptr1 && ptr2) || !ptr3->next)
 			break;
 		ptr3 = ptr3->next;

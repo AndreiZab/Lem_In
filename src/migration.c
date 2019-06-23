@@ -56,7 +56,7 @@ static void		ft_move_ants(t_lemin *li, t_path *path, t_lstr *lstr)
 
 static void		ft_spawn_ants(t_lemin *li, t_path *path, t_lstr *lstr)
 {
-	uint	calc;
+	unsigned int	calc;
 	t_path	*pth;
 
 	calc = 0;
