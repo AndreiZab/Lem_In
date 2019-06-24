@@ -82,7 +82,6 @@ void		ft_create_room(char *line, t_lemin *li, char flag)
 	int space;
 
 	room = ft_room_new(&li->rooms);
-//	room = ft_init_room(room);
 	room->flags = flag;
 	if (flag)
 		ft_found_flag(li, room, flag);
