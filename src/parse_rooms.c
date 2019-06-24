@@ -6,12 +6,13 @@
 /*   By: rhealitt <rhealitt@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/21 17:59:40 by rhealitt          #+#    #+#             */
-/*   Updated: 2019/06/24 12:03:18 by rhealitt         ###   ########.fr       */
+/*   Updated: 2019/06/24 18:46:04 by rhealitt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_lem_in.h"
 # define FT_LINK 99
+# define FT_NO_DATA 98
 
 int		ft_room_atoi(const char *str)
 {
@@ -67,29 +68,29 @@ int 	ft_check_room(char *line)
 	return (FT_OK);
 }
 
-void		ft_found_flag(t_lemin *li, t_room *room, char flag)
+int			ft_found_flag(t_lemin *li, t_room *room, char flag)
 {
-	if 	(flag == FT_START)
-		li->end_room = room;
+	if (flag == FT_START)
+	{
+		if (li->start_room)
+			return (FT_ONE_MORE_START);
+		else
+			li->start_room = room;
+	}
 	if 	(flag == FT_END)
-		li->start_room = room;
+	{
+		if (li->end_room)
+			return (FT_ONE_MORE_END);
+		else
+			li->end_room = room;
+	}
+	return (FT_OK);
 }
 
-void		ft_create_room(char *line, t_lemin *li, char flag)
+void		ft_coordinate_room(t_room *room, char *line, int i)
 {
-	t_room *room;
-	int i;
 	int space;
 
-	room = ft_room_new(&li->rooms);
-	room->flags = flag;
-	if (flag)
-		ft_found_flag(li, room, flag);
-	i = -1;
-	room->name = ft_strdup(line);
-	while (line[++i] != ' ') //даб уже сделал это, поправь Андрей
-		room->name[i] = line[i];
-	room->name[i] = '\0';
 	space = 1;
 	while (line[i] != '\0')
 	{
@@ -103,33 +104,96 @@ void		ft_create_room(char *line, t_lemin *li, char flag)
 	}
 }
 
+int			ft_create_room(char *line, t_lemin *li, char flag)
+{
+	t_room	*room;
+	int		err;
+	int		i;
+
+	room = ft_room_new(&li->rooms);
+	room->flags = flag;
+	err = ft_found_flag(li, room, flag);
+	i = -1;
+	room->name = ft_strdup(line);
+	while (line[++i] != ' ') //даб уже сделал это, поправь Андрей
+		room->name[i] = line[i];
+	room->name[i] = '\0';
+	ft_coordinate_room(room, line, i);
+	return (err);
+}
+
+int ft_search_hash(char *line, char *flag, int *err)
+{
+	if (*err == FT_NO_DATA)
+		*err = FT_OK;
+	if (line[0] == '#' && line[1] != '#')
+		return (1);
+	else if (!ft_strcmp(line, "##end"))
+	{
+		if (*flag != FT_NO_FLAGS)
+			*err = FT_ONE_MORE_END;
+		*flag = FT_END;
+		return (1);
+	}
+	else if (!ft_strcmp(line, "##start"))
+	{
+		if (*flag != FT_NO_FLAGS)
+			*err = FT_ONE_MORE_START;
+		*flag = FT_START;
+		return (1);
+	}
+	return (0);
+
+}
+
+int 	ft_scan_li(t_lemin *li)
+{
+	t_room	*ptr1;
+	t_room	*ptr2;
+
+	ptr1 = li->rooms;
+	ptr2 = li->rooms;
+	while (ptr1->next != NULL)
+		ptr1 = ptr1->next;
+	while (ptr2->next != NULL)
+	{
+		if (ptr1->name == ptr2->name)
+			return (FT_DUP_NAME);
+		if (ptr1->x == ptr2->x && ptr1->y == ptr2->y)
+			return(FT_DUP_COORDINATES);
+		ptr2 = ptr2->next;
+	}
+	return (FT_OK);
+}
+
 int 	ft_parse_rooms(int fd, t_lemin *li, t_lstr *lstr)
 {
 	char	*line;
-	int		status;
+	int		err;
 	char	flag;
 
-	flag = 0;
-	status = FT_NO_ROOMS;
+	flag = FT_NO_FLAGS;
+	err = FT_NO_DATA;
 	while (get_next_line(fd, &line) > 0)
 	{
-		if (!ft_strcmp(line, "\0"))
+		if (!ft_strcmp(line, "\0")) //только для тестов, в релизе - убрать
 			break ;
 		ft_string_insert(lstr, line, lstr->length);
-		if (line[0] == '#' && line[1] != '#')
-			continue;
-		else if (!ft_strcmp(line, "##start") && (flag = FT_START) != 0)
+		if (err != FT_NO_DATA && err != FT_OK)
 			continue ;
-		else if (!ft_strcmp(line, "##end") && (flag = FT_END) != 0)
+		if (ft_search_hash(line, &flag, &err))
 			continue ;
-		status = ft_check_room(line);
-		if (status == FT_OK)
+		if (err == FT_OK)
+			err = ft_check_room(line);
+		if (err == FT_OK)
 		{
-			ft_create_room(line, li, flag);
-			flag = 0;
+			err = ft_create_room(line, li, flag);
+			flag = FT_NO_FLAGS;
 		}
-		else if (status == FT_LINK)
-			status = ft_parse_links(line, li);
+		else if (err == FT_LINK)
+			err = ft_parse_links(line, li);
+		if (err == FT_OK)
+			err = ft_scan_li(li);
 	}
-	return (status);
+	return (err);
 }
