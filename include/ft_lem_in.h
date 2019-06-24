@@ -24,6 +24,8 @@
 # define FT_NO_PATH_TO_END 9
 # define FT_NO_PATHS 10
 # define FT_MEMORY 11
+# define FT_DUP_NAME 12
+# define FT_DUP_COORDINATES 13
 # define FT_NO_FLAGS 0
 # define FT_START 1
 # define FT_END (1 << 1)
@@ -91,7 +93,7 @@ int		ft_parse_links(char *line, t_lemin *li);
 */
 
 int 	ft_parse_rooms(int fd, t_lemin *li, t_lstr *lstr);
-
+void	ft_string_insert(t_lstr *lstr, char *str, int index);
 int		ft_solution(t_lemin *li);
 int		ft_migration(t_lemin *li, t_lstr *lstr);
 
