@@ -19,8 +19,6 @@ void	ft_lstr_insert_s(t_lstr *lstr, char *str, int index)
 	if (lstr == NULL || str == NULL || index < 0 || index > lstr->length)
 		return ;
 	len = (int)ft_strlen(str);
-	str[len] = '\n';
-	len += 1;
 	if (lstr->capacity < lstr->length + 1 + len)
 		if (!ft_lstr_resize(lstr, lstr->length + len))
 			return ;
@@ -30,5 +28,4 @@ void	ft_lstr_insert_s(t_lstr *lstr, char *str, int index)
 	ft_memcpy(lstr->str + index, str, len);
 	lstr->length += len;
 	lstr->str[lstr->length] = 0;
-	str[len - 1] = '\0';
 }
