@@ -40,7 +40,7 @@ int 	ft_parse_ants(int fd, t_lemin *li, t_lstr *lstr)
 	int i;
 
 	get_next_line(fd, &line);
-	ft_lstr_insert_s(lstr, line, lstr->length);
+	ft_string_insert(lstr, line, lstr->length);
 	if (line[0] == '#' && line[1] != '#')
 		return (ft_parse_ants(fd, li, lstr));
 	i = 0;

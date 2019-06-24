@@ -6,7 +6,7 @@
 /*   By: rhealitt <rhealitt@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/21 17:59:40 by rhealitt          #+#    #+#             */
-/*   Updated: 2019/06/24 12:01:15 by rhealitt         ###   ########.fr       */
+/*   Updated: 2019/06/24 12:03:18 by rhealitt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,7 +116,7 @@ int 	ft_parse_rooms(int fd, t_lemin *li, t_lstr *lstr)
 	{
 		if (!ft_strcmp(line, "\0"))
 			break ;
-		ft_lstr_insert_s(lstr, line, lstr->length);
+		ft_string_insert(lstr, line, lstr->length);
 		if (line[0] == '#' && line[1] != '#')
 			continue;
 		else if (!ft_strcmp(line, "##start") && (flag = FT_START) != 0)
