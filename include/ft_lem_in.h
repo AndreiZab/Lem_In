@@ -79,7 +79,7 @@ typedef struct	s_lemin
 }				t_lemin;
 
 int		ft_validation(int fd, t_lemin *li, t_lstr *lstr);
-
+void		ft_string_insert(t_lstr *lstr, char *str, int index);
 /*
 ** parse_lins.c
 */
