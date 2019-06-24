@@ -12,6 +12,27 @@
 
 #include "ft_lem_in.h"
 
+void	ft_string_insert(t_lstr *lstr, char *str, int index)
+{
+	int	len;
+
+	if (lstr == NULL || str == NULL || index < 0 || index > lstr->length)
+		return ;
+	len = (int)ft_strlen(str);
+	str[len] = '\n';
+	len += 1;
+	if (lstr->capacity < lstr->length + 1 + len)
+		if (!ft_lstr_resize(lstr, lstr->length + len))
+			return ;
+	if (index != lstr->length)
+		ft_memmove(lstr->str + index + len, lstr->str + index,
+				   lstr->length - index);
+	ft_memcpy(lstr->str + index, str, len);
+	lstr->length += len;
+	lstr->str[lstr->length] = 0;
+	str[len - 1] = '\0';
+}
+
 int		ft_split_link(char *line, char **name1, char **name2)
 {
 	int i;
