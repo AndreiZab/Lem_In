@@ -62,11 +62,12 @@ int 	ft_parse_ants(int fd, t_lemin *li, t_lstr *lstr)
 
 int		ft_validation(int fd, t_lemin *li, t_lstr *lstr)
 {
-	int status;
+	int err;
 
-	status = ft_parse_ants(fd, li, lstr);
-	if (status == FT_OK)
-		status = ft_parse_rooms(fd, li, lstr);
+	err = ft_parse_ants(fd, li, lstr);
+	if (err == FT_OK)
+		err = ft_parse_rooms(fd, li, lstr);
+
 /*  ->  ft_parse_links(fd, li, lstr); уехал в парс комнат */
-	return (status);
+	return (err);
 }
