@@ -6,7 +6,7 @@
 /*   By: larlyne <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/20 16:57:12 by larlyne           #+#    #+#             */
-/*   Updated: 2019/06/20 16:57:14 by larlyne          ###   ########.fr       */
+/*   Updated: 2019/06/24 12:07:42 by rhealitt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,8 +70,8 @@ typedef struct	s_path
 
 typedef struct	s_lemin
 {
-	uint	ants;
-	uint	ants_on_a_way;
+	unsigned int	ants;
+	unsigned int	ants_on_a_way;
 	t_room	*rooms;
 	t_room	*start_room;
 	t_room	*end_room;

@@ -6,7 +6,7 @@
 /*   By: larlyne <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/04 13:01:27 by larlyne           #+#    #+#             */
-/*   Updated: 2019/06/18 10:38:28 by larlyne          ###   ########.fr       */
+/*   Updated: 2019/06/23 22:06:40 by rhealitt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,13 +19,16 @@ void	ft_lstr_insert_s(t_lstr *lstr, char *str, int index)
 	if (lstr == NULL || str == NULL || index < 0 || index > lstr->length)
 		return ;
 	len = (int)ft_strlen(str);
+	str[len] = '\n';
+	len += 1;
 	if (lstr->capacity < lstr->length + 1 + len)
 		if (!ft_lstr_resize(lstr, lstr->length + len))
 			return ;
 	if (index != lstr->length)
 		ft_memmove(lstr->str + index + len, lstr->str + index,
-			lstr->length - index);
+				   lstr->length - index);
 	ft_memcpy(lstr->str + index, str, len);
 	lstr->length += len;
 	lstr->str[lstr->length] = 0;
+	str[len - 1] = '\0';
 }

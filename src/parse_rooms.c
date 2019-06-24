@@ -6,7 +6,7 @@
 /*   By: rhealitt <rhealitt@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/21 17:59:40 by rhealitt          #+#    #+#             */
-/*   Updated: 2019/06/23 18:27:28 by rhealitt         ###   ########.fr       */
+/*   Updated: 2019/06/24 12:01:15 by rhealitt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,9 +69,9 @@ int 	ft_check_room(char *line)
 
 void		ft_found_flag(t_lemin *li, t_room *room, char flag)
 {
-	if 	(flag == 'e')
+	if 	(flag == FT_START)
 		li->end_room = room;
-	if 	(flag == 's')
+	if 	(flag == FT_END)
 		li->start_room = room;
 }
 
@@ -82,8 +82,9 @@ void		ft_create_room(char *line, t_lemin *li, char flag)
 	int space;
 
 	room = ft_room_new(&li->rooms);
+//	room = ft_init_room(room);
 	room->flags = flag;
-	if (flag == 'e' || flag == 's')
+	if (flag)
 		ft_found_flag(li, room, flag);
 	i = -1;
 	room->name = ft_strdup(line);
@@ -102,13 +103,14 @@ void		ft_create_room(char *line, t_lemin *li, char flag)
 		i++;
 	}
 }
+
 int 	ft_parse_rooms(int fd, t_lemin *li, t_lstr *lstr)
 {
 	char	*line;
 	int		status;
 	char	flag;
 
-	flag = 'm';
+	flag = 0;
 	status = FT_NO_ROOMS;
 	while (get_next_line(fd, &line) > 0)
 	{
@@ -117,15 +119,15 @@ int 	ft_parse_rooms(int fd, t_lemin *li, t_lstr *lstr)
 		ft_lstr_insert_s(lstr, line, lstr->length);
 		if (line[0] == '#' && line[1] != '#')
 			continue;
-		else if (!ft_strcmp(line, "##start") && (flag = 's') != 0)
+		else if (!ft_strcmp(line, "##start") && (flag = FT_START) != 0)
 			continue ;
-		else if (!ft_strcmp(line, "##end") && (flag = 'e') != 0)
+		else if (!ft_strcmp(line, "##end") && (flag = FT_END) != 0)
 			continue ;
 		status = ft_check_room(line);
 		if (status == FT_OK)
 		{
 			ft_create_room(line, li, flag);
-			flag = 'm';
+			flag = 0;
 		}
 		else if (status == FT_LINK)
 			status = ft_parse_links(line, li);
