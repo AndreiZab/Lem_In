@@ -6,7 +6,7 @@
 /*   By: rhealitt <rhealitt@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/21 20:30:22 by rhealitt          #+#    #+#             */
-/*   Updated: 2019/06/23 18:27:28 by rhealitt         ###   ########.fr       */
+/*   Updated: 2019/06/24 17:23:31 by rhealitt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,11 +55,8 @@ int		ft_split_link(char *line, char **name1, char **name2)
 	return (FT_WRONG_FORMAT);
 }
 
-int		ft_parse_links(char *line, t_lemin *li)
+int		ft_parse_name(t_lemin *li, char *name1, char *name2)
 {
-	int		status;
-	char	*name1;
-	char	*name2;
 	t_room	*ptr1;
 	t_room	*ptr2;
 	t_room	*ptr3;
@@ -67,9 +64,7 @@ int		ft_parse_links(char *line, t_lemin *li)
 	ptr1 = NULL;
 	ptr2 = NULL;
 	ptr3 = li->rooms;
-	status = ft_split_link(line, &name1, &name2);
-	if (!li->rooms)
-		return (FT_NO_ROOMS); //разве так?
+
 	while (ptr3)
 	{
 		if (!ft_strcmp(ptr3->name, name2))
@@ -84,10 +79,29 @@ int		ft_parse_links(char *line, t_lemin *li)
 		return (FT_WRONG_FORMAT);
 	ft_link_set(ptr1, ptr2);
 	ft_link_set(ptr2, ptr1);
-	return (status);
+	return (FT_OK);
+}
+
+int		ft_parse_links(char *line, t_lemin *li)
+{
+	int		err;
+	char	*name1;
+	char	*name2;
+
+	if (!li->rooms)
+		return (FT_NO_ROOMS);
+	if (!li->end_room)
+		return (FT_NO_END);
+	if (!li->start_room)
+		return (FT_NO_START);
+	err = ft_split_link(line, &name1, &name2);
+	if (err == FT_OK)
+		err = ft_parse_name(li, name1, name2);
+	return (err);
 }
 
 /*
  рум-линк-рум не забыть поправить
  обработать дефисы в найме
+ отрицательные координаты комнат проработать
  */
