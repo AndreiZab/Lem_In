@@ -6,7 +6,7 @@
 /*   By: rhealitt <rhealitt@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/21 20:30:22 by rhealitt          #+#    #+#             */
-/*   Updated: 2019/06/25 14:15:25 by rhealitt         ###   ########.fr       */
+/*   Updated: 2019/06/25 14:26:33 by rhealitt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,12 +108,13 @@ int		ft_parse_linkname(t_lemin *li, char *name1, char *name2)
 	return (FT_OK);
 }
 
-int		ft_parse_links(char *line, t_lemin *li)
+int		ft_parse_links(char *line, t_lemin *li, char *flag)
 {
 	int		err;
 	char	*name1;
 	char	*name2;
 
+	*flag = FT_ERROR;
 	if (!li->rooms)
 		return (FT_NO_ROOMS);
 	if (!li->end_room)
