@@ -106,6 +106,6 @@ int			main(void)
 	if (err == FT_OK)
 	 	err = ft_migration(li, lstr);
 	ft_output(err, lstr);
-	ft_free(&li, &lstr);
+	ft_free(&li, &lstr); /*Неполный free */
 	return (0);
 }
