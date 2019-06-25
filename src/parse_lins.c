@@ -6,7 +6,7 @@
 /*   By: rhealitt <rhealitt@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/21 20:30:22 by rhealitt          #+#    #+#             */
-/*   Updated: 2019/06/25 14:26:33 by rhealitt         ###   ########.fr       */
+/*   Updated: 2019/06/25 16:29:34 by rhealitt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ int		ft_split_link(char *line, char **name1, char **name2)
 			(*name1)[i] = '\0';
 			*name2 = ft_strdup(line + i + 1);
 			if (*name1 == *name2)
-				return (FT_WRONG_FORMAT);
+				return (FT_DUP_NAME);
 			if (*name1 && *name2 && *name1[0] != '\0' && *name2[0] != '\0')
 				return (FT_OK);
 		}
@@ -57,6 +57,7 @@ int		ft_split_link(char *line, char **name1, char **name2)
 
 int 	ft_search_dup_link(t_room *room1, t_room *room2)
 {
+
 	if (!room1->input_links || !room2->input_links)
 		return (0);
 	if (room1->input_links->linked_room == room2 || room2->input_links->linked_room == room1)
@@ -128,7 +129,6 @@ int		ft_parse_links(char *line, t_lemin *li, char *flag)
 }
 
 /*
- рум-линк-рум не забыть поправить
  обработать дефисы в найме
- координаты типа 0intmax+1 - краш
+ Дефис в названии комнаты
  */
