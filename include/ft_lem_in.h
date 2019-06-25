@@ -33,6 +33,7 @@
 # define FT_END (1 << 1)
 # define FT_ANT (1 << 2)
 # define FT_BFS_MARK (1 << 3)
+# define FT_ERROR (1 << 4)
 # define FT_DIRECTION 0
 # define FT_ALL_LINK 1
 # include <stdlib.h>
@@ -88,7 +89,7 @@ void		ft_string_insert(t_lstr *lstr, char *str, int index);
 ** parse_lins.c
 */
 
-int		ft_parse_links(char *line, t_lemin *li);
+int		ft_parse_links(char *line, t_lemin *li, char *flag);
 
 /*
 ** parse_rooms.c
