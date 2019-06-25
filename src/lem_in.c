@@ -16,6 +16,8 @@ static int	ft_creation(t_lemin **li, t_lstr **lstr)
 {
 	if ((*li = (t_lemin*)ft_memalloc(sizeof(t_lemin))) == NULL)
 		return (FT_MEMORY);
+	if (((*li)->collisions = (t_collision*)ft_memalloc(sizeof(t_collision))) == NULL)
+		return (FT_MEMORY);
 	if ((*lstr = ft_lstr_new_empty()) == NULL)
 		return (FT_MEMORY);
 	return (FT_OK);
@@ -46,33 +48,42 @@ static void	ft_free(t_lemin **li, t_lstr **lstr)
 static int	ft_test_input(t_lemin *li, t_lstr *lstr)
 {
 	t_room *room;
+	t_room *rm;
 
 	ft_lstr_insert_s(lstr, "5\n##start\n0 1 2\n1 5 4\n##end\n2 8 5\n0-1\n1-2\n\n", 0);
 	li->ants = 5;
-	room = ft_room_new(&li->rooms);
+
+	room = ft_room_new(li, &li->rooms);
 	room->name = ft_strnew(1);
 	room->name[0] = '0';
 	room->x = 1;
 	room->y = 2;
-	room->flags = FT_START;
 	li->start_room = room;
-	room = ft_room_new(&li->rooms);
+
+	room = ft_room_new(li, &li->rooms);
 	room->name = ft_strnew(1);
 	room->name[0] = '1';
 	room->x = 5;
 	room->y = 4;
-	room = ft_room_new(&li->rooms);
+
+	room = ft_room_new(li, &li->rooms);
 	room->name = ft_strnew(1);
 	room->name[0] = '2';
 	room->x = 8;
 	room->y = 5;
-	room->flags = FT_END;
 	li->end_room = room;
+
+	rm = ft_room_new(li, &li->rooms);
+	rm->name = ft_strnew(1);
+	rm->name[0] = '3';
+	rm->x = 8;
+	rm->y = 5;
+
+	
 	ft_link_set(li->rooms, li->rooms->next);
-	ft_link_set(li->rooms->next, li->rooms);
 	ft_link_set(li->rooms->next, li->rooms->next->next);
-	ft_link_set(li->rooms->next->next, li->rooms->next);
-	ft_path_new(&li->paths, ft_room_get(li->rooms, 1), ft_room_get(li->rooms, 1), 2);
+	ft_link_set(li->rooms, rm);
+	ft_link_set(rm, li->rooms->next->next);
 	return (FT_OK);
 }
 
@@ -88,10 +99,10 @@ int			main(void)
 	if (err == FT_OK)
 		//err = ft_test_input(li, lstr);
 		err = ft_validation(0, li, lstr);
-	if (err != FT_OK)
-		ft_putnbr(err);
 	if (err == FT_OK)
 		err = ft_solution(li);
+	if (err != FT_OK)
+		ft_putnbr(err);
 	if (err == FT_OK)
 	 	err = ft_migration(li, lstr);
 	ft_output(err, lstr);

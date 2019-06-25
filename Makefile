@@ -3,7 +3,9 @@ SRC=lem_in.c \
 	links.c \
 	paths.c \
 	solution.c \
-	bfs.c \
+	collisions.c \
+	collisions_2.c \
+	lock.c \
 	migration.c \
 	validation.c \
 	parse_rooms.c \

@@ -1,6 +1,6 @@
 #include "ft_lem_in.h"
 
-t_path	*ft_path_new(t_path **paths, t_room *start, t_room *end, int length)
+t_path	*ft_path_new(t_path **paths)
 {
 	t_path	*path;
 	t_path	*pth;
@@ -9,9 +9,6 @@ t_path	*ft_path_new(t_path **paths, t_room *start, t_room *end, int length)
 		return (NULL);
 	if ((path = (t_path*)ft_memalloc(sizeof(t_path))) == NULL)
 		return (NULL);
-	path->start = start;
-	path->end = end;
-	path->length = length;
 	if (*paths == NULL)
 		*paths = path;
 	else

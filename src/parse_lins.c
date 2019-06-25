@@ -57,26 +57,14 @@ int		ft_split_link(char *line, char **name1, char **name2)
 
 int 	ft_search_dup_link(t_room *room1, t_room *room2)
 {
+	t_link	*link;
 
-	if (!room1->input_links || !room2->input_links)
-		return (0);
-	if (room1->input_links->linked_room == room2 || room2->input_links->linked_room == room1)
-		return (1);
-	while(room1->input_links->next)
+	link = room1->links;
+	while (link)
 	{
-		if (room1->input_links->linked_room == room2)
+		if (link->room == room2)
 			return (1);
-		if (room1->input_links->linked_room == room1)
-			return (1);
-		room1->input_links = room1->input_links->next;
-	}
-	while(room2->input_links->next)
-	{
-		if (room2->input_links->linked_room == room1)
-			return (1);
-		if (room2->input_links->linked_room == room2)
-			return (1);
-		room2->input_links = room2->input_links->next;
+		link = link->next;
 	}
 	return (0);
 

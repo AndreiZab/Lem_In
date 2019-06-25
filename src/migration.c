@@ -1,7 +1,25 @@
 #include "ft_lem_in.h"
 
-static void		ft_add_move(t_lstr *lstr, t_room *from, t_room *to)
+static void		ft_starts_set(t_lemin *li)
 {
+	t_path	*path;
+	t_room	*room;
+
+	path = li->paths;
+	while (path)
+	{
+		room = path->end;
+		while (room && room != li->start_room && room->path_prev != li->start_room)
+			room = room->path_prev;
+		path->start = room;
+		path = path->next;
+	}
+}
+
+static int		ft_add_move(t_lstr *lstr, t_room *from, t_room *to, int ant)
+{
+	if (ant != 0)
+		from->ant = ant;
 	to->ant = from->ant;
 	ft_lstr_insert_c(lstr, 'L', 1, lstr->length);
 	ft_lstr_insert_s(lstr, ft_itoa(from->ant), lstr->length);
@@ -9,87 +27,79 @@ static void		ft_add_move(t_lstr *lstr, t_room *from, t_room *to)
 	ft_lstr_insert_s(lstr, to->name, lstr->length);
 	ft_lstr_insert_c(lstr, ' ', 1, lstr->length);
 	from->ant = 0;
+	return (1);
 }
 
-static t_room	*ft_previous_room(t_room *room)
-{
-	t_link	*lnk;
-	t_room	*linked;
-	int		min_dist;
-
-	if (room->input_count == 0)
-		return (NULL);
-	min_dist = INT_MAX;
-	linked = NULL;
-	lnk = room->input_links;
-	while (lnk)
-	{
-		if (room->bfs_level - lnk->linked_room->bfs_level < min_dist)
-		{
-			min_dist = room->bfs_level - lnk->linked_room->bfs_level;
-			linked = lnk->linked_room;
-		}
-		lnk = lnk->next;
-	}
-	return (linked);
-}
-
-static void		ft_move_ants(t_lemin *li, t_path *path, t_lstr *lstr)
+static int		ft_move_on_path(t_lemin *li, t_lstr *lstr, t_path *path, int *ant_i)
 {
 	t_room	*room;
-	t_room	*prev;
 
-	if (path->end->ant != 0)
-	{
-		--li->ants_on_a_way;
-		ft_add_move(lstr, path->end, li->end_room);
-	}
 	room = path->end;
-	while (room != path->start)
+	if (room->ant != 0)
 	{
-		prev = ft_previous_room(room);
-		if (prev->flags & FT_ANT)
-			ft_add_move(lstr, prev, room);
-		room = prev;
+		ft_add_move(lstr, room, li->end_room, 0);
+		++li->ants_came;
+	}
+	if (room->path_prev != li->start_room)
+		while ((room = room->path_prev) != NULL && room != li->start_room)
+			if (room->ant != 0)
+				ft_add_move(lstr, room, room->path_next, 0);
+	if (path->order != 0)
+	{
+		ft_add_move(lstr, li->start_room, path->start, *ant_i);
+		++(*ant_i);
+		--path->order;
 	}
 }
 
-static void		ft_spawn_ants(t_lemin *li, t_path *path, t_lstr *lstr)
+static void		ft_sending_calc(t_lemin *li)
 {
-	unsigned int	calc;
-	t_path	*pth;
+	t_path	*path;
+	int		length;
+	int		mean;
+	int		mod;
+	int		cnt;
 
-	calc = 0;
-	if (path != li->paths)
+	cnt = 0;
+	length = 0;
+	path = li->paths;
+	while (path)
 	{
-		pth = li->paths;
-		while (pth != path)
-		{
-			calc += path->length - pth->length;
-			pth = pth->next;
-		}
+		++cnt;
+		length += path->length;
+		path = path->next;
 	}
-	if (li->ants > calc)
+	mean = (li->ants + length) / cnt;
+	mod = (li->ants + length) % cnt;
+	path = li->paths;
+	while (path)
 	{
-		li->start_room->ant = li->ants--;
-		++li->ants_on_a_way;
-		ft_add_move(lstr, li->start_room, path->start);
+		path->order = mean - path->length + (mod > 0 ? mod : 0);
+		--mod;
+		path = path->next;
 	}
 }
 
 int				ft_migration(t_lemin *li, t_lstr *lstr)
 {
+	int		ant;
 	t_path	*path;
 
-	if (li->paths == NULL)
-		return (FT_NO_PATHS);
-	while (li->ants != 0 || li->ants_on_a_way != 0)
+	ant = 1;
+	if (li->paths->start == li->start_room)
+	{
+		while (li->ants_came++ < li->ants)
+			ft_add_move(lstr, li->start_room, li->end_room, ant++);
+		return (FT_OK);
+	}
+	ft_sending_calc(li);
+	ft_starts_set(li);
+	while (li->ants_came < li->ants)
 	{
 		path = li->paths;
 		while (path)
 		{
-			ft_move_ants(li, path, lstr);
-			ft_spawn_ants(li, path, lstr);
+			ft_move_on_path(li, lstr, path, &ant);
 			path = path->next;
 		}
 		lstr->str[lstr->length - 1] = '\n';

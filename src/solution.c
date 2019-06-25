@@ -1,110 +1,110 @@
 #include "ft_lem_in.h"
 
-static void	ft_link_unset_rooms(t_room *from, t_room *to, char unset_type)
+static void		ft_set_path_link(t_lemin *li, t_room *from, t_room *to)
 {
-	ft_link_unset_dir(from, to);
-	if (unset_type == FT_ALL_LINK)
-		ft_link_unset_dir(to, from);
+	if (to->weight == 0 && to != li->start_room && (to->lock != 1 || from == li->start_room))
+	{
+		to->weight = from->weight + 1;
+		to->weight_difference = from->weight_difference;
+		to->path_prev = from;
+		to->lock = from->lock;
+	}
+}
+
+static int		ft_set_weights(t_lemin *li, t_room *current)
+{
+	t_link	*links;
+	t_room	*linked;
+
+	if ((links = current->links) == NULL)
+		return (0);
+	while (links)
+	{
+		linked = links->room;
+		if (linked == li->end_room && (current->lock == 0 || ft_check_collision(li, current)))
+			return (1);
+		ft_set_path_link(li, current, linked);
+		if (current != li->start_room && linked->lock == 1 && (!linked->closed && linked->lock != 1))
+		{
+			ft_collision(li, current, linked, current->weight);
+			return (0);
+		}
+		links = links->next;
+	}
+	return (0);
+}
+
+static t_room	*ft_step(t_lemin *li, int depth)
+{
+	t_room	*current;
+	
+	--depth;
+	current = li->rooms;
+	while (current)
+	{
+		if (current->weight == depth && current->lock != 1 &&
+			(current->weight || current == li->start_room))
+		{
+			
+			if (ft_set_weights(li, current))
+				return (current);
+		}
+		current = current->next;
+	}
+	return (NULL);
+}
+
+static int		ft_find_shortest(t_lemin *li, int it)
+{
+	static t_room	*room_holder = NULL;
+	t_room			*temp;
+	t_path			*path;
+
+	li->depth = 1;
+	while (li->depth < li->rooms_count)
+	{
 		
-}
-
-static void	ft_set_directions(t_lemin *li)
-{
-	t_room	*room;
-	t_link	*lnk;
-	t_room	*linked_room;
-
-	room = li->rooms;
-	while (room)
-	{
-		lnk = room->input_links;
-		while (lnk)
+		if ((temp = ft_step(li, li->depth++)) != NULL)
 		{
-			linked_room = lnk->linked_room;
-			if (linked_room->bfs_level == room->bfs_level)
-				ft_link_unset_rooms(linked_room, room, FT_ALL_LINK);
-			else if (linked_room->bfs_level < room->bfs_level)
-				ft_link_unset_rooms(room, linked_room, FT_DIRECTION);
-				
-			lnk = lnk->next;
+			
+			if (temp != room_holder && ft_path_cost(li, temp->weight))
+			{
+				if (room_holder == NULL)
+					room_holder = temp;
+				//WARNING
+				path = ft_path_new(&li->paths);
+				path->end = temp;
+				path->end->path_next = li->end_room;
+				return (1);
+			}
+			return (0);
 		}
-		room = room->next;
 	}
-}
-
-void		ft_show_links(t_room *room)
-{
-	t_link	*lnk;
-
-	lnk = room->input_links;
-	while (lnk)
-	{
-		ft_putstr(room->name);
-		ft_putstr(" <- ");
-		ft_putstr(lnk->linked_room->name);
-		ft_putchar('\n');
-		lnk = lnk->next;
-	}
-	lnk = room->output_links;
-	while (lnk)
-	{
-		ft_putstr(room->name);
-		ft_putstr(" -> ");
-		ft_putstr(lnk->linked_room->name);
-		ft_putchar('\n');
-		lnk = lnk->next;
-	}
-}
-
-static t_room	*ft_path_start_room(t_lemin *li, t_room *room)
-{
-	while (room->input_links->linked_room != li->start_room)
-		room = room->input_links->linked_room;
-	return (room);
-}
-
-static int		ft_find_shortest(t_lemin *li)
-{
-	int		min_len;
-	t_room	*room;
-	t_link	*lnk;
-
-	room = NULL;
-	min_len = INT_MAX;
-	lnk = li->end_room->input_links;
-	while (lnk)
-	{
-		if (lnk->linked_room->bfs_level + 1 < min_len)
-		{
-			min_len = lnk->linked_room->bfs_level + 1;
-			room = lnk->linked_room;
-		}
-		lnk = lnk->next;
-	}
-	// if (min_len >= li->ants)
-	// {
-		ft_path_new(&li->paths, ft_path_start_room(li, room), room, min_len);
-		return (1);
-	//}
 	return (0);
 }
 
 
 int			ft_solution(t_lemin *li)
 {
-	int		err;
-	t_room	*room;
+	int		i;
 
-	// room = li->rooms;
-	// while (room)
-	// {
-	// 	ft_show_links(room);
-	// 	room = room->next;
-	// }
-	if ((err = ft_bfs(li)) != FT_OK)
-		return (err);
-	ft_set_directions(li);
-	if (ft_find_shortest(li))
+	i = 0;
+	while (li->paths_count < li->ants && ft_find_shortest(li, i))
+	{
+		
+		li->collisions_i = 1;
+		ft_collision_clear(li);
+		
+		ft_lock_paths(li);
+		
+		ft_rooms_reset(li->rooms);
+		++i;
+		
+	}
+	ft_collision_clear(li);
+	//WARNING
+	ft_lock_paths(li);
+	if (i)
 		return (FT_OK);
-	return (err);
+	return (FT_NO_PATHS);
 }

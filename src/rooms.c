@@ -17,7 +17,7 @@
 ** Room index will set automatically
 */
 
-t_room	*ft_room_new(t_room **rooms)
+t_room	*ft_room_new(t_lemin *li, t_room **rooms)
 {
 	t_room	*room;
 	t_room	*last;
@@ -34,8 +34,8 @@ t_room	*ft_room_new(t_room **rooms)
 		while (last->next != NULL)
 			last = last->next;
 		last->next = room;
-		room->index = last->index + 1;
 	}
+	++li->rooms_count;
 	return (room);
 }
 
@@ -43,18 +43,18 @@ t_room	*ft_room_new(t_room **rooms)
 ** Return room from room's array by room index
 */
 
-t_room	*ft_room_get(t_room *rooms, int index)
-{
-	if (rooms == NULL)
-		return (NULL);
-	/* rooms->index != index можно заменить index-- != 0
-	если  последовательность индексов никогда не будет нарушаться (без удаления комнат?)*/
-	while (rooms && rooms->index != index)
-		rooms = rooms->next;
-	/* Если rooms->index != index, а список комнат закончился вернется null
-	т.к. rooms = rooms->next на последней итерации запишет в rooms NULL*/
-	return (rooms);
-}
+// t_room	*ft_room_get(t_room *rooms, int index)
+// {
+// 	if (rooms == NULL)
+// 		return (NULL);
+// 	/* rooms->index != index можно заменить index-- != 0
+// 	если  последовательность индексов никогда не будет нарушаться (без удаления комнат?)*/
+// 	while (rooms && rooms->index != index)
+// 		rooms = rooms->next;
+// 	/* Если rooms->index != index, а список комнат закончился вернется null
+// 	т.к. rooms = rooms->next на последней итерации запишет в rooms NULL*/
+// 	return (rooms);
+// }
 
 /*
 ** Frees an array of rooms
@@ -72,10 +72,26 @@ void	ft_room_full_free(t_room **rooms)
 	{
 		next = current->next;
 		current->name ? free(current->name) : NULL;
-		current->input_links ? free(current->input_links) : NULL;
-		current->output_links ? free(current->output_links) : NULL;
+		current->links ? free(current->links) : NULL;
 		free(current);
 		current = next;
 	}
 	*rooms = NULL;
+}
+
+void	ft_rooms_reset(t_room *rooms)
+{
+	while (rooms)
+	{
+		rooms->closed = 0;
+		if (rooms->lock != -1)
+		{
+			rooms->weight = 0;
+			rooms->lock = 0;
+			rooms->path_prev = NULL;
+		}
+		else
+			rooms->lock = 1;
+		rooms = rooms->next;
+	}
 }

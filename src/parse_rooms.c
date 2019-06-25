@@ -118,7 +118,7 @@ int			ft_create_room(char *line, t_lemin *li, char flag)
 	int		err;
 	int		i;
 
-	room = ft_room_new(&li->rooms);
+	room = ft_room_new(li, &li->rooms);
 	room->flags = flag;
 	err = ft_found_flag(li, room, flag);
 	i = -1;
