@@ -6,7 +6,7 @@
 /*   By: rhealitt <rhealitt@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/21 12:46:04 by rhealitt          #+#    #+#             */
-/*   Updated: 2019/06/23 17:35:34 by rhealitt         ###   ########.fr       */
+/*   Updated: 2019/06/25 13:58:34 by rhealitt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,6 @@ int		ft_validation(int fd, t_lemin *li, t_lstr *lstr)
 	err = ft_parse_ants(fd, li, lstr);
 	if (err == FT_OK)
 		err = ft_parse_rooms(fd, li, lstr);
-
 /*  ->  ft_parse_links(fd, li, lstr); уехал в парс комнат */
 	return (err);
 }
