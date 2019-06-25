@@ -47,8 +47,6 @@ int 	ft_check_room(char *line, char flag)
 	int i;
 	int space;
 
-	if (flag == FT_ERROR)
-		return (FT_WRONG_FORMAT);
 	i = 0;
 	while (line[i] != ' ')
 	{
@@ -57,7 +55,9 @@ int 	ft_check_room(char *line, char flag)
 		if (line[i++] == '\0')
 			return (FT_WRONG_FORMAT);
 	}
-	space = 0;
+	if (flag == FT_ERROR)
+		return (FT_WRONG_FORMAT);
+	space = 0;	
 	while (line[i] != '\0')
 	{
 		if (line[i] == ' ' && i++)
