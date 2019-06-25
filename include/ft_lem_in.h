@@ -26,6 +26,8 @@
 # define FT_MEMORY 11
 # define FT_DUP_NAME 12
 # define FT_DUP_COORDINATES 13
+# define FT_DUP_ROOM 14
+# define FT_NO_DATA 15
 # define FT_NO_FLAGS 0
 # define FT_START 1
 # define FT_END (1 << 1)
