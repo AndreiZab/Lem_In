@@ -6,34 +6,40 @@
 /*   By: rhealitt <rhealitt@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/21 17:59:40 by rhealitt          #+#    #+#             */
-/*   Updated: 2019/06/24 18:46:04 by rhealitt         ###   ########.fr       */
+/*   Updated: 2019/06/25 13:46:52 by rhealitt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_lem_in.h"
 # define FT_LINK 99
-# define FT_NO_DATA 98
+
 
 int		ft_room_atoi(const char *str)
 {
 	int		i;
 	long	numb;
+	char	sign;
+	char	s;
 
 	i = 0;
 	while (('\t' <= str[i] && str[i] <= '\r') || str[i] == ' ')
 		++i;
+	sign = 1;
 	if (str[i] == '-')
-		return (-1);
-	if (str[i] == '+')
+		sign = -1;
+	if (str[i] == '+' || str[i] == '-')
 		++i;
+	s = sign;
 	numb = 0;
 	while ('0' <= str[i] && str[i] <= '9')
 	{
 		numb = numb * 10 + (str[i++] - '0');
-		if (numb < 0 || numb > 2147483647)
-			return (-1);
+		if (numb < 0)
+			return (0);
 	}
-	return ((int)numb);
+	if ((numb > 2147483648 && s == -1) || (numb > 2147483647 && s == 1))
+		return (0);
+	return ((int)numb * sign);
 }
 
 int 	ft_check_room(char *line)
@@ -54,12 +60,12 @@ int 	ft_check_room(char *line)
 	{
 		if (line[i] == ' ' && i++)
 			continue;
-		if (line[i] == '-')
+		if (line[i] == '-' && i > 1 && line[i - 1] != ' ')
 			return (FT_LINK);
-		if (line[i] > 57 || line[i] < 48)
+		if ((line[i] > 57 || line[i] < 48) && line[i] != 45)
 			return (FT_WRONG_FORMAT);
 		if (i > 1 && line[i - 1] == ' ' && space++)
-			if (ft_room_atoi(line + i) < 0)
+			if (ft_room_atoi(line + i) == 0 && line[i] != 0)
 				return (FT_WRONG_FORMAT);
 		i++;
 	}
@@ -157,7 +163,9 @@ int 	ft_scan_li(t_lemin *li)
 		ptr1 = ptr1->next;
 	while (ptr2->next != NULL)
 	{
-		if (ptr1->name == ptr2->name)
+		if (ptr1 == ptr2) //need? really?
+			return(FT_DUP_ROOM);
+		if (!ft_strcmp(ptr1->name, ptr2->name))
 			return (FT_DUP_NAME);
 		if (ptr1->x == ptr2->x && ptr1->y == ptr2->y)
 			return(FT_DUP_COORDINATES);
