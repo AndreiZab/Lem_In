@@ -6,7 +6,7 @@
 /*   By: rhealitt <rhealitt@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/21 17:59:40 by rhealitt          #+#    #+#             */
-/*   Updated: 2019/06/25 13:46:52 by rhealitt         ###   ########.fr       */
+/*   Updated: 2019/06/25 14:28:59 by rhealitt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,11 +42,13 @@ int		ft_room_atoi(const char *str)
 	return ((int)numb * sign);
 }
 
-int 	ft_check_room(char *line)
+int 	ft_check_room(char *line, char flag)
 {
 	int i;
 	int space;
 
+	if (flag == FT_ERROR)
+		return (FT_WRONG_FORMAT);
 	i = 0;
 	while (line[i] != ' ')
 	{
@@ -192,14 +194,14 @@ int 	ft_parse_rooms(int fd, t_lemin *li, t_lstr *lstr)
 		if (ft_search_hash(line, &flag, &err))
 			continue ;
 		if (err == FT_OK)
-			err = ft_check_room(line);
+			err = ft_check_room(line, flag);
 		if (err == FT_OK)
 		{
 			err = ft_create_room(line, li, flag);
 			flag = FT_NO_FLAGS;
 		}
 		else if (err == FT_LINK)
-			err = ft_parse_links(line, li);
+			err = ft_parse_links(line, li, &flag);
 		if (err == FT_OK)
 			err = ft_scan_li(li);
 	}
