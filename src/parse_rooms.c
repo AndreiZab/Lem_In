@@ -6,7 +6,7 @@
 /*   By: rhealitt <rhealitt@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/21 17:59:40 by rhealitt          #+#    #+#             */
-/*   Updated: 2019/06/25 14:28:59 by rhealitt         ###   ########.fr       */
+/*   Updated: 2019/06/25 17:02:40 by rhealitt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,9 +55,9 @@ int 	ft_check_room(char *line, char flag)
 		if (line[i++] == '\0')
 			return (FT_WRONG_FORMAT);
 	}
+	space = 0;
 	if (flag == FT_ERROR)
 		return (FT_WRONG_FORMAT);
-	space = 0;	
 	while (line[i] != '\0')
 	{
 		if (line[i] == ' ' && i++)
@@ -66,8 +66,8 @@ int 	ft_check_room(char *line, char flag)
 			return (FT_LINK);
 		if ((line[i] > 57 || line[i] < 48) && line[i] != 45)
 			return (FT_WRONG_FORMAT);
-		if (i > 1 && line[i - 1] == ' ' && space++)
-			if (ft_room_atoi(line + i) == 0 && line[i] != 0)
+		if (i > 1 && line[i - 1] == ' ' && ++space)
+			if (ft_room_atoi(line + i) == 0 && line[i] != '0')
 				return (FT_WRONG_FORMAT);
 		i++;
 	}
@@ -186,7 +186,7 @@ int 	ft_parse_rooms(int fd, t_lemin *li, t_lstr *lstr)
 	err = FT_NO_DATA;
 	while (get_next_line(fd, &line) > 0)
 	{
-		if (!ft_strcmp(line, "\0")) //только для тестов, в релизе - убрать
+		if (!ft_strcmp(line, "\0"))
 			break ;
 		ft_string_insert(lstr, line, lstr->length);
 		if (err != FT_NO_DATA && err != FT_OK)
