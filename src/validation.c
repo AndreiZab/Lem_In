@@ -37,8 +37,10 @@ unsigned int		ft_ant_atoi(const char *str)
 int 	ft_parse_ants(int fd, t_lemin *li, t_lstr *lstr)
 {
 	char	*line;
-	int i;
+	int		i;
+	int		err;
 
+	err = FT_OK;
 	get_next_line(fd, &line);
 	ft_string_insert(lstr, line, lstr->length);
 	if (line[0] == '#' && line[1] != '#')
@@ -47,18 +49,18 @@ int 	ft_parse_ants(int fd, t_lemin *li, t_lstr *lstr)
 	while(line[i] != '\0')
 	{
 		if (line[i] == '-')
-			return (FT_NO_ANTS);
+			err = FT_NO_ANTS;
 		if (i == 0 && line[i] == '+')
 			i++;
 		if (line[i] > 57 || line[i] < 48)
-			return (FT_WRONG_FORMAT);
+			err = FT_WRONG_FORMAT;
 		i++;
 	}
 	li->ants = ft_ant_atoi(line);
 	if (li->ants <= 0)
-		return (FT_NO_ANTS);
-	return (FT_OK);
-}
+		err = FT_NO_ANTS;
+	free (line);
+	return (err);
 
 int		ft_validation(int fd, t_lemin *li, t_lstr *lstr)
 {
