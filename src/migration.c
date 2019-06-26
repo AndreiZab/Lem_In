@@ -86,6 +86,7 @@ int				ft_migration(t_lemin *li, t_lstr *lstr)
 	t_path	*path;
 
 	ant = 1;
+	ft_lstr_insert_c(lstr, '\n', 1, lstr->length); //вероятно стоит унести это от сюда
 	if (li->paths->start == li->start_room)
 	{
 		while (li->ants_came++ < li->ants)
