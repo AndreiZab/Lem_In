@@ -204,6 +204,7 @@ int 	ft_parse_rooms(int fd, t_lemin *li, t_lstr *lstr)
 			err = ft_parse_links(line, li, &flag);
 		if (err == FT_OK)
 			err = ft_scan_li(li);
+		free(line);
 	}
 	return (err);
 }
