@@ -113,8 +113,8 @@ int		ft_parse_links(char *line, t_lemin *li, char *flag)
 	err = ft_split_link(line, &name1, &name2);
 	if (err == FT_OK)
 		err = ft_parse_linkname(li, name1, name2);
-	free(name1);
 	free(name2);
+	free(name1);
 	return (err);
 }
 
