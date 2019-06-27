@@ -103,16 +103,18 @@ int				ft_migration(t_lemin *li, t_lstr *lstr)
 	int		ant;
 	t_path	*path;
 
+	
 	ant = 1;
 	ft_lstr_insert_c(lstr, '\n', 1, lstr->length);
+	ft_starts_set(li);
 	if (li->paths->start == li->start_room)
 	{
 		while (li->ants_came++ < li->ants)
 			ft_add_move(lstr, li->start_room, li->end_room, ant++);
+		ft_lstr_insert_c(lstr, '\n', 1, lstr->length);
 		return (FT_OK);
 	}
 	ft_sending_calc(li);
-	ft_starts_set(li);
 	while (li->ants_came < li->ants)
 	{
 		path = li->paths;
