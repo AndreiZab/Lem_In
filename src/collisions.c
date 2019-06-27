@@ -58,12 +58,16 @@ static int	ft_make_collision(t_collision *collisions, int lock)
 
 int			ft_check_collision(t_lemin *li, t_room *room)
 {
-	int		lock;
-	int		new_depth;
+	int			lock;
+	int			new_depth;
+	t_collision	*coll;
 
 	lock = room->lock;
-	new_depth = room->weight + room->weight_difference;
+	new_depth = room->weight + room->weight_difference + 1;
 	ft_make_collision(li->collisions, lock);
 	ft_calculate_paths(li);
+	coll = li->collisions;
+	if (ft_path_cost(li, new_depth) == 0)
+		return (ft_make_collision(coll, lock));
 	return (0);
 }
