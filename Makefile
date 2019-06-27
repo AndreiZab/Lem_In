@@ -43,7 +43,7 @@ $(LIBFT):
 
 clean:
 	@$(MAKE) -sC $(LIBFT_DIR) clean
-	@rm -rf $(OBJS_DIR)
+	@rm -rf $(OBJ_DIR)
 
 fclean: clean
 	@rm -f $(LIBFT)
