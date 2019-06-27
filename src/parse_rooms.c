@@ -6,7 +6,7 @@
 /*   By: rhealitt <rhealitt@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/21 17:59:40 by rhealitt          #+#    #+#             */
-/*   Updated: 2019/06/25 17:02:40 by rhealitt         ###   ########.fr       */
+/*   Updated: 2019/06/27 12:18:55 by rhealitt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -178,8 +178,8 @@ int 	ft_scan_li(t_lemin *li)
 
 int 	ft_parse_rooms(int fd, t_lemin *li, t_lstr *lstr, int err)
 {
-	char	*line;
-	char	flag;
+	char *line;
+	char flag;
 
 	flag = FT_NO_FLAGS;
 	if (err == FT_OK)
@@ -189,13 +189,13 @@ int 	ft_parse_rooms(int fd, t_lemin *li, t_lstr *lstr, int err)
 		if (!ft_strcmp(line, "\0"))
 		{
 			free(line);
-			break ;
+			break;
 		}
 		ft_string_insert(lstr, line, lstr->length);
 		if ((err != FT_NO_DATA && err != FT_OK) || ft_search_hash(line, &flag, &err))
 		{
 			free(line);
-			continue ;
+			continue;
 		}
 		if (err == FT_OK)
 			err = ft_check_room(line, flag);
@@ -203,11 +203,11 @@ int 	ft_parse_rooms(int fd, t_lemin *li, t_lstr *lstr, int err)
 		{
 			err = ft_create_room(line, li, flag);
 			flag = FT_NO_FLAGS;
-		}
-		else if (err == FT_LINK)
+		} else if (err == FT_LINK)
 			err = ft_parse_links(line, li, &flag);
 		if (err == FT_OK)
 			err = ft_scan_li(li);
 		free(line);
 	}
 	return (err);
+}

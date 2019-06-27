@@ -6,7 +6,7 @@
 /*   By: larlyne <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/20 16:57:12 by larlyne           #+#    #+#             */
-/*   Updated: 2019/06/24 12:07:42 by rhealitt         ###   ########.fr       */
+/*   Updated: 2019/06/27 12:20:56 by rhealitt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -127,7 +127,7 @@ int		ft_parse_links(char *line, t_lemin *li, char *flag);
 ** parse_rooms.c
 */
 
-int 	ft_parse_rooms(int fd, t_lemin *li, t_lstr *lstr);
+int 	ft_parse_rooms(int fd, t_lemin *li, t_lstr *lstr, int err);
 void	ft_string_insert(t_lstr *lstr, char *str, int index);
 
 int		ft_solution(t_lemin *li);
