@@ -1,55 +1,110 @@
 #include "ft_lem_in.h"
 
-static void	ft_link_unset_rooms(t_room *from, t_room *to, char unset_type)
+static void		ft_set_path_link(t_lemin *li, t_room *from, t_room *to)
 {
-	int		i;
-
-	i = -1;
-	while (++i < from->input_count)
-		if (from->input_links[i * 2] == to->index)
-		{
-			from->input_links[i * 2 + 1] = FT_DELETED;
-			break ;
-		}
-	if (unset_type == FT_ALL_LINK)
+	if (to->weight == 0 && to != li->start_room && (to->lock != 1 || from == li->start_room))
 	{
-		i = -1;
-		while (++i < to->output_count)
-			if (to->output_links[i * 2] == from->index)
+		to->weight = from->weight + 1;
+		to->weight_difference = from->weight_difference;
+		to->path_prev = from;
+		to->lock = from->lock;
+	}
+}
+
+static int		ft_set_weights(t_lemin *li, t_room *current)
+{
+	t_link	*links;
+	t_room	*linked;
+
+	if ((links = current->links) == NULL)
+		return (0);
+	while (links)
+	{
+		linked = links->room;
+		if (linked == li->end_room && (current->lock == 0 || ft_check_collision(li, current)))
+			return (1);
+		ft_set_path_link(li, current, linked);
+		if (current != li->start_room && linked->lock == 1 && (!linked->closed && linked->lock != 1))
+		{
+			ft_collision(li, current, linked, current->weight);
+			return (0);
+		}
+		links = links->next;
+	}
+	return (0);
+}
+
+static t_room	*ft_step(t_lemin *li, int depth)
+{
+	t_room	*current;
+	
+	--depth;
+	current = li->rooms;
+	while (current)
+	{
+		if (current->weight == depth && current->lock != 1 &&
+			(current->weight || current == li->start_room))
+		{
+			
+			if (ft_set_weights(li, current))
+				return (current);
+		}
+		current = current->next;
+	}
+	return (NULL);
+}
+
+static int		ft_find_shortest(t_lemin *li, int it)
+{
+	static t_room	*room_holder = NULL;
+	t_room			*temp;
+	t_path			*path;
+
+	li->depth = 1;
+	while (li->depth < li->rooms_count)
+	{
+		
+		if ((temp = ft_step(li, li->depth++)) != NULL)
+		{
+			
+			if (temp != room_holder && ft_path_cost(li, temp->weight))
 			{
-				to->output_links[i * 2 + 1] = FT_DELETED;
-				break ;
+				if (room_holder == NULL)
+					room_holder = temp;
+				//WARNING
+				path = ft_path_new(&li->paths);
+				path->end = temp;
+				path->end->path_next = li->end_room;
+				return (1);
 			}
-	}
-}
-
-static void	ft_set_directions(t_lemin *li)
-{
-	t_room	*room;
-	int		i;
-	t_room	*linked_room;
-
-	room = li->rooms;
-	while (room)
-	{
-		i = -1;
-		while (++i < room->input_count)
-		{
-			linked_room = ft_room_get(li->rooms, room->input_links[i * 2]);
-			if (linked_room->bfs_level == room->bfs_level)
-				ft_link_unset_rooms(linked_room, room, FT_ALL_LINK);
-			else if (linked_room->bfs_level > room->bfs_level)
-				ft_link_unset_rooms(room, linked_room, FT_DIRECTION);
+			return (0);
 		}
-		room = room->next;
 	}
+	return (0);
 }
+
 
 int			ft_solution(t_lemin *li)
 {
-	int		err;
+	int		i;
 
-	if ((err = ft_bfs(li)) != FT_OK)
-		return (err);
-	ft_set_directions(li);
+	i = 0;
+	while (li->paths_count < li->ants && ft_find_shortest(li, i))
+	{
+		
+		li->collisions_i = 1;
+		ft_collision_clear(li);
+		
+		ft_lock_paths(li);
+		
+		ft_rooms_reset(li->rooms);
+		++i;
+		
+	}
+	ft_collision_clear(li);
+	//WARNING
+	ft_lock_paths(li);
+	if (i)
+		return (FT_OK);
+	return (FT_NO_PATHS);
 }

@@ -52,6 +52,9 @@ int				ft_putstrn(char *str, int n);
 int				ft_putcharn_fd(int fd, char c, int n);
 int				ft_isint(const char *str);
 
+char			*ft_strdup(const char *s1);
+void			*ft_memchr(const void *s, int c, size_t n);
+
 /*
 ** Larlyne's String
 ** ft_lstr_new_empty - вернет пустую созданную строку

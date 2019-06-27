@@ -6,7 +6,7 @@
 /*   By: rhealitt <rhealitt@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/21 12:46:04 by rhealitt          #+#    #+#             */
-/*   Updated: 2019/06/21 18:08:01 by rhealitt         ###   ########.fr       */
+/*   Updated: 2019/06/27 12:18:55 by rhealitt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,36 +37,39 @@ unsigned int		ft_ant_atoi(const char *str)
 int 	ft_parse_ants(int fd, t_lemin *li, t_lstr *lstr)
 {
 	char	*line;
-	int i;
+	int		i;
+	int		err;
 
+	err = FT_OK;
 	get_next_line(fd, &line);
-	ft_lstr_insert_s(lstr, line, lstr->length);
+	ft_string_insert(lstr, line, lstr->length);
 	if (line[0] == '#' && line[1] != '#')
 		return (ft_parse_ants(fd, li, lstr));
 	i = 0;
 	while(line[i] != '\0')
 	{
 		if (line[i] == '-')
-			return (FT_NO_ANTS);
+			err = FT_NO_ANTS;
 		if (i == 0 && line[i] == '+')
 			i++;
 		if (line[i] > 57 || line[i] < 48)
-			return (FT_WRONG_FORMAT);
+			err = FT_WRONG_FORMAT;
 		i++;
 	}
 	li->ants = ft_ant_atoi(line);
 	if (li->ants <= 0)
-		return (FT_NO_ANTS);
-	return (FT_OK);
+		err = FT_NO_ANTS;
+	free (line);
+	return (err);
 }
 
 int		ft_validation(int fd, t_lemin *li, t_lstr *lstr)
 {
-	int status;
+	int err;
 
-	status = ft_parse_ants(fd, li, lstr);
-	if (status == FT_OK)
-		status = ft_parse_rooms(fd, li, lstr);
+	err = ft_parse_ants(fd, li, lstr);
+	if (err == FT_OK)
+		err = ft_parse_rooms(fd, li, lstr, err);
 /*  ->  ft_parse_links(fd, li, lstr); уехал в парс комнат */
-	return (status);
+	return (err);
 }
