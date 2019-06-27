@@ -53,4 +53,5 @@ int		ft_check_collision(t_lemin *li, t_room *room)
 	new_depth = room->weight + room->weight_difference;
 	ft_make_collision(li->collisions, lock);
 	ft_calculate_paths(li);
+	return (0);
 }

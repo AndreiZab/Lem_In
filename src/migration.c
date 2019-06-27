@@ -34,7 +34,7 @@ static int		ft_add_move(t_lstr *lstr, t_room *from, t_room *to, int ant)
 	return (1);
 }
 
-static int		ft_move_on_path(t_lemin *li, t_lstr *lstr, t_path *path, int *ant_i)
+static void		ft_move_on_path(t_lemin *li, t_lstr *lstr, t_path *path, int *ant_i)
 {
 	t_room	*room;
 
@@ -90,7 +90,7 @@ int				ft_migration(t_lemin *li, t_lstr *lstr)
 	t_path	*path;
 
 	ant = 1;
-	ft_lstr_insert_c(lstr, '\n', 1, lstr->length); //вероятно стоит унести это от сюда
+	ft_lstr_insert_c(lstr, '\n', 1, lstr->length);
 	if (li->paths->start == li->start_room)
 	{
 		while (li->ants_came++ < li->ants)
