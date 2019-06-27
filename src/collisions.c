@@ -69,5 +69,5 @@ int			ft_check_collision(t_lemin *li, t_room *room)
 	coll = li->collisions;
 	if (ft_path_cost(li, new_depth) == 0)
 		return (ft_make_collision(coll, lock));
-	return (0);
+	return (1);
 }
