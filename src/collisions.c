@@ -24,9 +24,9 @@ void		ft_collision_clear(t_lemin *li)
 
 static void	ft_calculate_paths(t_lemin *li)
 {
-	t_path	*path;
-	t_room	*room;
-	int		length;
+	t_path			*path;
+	t_room			*room;
+	unsigned int	length;
 
 	path = li->paths;
 	while (path)
@@ -58,9 +58,9 @@ static int	ft_make_collision(t_collision *collisions, int lock)
 
 int			ft_check_collision(t_lemin *li, t_room *room)
 {
-	int			lock;
-	int			new_depth;
-	t_collision	*coll;
+	int				lock;
+	unsigned int	new_depth;
+	t_collision		*coll;
 
 	lock = room->lock;
 	new_depth = room->weight + room->weight_difference + 1;

@@ -14,11 +14,11 @@
 
 int			ft_path_cost(t_lemin *li, int depth)
 {
-	int		length;
-	int		mean_length;
-	int		mod;
-	int		ret;
-	t_path	*path;
+	int				length;
+	unsigned int	mean_length;
+	int				mod;
+	int				ret;
+	t_path			*path;
 
 	length = li->mean_length + depth;
 	mean_length = length / (li->paths_count + 1);

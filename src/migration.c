@@ -29,7 +29,8 @@ static void		ft_starts_set(t_lemin *li)
 	}
 }
 
-static int		ft_add_move(t_lstr *lstr, t_room *from, t_room *to, int ant)
+static int		ft_add_move(t_lstr *lstr, t_room *from, t_room *to,
+					unsigned int ant)
 {
 	char	*ant_str;
 
@@ -48,7 +49,7 @@ static int		ft_add_move(t_lstr *lstr, t_room *from, t_room *to, int ant)
 }
 
 static void		ft_move_on_path(t_lemin *li, t_lstr *lstr, t_path *path,
-					int *ant_i)
+					unsigned int *ant_i)
 {
 	t_room	*room;
 
@@ -100,8 +101,8 @@ static void		ft_sending_calc(t_lemin *li)
 
 int				ft_migration(t_lemin *li, t_lstr *lstr)
 {
-	int		ant;
-	t_path	*path;
+	unsigned int	ant;
+	t_path			*path;
 
 	ant = 1;
 	ft_lstr_insert_c(lstr, '\n', 1, lstr->length);
@@ -114,6 +115,7 @@ int				ft_migration(t_lemin *li, t_lstr *lstr)
 		return (FT_OK);
 	}
 	ft_sending_calc(li);
+	ft_putchar('h');
 	while (li->ants_came < li->ants)
 	{
 		path = li->paths;
