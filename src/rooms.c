@@ -40,23 +40,6 @@ t_room	*ft_room_new(t_lemin *li, t_room **rooms)
 }
 
 /*
-** Return room from room's array by room index
-*/
-
-// t_room	*ft_room_get(t_room *rooms, int index)
-// {
-// 	if (rooms == NULL)
-// 		return (NULL);
-// 	/* rooms->index != index можно заменить index-- != 0
-// 	если  последовательность индексов никогда не будет нарушаться (без удаления комнат?)*/
-// 	while (rooms && rooms->index != index)
-// 		rooms = rooms->next;
-// 	/* Если rooms->index != index, а список комнат закончился вернется null
-// 	т.к. rooms = rooms->next на последней итерации запишет в rooms NULL*/
-// 	return (rooms);
-// }
-
-/*
 ** Frees an array of rooms
 */
 

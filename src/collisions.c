@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   collisions.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: larlyne <marvin@42.fr>                     +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2019/06/27 14:30:36 by larlyne           #+#    #+#             */
+/*   Updated: 2019/06/27 14:30:37 by larlyne          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../include/ft_lem_in.h"
 
 void		ft_collision_clear(t_lemin *li)
@@ -44,7 +56,7 @@ static int	ft_make_collision(t_collision *collisions, int lock)
 	return (0);
 }
 
-int		ft_check_collision(t_lemin *li, t_room *room)
+int			ft_check_collision(t_lemin *li, t_room *room)
 {
 	int		lock;
 	int		new_depth;

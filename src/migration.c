@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   migration.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: larlyne <marvin@42.fr>                     +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2019/06/27 14:26:02 by larlyne           #+#    #+#             */
+/*   Updated: 2019/06/27 14:26:04 by larlyne          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../include/ft_lem_in.h"
 
 static void		ft_starts_set(t_lemin *li)
@@ -9,7 +21,8 @@ static void		ft_starts_set(t_lemin *li)
 	while (path)
 	{
 		room = path->end;
-		while (room && room != li->start_room && room->path_prev != li->start_room)
+		while (room && room != li->start_room &&
+			room->path_prev != li->start_room)
 			room = room->path_prev;
 		path->start = room;
 		path = path->next;
@@ -34,7 +47,8 @@ static int		ft_add_move(t_lstr *lstr, t_room *from, t_room *to, int ant)
 	return (1);
 }
 
-static void		ft_move_on_path(t_lemin *li, t_lstr *lstr, t_path *path, int *ant_i)
+static void		ft_move_on_path(t_lemin *li, t_lstr *lstr, t_path *path,
+					int *ant_i)
 {
 	t_room	*room;
 

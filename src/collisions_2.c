@@ -1,6 +1,18 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   collisions_2.c                                     :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: larlyne <marvin@42.fr>                     +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2019/06/27 14:30:42 by larlyne           #+#    #+#             */
+/*   Updated: 2019/06/27 14:30:43 by larlyne          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../include/ft_lem_in.h"
 
-int			ft_path_cost(t_lemin *li, int  depth)
+int			ft_path_cost(t_lemin *li, int depth)
 {
 	int		length;
 	int		mean_length;
@@ -10,7 +22,7 @@ int			ft_path_cost(t_lemin *li, int  depth)
 
 	length = li->mean_length + depth;
 	mean_length = length / (li->paths_count + 1);
-	mod = length % (li->paths_count  + 1);
+	mod = length % (li->paths_count + 1);
 	ret = li->ants;
 	if (li->paths_count != 0 && li->mean_length / li->paths_count < mean_length)
 		return (0);
@@ -24,7 +36,7 @@ int			ft_path_cost(t_lemin *li, int  depth)
 	return (ret > 0 ? ret : 0);
 }
 
-static void	ft_try_recollision(t_lemin *li, t_room	*current, int depth)
+static void	ft_try_recollision(t_lemin *li, t_room *current, int depth)
 {
 	t_link	*link;
 	t_room	*linked;
@@ -62,17 +74,18 @@ static void	ft_collision_keep(t_lemin *li, t_room *room, t_room *coll_room)
 	li->collisions = coll->next;
 }
 
-void		ft_collision(t_lemin *li, t_room *room, t_room *coll_room, int depth)
+void		ft_collision(t_lemin *li, t_room *room, t_room *coll_room,
+				int depth)
 {
 	t_room	*current;
 	int		next_depth;
-	
+
 	next_depth = depth + 1;
 	current = coll_room->path_prev;
 	++li->collisions_i;
 	while (current->path_prev && !current->path_prev->closed)
 	{
-		current->lock =li->collisions_i;
+		current->lock = li->collisions_i;
 		current->weight_difference = next_depth - depth - 2;
 		ft_try_recollision(li, current, next_depth);
 		--next_depth;

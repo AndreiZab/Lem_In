@@ -58,7 +58,7 @@ typedef struct	s_room
 	char			closed;
 
 	int				flags;
-	
+
 	struct s_room	*path_next;
 	struct s_room	*path_prev;
 
@@ -95,11 +95,10 @@ typedef struct	s_collision
 	struct s_collision	*next;
 }				t_collision;
 
-
 typedef struct	s_lemin
 {
-	unsigned int	ants;
-	unsigned int	ants_came;
+	int				ants;
+	int				ants_came;
 	unsigned int	mean_length;
 	unsigned int	depth;
 
@@ -115,62 +114,62 @@ typedef struct	s_lemin
 	unsigned int	paths_count;
 }				t_lemin;
 
-int		ft_validation(int fd, t_lemin *li, t_lstr *lstr);
-void		ft_string_insert(t_lstr *lstr, char *str, int index);
+int				ft_validation(int fd, t_lemin *li, t_lstr *lstr);
+void			ft_string_insert(t_lstr *lstr, char *str, int index);
 /*
 ** parse_lins.c
 */
 
-int		ft_parse_links(char *line, t_lemin *li, char *flag);
+int				ft_parse_links(char *line, t_lemin *li, char *flag);
 
 /*
 ** parse_rooms.c
 */
 
-int 	ft_parse_rooms(int fd, t_lemin *li, t_lstr *lstr, int err);
-void	ft_string_insert(t_lstr *lstr, char *str, int index);
+int				ft_parse_rooms(int fd, t_lemin *li, t_lstr *lstr, int err);
+void			ft_string_insert(t_lstr *lstr, char *str, int index);
 
-int		ft_solution(t_lemin *li);
-int		ft_migration(t_lemin *li, t_lstr *lstr);
+int				ft_solution(t_lemin *li);
+int				ft_migration(t_lemin *li, t_lstr *lstr);
 
 /*
 ** rooms.c
 */
 
-t_room	*ft_room_new(t_lemin *li, t_room **rooms);
-//t_room	*ft_room_get(t_room *rooms, int index);
-void	ft_room_full_free(t_room **rooms);
-void	ft_rooms_reset(t_room *rooms);
+t_room			*ft_room_new(t_lemin *li, t_room **rooms);
+void			ft_room_full_free(t_room **rooms);
+void			ft_rooms_reset(t_room *rooms);
 
 /*
 ** links.c
 */
 
-void	ft_link_set(t_room *room1, t_room *room2);
+void			ft_link_set(t_room *room1, t_room *room2);
 
 /*
 ** paths.c
 */
 
-t_path	*ft_path_new(t_path **paths);
+t_path			*ft_path_new(t_path **paths);
 
 /*
 ** collisions.c
 */
 
-void	ft_collision_clear(t_lemin *li);
-int		ft_check_collision(t_lemin *li, t_room *room);
+void			ft_collision_clear(t_lemin *li);
+int				ft_check_collision(t_lemin *li, t_room *room);
 
 /*
 ** collisions_2.c
 */
 
-int		ft_path_cost(t_lemin *li, int  depth);
-void	ft_collision(t_lemin *li, t_room *room, t_room *coll_room, int depth);
+int				ft_path_cost(t_lemin *li, int depth);
+void			ft_collision(t_lemin *li, t_room *room, t_room *coll_room,
+					int depth);
 
 /*
 ** lock.c
 */
 
-void	ft_lock_paths(t_lemin *li);
+void			ft_lock_paths(t_lemin *li);
 #endif
