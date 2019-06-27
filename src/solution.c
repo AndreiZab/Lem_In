@@ -6,7 +6,7 @@
 /*   By: larlyne <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/27 14:27:26 by larlyne           #+#    #+#             */
-/*   Updated: 2019/06/27 15:40:01 by rhealitt         ###   ########.fr       */
+/*   Updated: 2019/06/27 18:21:28 by rhealitt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ static t_room	*ft_step(t_lemin *li, int depth)
 	return (NULL);
 }
 
-static int		ft_find_shortest(t_lemin *li, int it)
+static int		ft_find_shortest(t_lemin *li)
 {
 	static t_room	*room_holder = NULL;
 	t_room			*temp;
@@ -100,7 +100,7 @@ int				ft_solution(t_lemin *li)
 	int		i;
 
 	i = 0;
-	while (li->paths_count < li->ants && ft_find_shortest(li, i))
+	while (li->paths_count < (unsigned int)li->ants && ft_find_shortest(li))
 	{
 		li->collisions_i = 1;
 		ft_collision_clear(li);

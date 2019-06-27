@@ -1,4 +1,5 @@
-SRC=lem_in.c \
+NAME = lem-in
+SRC = lem_in.c \
 	rooms.c \
 	links.c \
 	paths.c \
@@ -10,20 +11,46 @@ SRC=lem_in.c \
 	validation.c \
 	parse_rooms.c \
 	parse_lins.c
-NAME=lem-in
-LIBFT=lib/libft
-CFLAGS=-Wall -Wextra -Werror
+CC = gcc -Wall -Wextra -Werror
+
+HEAD_DIR = ./include/
+HEAD = ./include/ft_lem_in.h
+
+LIBFT = ./lib/libft/libft.a
+LIBFT_DIR = ./lib/libft/
+LIBRARIES = -L ./lib/libft/
+
+INCLUDES = -I ./include/ -I$(LIBFT_DIR)
+
+OBJ_DIR = ./obj/
+OBJECTS = $(patsubst %.c, %.o, $(SRC))
+OBJ	= $(addprefix ./obj/, $(OBJECTS))
+
 
 all: $(NAME)
 
-$(NAME):
-	make -C $(LIBFT)
-	gcc -o $(NAME) $(addprefix src/,$(SRC)) -I include/ -I $(LIBFT) -L $(LIBFT) -lft
+$(NAME): $(LIBFT) $(OBJ_DIR) $(OBJ)
+	@$(CC) $(LIBFT) $(LIBRARIES) $(INCLUDES) $(OBJ) -o $(NAME)
+
+$(OBJ_DIR):
+	@mkdir -p $(OBJ_DIR)
+
+$(OBJ_DIR)%.o : ./src/%.c $(HEAD)
+	@$(CC) -c $(INCLUDES) $< -o $@
+
+$(LIBFT):
+	$(MAKE) -sC $(LIBFT_DIR)
 
 clean:
-	make -C $(LIBFT) fclean
+	@$(MAKE) -sC $(LIBFT_DIR) clean
+	@rm -rf $(OBJS_DIR)
 
 fclean: clean
-	rm -f $(NAME)
+	@rm -f $(LIBFT)
+	@rm -f $(NAME)
 
-re: fclean $(NAME)
+re:
+	@$(MAKE) fclean
+	@$(MAKE) all
+
+.PHONY: all clean fclean

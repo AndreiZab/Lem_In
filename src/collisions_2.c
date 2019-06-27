@@ -6,7 +6,7 @@
 /*   By: larlyne <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/27 14:30:42 by larlyne           #+#    #+#             */
-/*   Updated: 2019/06/27 15:40:01 by rhealitt         ###   ########.fr       */
+/*   Updated: 2019/06/27 16:59:53 by rhealitt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ int			ft_path_cost(t_lemin *li, int depth)
 	mean_length = length / (li->paths_count + 1);
 	mod = length % (li->paths_count + 1);
 	ret = li->ants;
-	if (li->paths_count != 0 && li->mean_length / li->paths_count < mean_length)
+	if (li->paths_count != 0 && li->mean_length / li->paths_count < (unsigned int)mean_length)
 		return (0);
 	path = li->paths;
 	while (path)
