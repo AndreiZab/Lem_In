@@ -6,7 +6,7 @@
 /*   By: rhealitt <rhealitt@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/21 12:46:04 by rhealitt          #+#    #+#             */
-/*   Updated: 2019/06/27 15:40:01 by rhealitt         ###   ########.fr       */
+/*   Updated: 2019/06/27 20:50:20 by rhealitt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,7 +89,7 @@ int		ft_parse_ants(int fd, t_lemin *li, t_lstr *lstr)
 			err = FT_WRONG_FORMAT;
 		i++;
 	}
-	li->ants = ft_atoi(line);
+	li->ants = (ft_isint(line)) ? ft_atoi(line) : 0;
 	if (li->ants <= 0 || li->ants > 2147483647)
 		err = FT_NO_ANTS;
 	free(line);

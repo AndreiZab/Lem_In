@@ -30,7 +30,7 @@ OBJ	= $(addprefix ./obj/, $(OBJECTS))
 all: $(NAME)
 
 $(NAME): $(LIBFT) $(OBJ_DIR) $(OBJ)
-	@$(CC) $(INCLUDES) $(OBJ) -o $(NAME) $(LIBRARIES) $(LIBFT)
+	@$(CC)  $(LIBFT) $(INCLUDES) $(OBJ) -o $(NAME) $(LIBRARIES)
 
 $(OBJ_DIR):
 	@mkdir -p $(OBJ_DIR)
