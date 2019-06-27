@@ -6,7 +6,7 @@
 /*   By: larlyne <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/20 16:57:12 by larlyne           #+#    #+#             */
-/*   Updated: 2019/06/27 13:32:48 by rhealitt         ###   ########.fr       */
+/*   Updated: 2019/06/27 15:41:49 by rhealitt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,28 +114,32 @@ typedef struct	s_lemin
 	unsigned int	paths_count;
 }				t_lemin;
 
-int				ft_validation(int fd, t_lemin *li, t_lstr *lstr);
-void			ft_string_insert(t_lstr *lstr, char *str, int index);
 /*
 ** parse_lins.c
 */
 
+int				ft_search_dup_link(t_room *room1, t_room *room2);
 int				ft_parse_links(char *line, t_lemin *li, char *flag);
+int				ft_split_link(char *line, char **name1, char **name2);
 
 /*
 ** parse_rooms.c
 */
 
-int				ft_parse_rooms(int fd, t_lemin *li, t_lstr *lstr, int err);
+int 			ft_parse_rooms(int fd, t_lemin *li, t_lstr *lstr, int err);
+int				ft_found_flag(t_lemin *li, t_room *room, char flag);
+int				ft_validation(int fd, t_lemin *li, t_lstr *lstr);
 void			ft_string_insert(t_lstr *lstr, char *str, int index);
-
+int				ft_free(char *line);
+int				ft_scan_li(t_lemin *li);
 int				ft_solution(t_lemin *li);
 int				ft_migration(t_lemin *li, t_lstr *lstr);
 
 /*
 ** rooms.c
 */
-
+void			ft_coordinate_room(t_room *room, char *line, int i);
+int				ft_create_room(char *line, t_lemin *li, char *flag);
 t_room			*ft_room_new(t_lemin *li, t_room **rooms);
 void			ft_room_full_free(t_room **rooms);
 void			ft_rooms_reset(t_room *rooms);

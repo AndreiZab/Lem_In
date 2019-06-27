@@ -6,35 +6,68 @@
 /*   By: rhealitt <rhealitt@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/21 12:46:04 by rhealitt          #+#    #+#             */
-/*   Updated: 2019/06/27 13:32:48 by rhealitt         ###   ########.fr       */
+/*   Updated: 2019/06/27 15:40:01 by rhealitt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/ft_lem_in.h"
 
-unsigned int		ft_ant_atoi(const char *str)
+int		ft_found_flag(t_lemin *li, t_room *room, char flag)
 {
-	int		i;
-	long	numb;
-
-	i = 0;
-	while (('\t' <= str[i] && str[i] <= '\r') || str[i] == ' ')
-		++i;
-	if (str[i] == '-')
-		return (0);
-	if (str[i] == '+')
-		++i;
-	numb = 0;
-	while ('0' <= str[i] && str[i] <= '9')
+	if (flag == FT_START)
 	{
-		numb = numb * 10 + (str[i++] - '0');
-		if (numb < 0 || numb > 4294967295)
-			return (0);
+		if (li->start_room)
+			return (FT_ONE_MORE_START);
+		else
+			li->start_room = room;
 	}
-	return ((unsigned int)numb);
+	if (flag == FT_END)
+	{
+		if (li->end_room)
+			return (FT_ONE_MORE_END);
+		else
+			li->end_room = room;
+	}
+	return (FT_OK);
 }
 
-int 	ft_parse_ants(int fd, t_lemin *li, t_lstr *lstr)
+void	ft_coordinate_room(t_room *room, char *line, int i)
+{
+	int space;
+
+	space = 1;
+	while (line[i] != '\0')
+	{
+		if (line[i] == ' ' && i++)
+			continue;
+		else if (i > 1 && line[i - 1] == ' ' && space == 1 && space++)
+			room->x = ft_atoi(line + i);
+		else if (i > 1 && line[i - 1] == ' ' && space == 2)
+			room->y = ft_atoi(line + i);
+		i++;
+	}
+}
+
+int		ft_create_room(char *line, t_lemin *li, char *flag)
+{
+	t_room	*room;
+	int		err;
+	int		i;
+
+	room = ft_room_new(li, &li->rooms);
+	room->flags = *flag;
+	err = ft_found_flag(li, room, *flag);
+	i = -1;
+	room->name = ft_strdup(line);
+	while (line[++i] != ' ')
+		room->name[i] = line[i];
+	room->name[i] = '\0';
+	ft_coordinate_room(room, line, i);
+	*flag = FT_NO_FLAGS;
+	return (err);
+}
+
+int		ft_parse_ants(int fd, t_lemin *li, t_lstr *lstr)
 {
 	char	*line;
 	int		i;
@@ -46,7 +79,7 @@ int 	ft_parse_ants(int fd, t_lemin *li, t_lstr *lstr)
 	if (line[0] == '#' && line[1] != '#')
 		return (ft_parse_ants(fd, li, lstr));
 	i = 0;
-	while(line[i] != '\0')
+	while (line[i] != '\0')
 	{
 		if (line[i] == '-')
 			err = FT_NO_ANTS;
@@ -56,10 +89,10 @@ int 	ft_parse_ants(int fd, t_lemin *li, t_lstr *lstr)
 			err = FT_WRONG_FORMAT;
 		i++;
 	}
-	li->ants = ft_ant_atoi(line);
-	if (li->ants <= 0)
+	li->ants = ft_atoi(line);
+	if (li->ants <= 0 || li->ants > 2147483647)
 		err = FT_NO_ANTS;
-	free (line);
+	free(line);
 	return (err);
 }
 
@@ -69,7 +102,9 @@ int		ft_validation(int fd, t_lemin *li, t_lstr *lstr)
 
 	err = ft_parse_ants(fd, li, lstr);
 	if (err == FT_OK)
+	{
+		err = FT_NO_DATA;
 		err = ft_parse_rooms(fd, li, lstr, err);
-/*  ->  ft_parse_links(fd, li, lstr); уехал в парс комнат */
+	}
 	return (err);
 }

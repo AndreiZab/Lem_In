@@ -6,30 +6,27 @@
 /*   By: rhealitt <rhealitt@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/21 17:59:40 by rhealitt          #+#    #+#             */
-/*   Updated: 2019/06/27 13:32:48 by rhealitt         ###   ########.fr       */
+/*   Updated: 2019/06/27 15:46:39 by rhealitt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/ft_lem_in.h"
-# define FT_LINK 99
-
+#define FT_LINK 99
 
 int		ft_room_atoi(const char *str)
 {
 	int		i;
 	long	numb;
-	char	sign;
 	char	s;
 
 	i = 0;
 	while (('\t' <= str[i] && str[i] <= '\r') || str[i] == ' ')
 		++i;
-	sign = 1;
+	s = 1;
 	if (str[i] == '-')
-		sign = -1;
+		s = -1;
 	if (str[i] == '+' || str[i] == '-')
 		++i;
-	s = sign;
 	numb = 0;
 	while ('0' <= str[i] && str[i] <= '9')
 	{
@@ -39,10 +36,20 @@ int		ft_room_atoi(const char *str)
 	}
 	if ((numb > 2147483648 && s == -1) || (numb > 2147483647 && s == 1))
 		return (0);
-	return ((int)numb * sign);
+	return ((int)numb * s);
 }
 
-int 	ft_check_room(char *line, char flag)
+int		ft_err_manager(char *line, int *i, int *space)
+{
+	if ((line[*i] > 57 || line[*i] < 48) && line[*i] != 45)
+		return (FT_WRONG_FORMAT);
+	if (*i > 1 && line[*i - 1] == ' ' && ++(*space))
+		if (ft_room_atoi(line + *i) == 0 && line[*i] != '0')
+			return (FT_WRONG_FORMAT);
+	return (FT_OK);
+}
+
+int		ft_check_room(char *line, char flag)
 {
 	int i;
 	int space;
@@ -56,81 +63,22 @@ int 	ft_check_room(char *line, char flag)
 			return (FT_WRONG_FORMAT);
 	}
 	space = 0;
-	if (flag == FT_ERROR)
-		return (FT_WRONG_FORMAT);
 	while (line[i] != '\0')
 	{
 		if (line[i] == ' ' && i++)
 			continue;
 		if (line[i] == '-' && i > 1 && line[i - 1] != ' ')
 			return (FT_LINK);
-		if ((line[i] > 57 || line[i] < 48) && line[i] != 45)
+		if (ft_err_manager(line, &i, &space))
 			return (FT_WRONG_FORMAT);
-		if (i > 1 && line[i - 1] == ' ' && ++space)
-			if (ft_room_atoi(line + i) == 0 && line[i] != '0')
-				return (FT_WRONG_FORMAT);
 		i++;
 	}
-	if (space != 2)
+	if (space != 2 || flag == FT_ERROR)
 		return (FT_WRONG_FORMAT);
 	return (FT_OK);
 }
 
-int			ft_found_flag(t_lemin *li, t_room *room, char flag)
-{
-	if (flag == FT_START)
-	{
-		if (li->start_room)
-			return (FT_ONE_MORE_START);
-		else
-			li->start_room = room;
-	}
-	if 	(flag == FT_END)
-	{
-		if (li->end_room)
-			return (FT_ONE_MORE_END);
-		else
-			li->end_room = room;
-	}
-	return (FT_OK);
-}
-
-void		ft_coordinate_room(t_room *room, char *line, int i)
-{
-	int space;
-
-	space = 1;
-	while (line[i] != '\0')
-	{
-		if (line[i] == ' ' && i++)
-			continue;
-		else if (i > 1 && line[i - 1] == ' ' && space == 1 && space++)
-			room->x = ft_room_atoi(line + i);
-		else if (i > 1 && line[i - 1] == ' ' && space == 2)
-			room->y = ft_room_atoi(line + i);
-		i++;
-	}
-}
-
-int			ft_create_room(char *line, t_lemin *li, char flag)
-{
-	t_room	*room;
-	int		err;
-	int		i;
-
-	room = ft_room_new(li, &li->rooms);
-	room->flags = flag;
-	err = ft_found_flag(li, room, flag);
-	i = -1;
-	room->name = ft_strdup(line);
-	while (line[++i] != ' ') //даб уже сделал это, поправь Андрей
-		room->name[i] = line[i];
-	room->name[i] = '\0';
-	ft_coordinate_room(room, line, i);
-	return (err);
-}
-
-int ft_search_hash(char *line, char *flag, int *err)
+int		ft_hash(char *line, char *flag, int *err)
 {
 	if (*err == FT_NO_DATA)
 		*err = FT_OK;
@@ -151,63 +99,30 @@ int ft_search_hash(char *line, char *flag, int *err)
 		return (1);
 	}
 	return (0);
-
 }
 
-int 	ft_scan_li(t_lemin *li)
-{
-	t_room	*ptr1;
-	t_room	*ptr2;
-
-	ptr1 = li->rooms;
-	ptr2 = li->rooms;
-	while (ptr1->next != NULL)
-		ptr1 = ptr1->next;
-	while (ptr2->next != NULL)
-	{
-		if (ptr1 == ptr2) //need? really?
-			return(FT_DUP_ROOM);
-		if (!ft_strcmp(ptr1->name, ptr2->name))
-			return (FT_DUP_NAME);
-		if (ptr1->x == ptr2->x && ptr1->y == ptr2->y)
-			return(FT_DUP_COORDINATES);
-		ptr2 = ptr2->next;
-	}
-	return (FT_OK);
-}
-
-int 	ft_parse_rooms(int fd, t_lemin *li, t_lstr *lstr, int err)
+int		ft_parse_rooms(int fd, t_lemin *li, t_lstr *lstr, int err)
 {
 	char *line;
 	char flag;
 
+	line = NULL;
 	flag = FT_NO_FLAGS;
-	if (err == FT_OK)
-		err = FT_NO_DATA;
-	while (get_next_line(fd, &line) > 0)
+	while (ft_free(line) && get_next_line(fd, &line) > 0)
 	{
-		if (!ft_strcmp(line, "\0"))
-		{
-			free(line);
-			break;
-		}
+		if (!ft_strcmp(line, "\0") && ft_free(line))
+			break ;
 		ft_string_insert(lstr, line, lstr->length);
-		if ((err != FT_NO_DATA && err != FT_OK) || ft_search_hash(line, &flag, &err))
-		{
-			free(line);
-			continue;
-		}
+		if ((err != FT_NO_DATA && err != FT_OK) || ft_hash(line, &flag, &err))
+			continue ;
 		if (err == FT_OK)
 			err = ft_check_room(line, flag);
 		if (err == FT_OK)
-		{
-			err = ft_create_room(line, li, flag);
-			flag = FT_NO_FLAGS;
-		} else if (err == FT_LINK)
+			err = ft_create_room(line, li, &flag);
+		else if (err == FT_LINK)
 			err = ft_parse_links(line, li, &flag);
 		if (err == FT_OK)
 			err = ft_scan_li(li);
-		free(line);
 	}
 	return (err);
 }
