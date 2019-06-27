@@ -6,7 +6,7 @@
 /*   By: larlyne <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/20 16:57:12 by larlyne           #+#    #+#             */
-/*   Updated: 2019/06/27 15:41:49 by rhealitt         ###   ########.fr       */
+/*   Updated: 2019/06/27 15:46:39 by rhealitt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -130,7 +130,7 @@ int 			ft_parse_rooms(int fd, t_lemin *li, t_lstr *lstr, int err);
 int				ft_found_flag(t_lemin *li, t_room *room, char flag);
 int				ft_validation(int fd, t_lemin *li, t_lstr *lstr);
 void			ft_string_insert(t_lstr *lstr, char *str, int index);
-int				ft_free(char *line);
+int				ft_free_line(char *line);
 int				ft_scan_li(t_lemin *li);
 int				ft_solution(t_lemin *li);
 int				ft_migration(t_lemin *li, t_lstr *lstr);

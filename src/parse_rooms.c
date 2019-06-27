@@ -6,7 +6,7 @@
 /*   By: rhealitt <rhealitt@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/21 17:59:40 by rhealitt          #+#    #+#             */
-/*   Updated: 2019/06/27 15:46:39 by rhealitt         ###   ########.fr       */
+/*   Updated: 2019/06/27 15:51:40 by rhealitt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,9 +108,9 @@ int		ft_parse_rooms(int fd, t_lemin *li, t_lstr *lstr, int err)
 
 	line = NULL;
 	flag = FT_NO_FLAGS;
-	while (ft_free(line) && get_next_line(fd, &line) > 0)
+	while (ft_free_line(line) && get_next_line(fd, &line) > 0)
 	{
-		if (!ft_strcmp(line, "\0") && ft_free(line))
+		if (!ft_strcmp(line, "\0") && ft_free_line(line))
 			break ;
 		ft_string_insert(lstr, line, lstr->length);
 		if ((err != FT_NO_DATA && err != FT_OK) || ft_hash(line, &flag, &err))
