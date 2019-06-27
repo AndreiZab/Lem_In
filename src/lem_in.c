@@ -33,10 +33,27 @@ static void	ft_output(int error_state, t_lstr *lstr)
 
 static void	ft_free(t_lemin **li, t_lstr **lstr)
 {
+	t_path		*path;
+	t_path		*path_next;
+	t_collision	*collision;
+
 	if (li && *li)
 	{
+		path = (*li)->paths;
+		while (path)
+		{
+			path_next = path->next;
+			free(path);
+			path = path_next;
+		}
+		collision = (*li)->collisions;
+		while (collision->prev)
+		{
+			collision = collision->prev;
+			free(collision->next);
+		}
+		free(collision);
 		ft_room_full_free(&(*li)->rooms);
-		/*ft_path_full_free((*li)->paths);*/
 		free(*li);
 		*li = NULL;
 	}

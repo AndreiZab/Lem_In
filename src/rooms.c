@@ -64,6 +64,8 @@ void	ft_room_full_free(t_room **rooms)
 {
 	t_room	*current;
 	t_room	*next;
+	t_link	*lnk;
+	t_link	*next_lnk;
 
 	if (rooms == NULL)
 		return ;
@@ -72,7 +74,13 @@ void	ft_room_full_free(t_room **rooms)
 	{
 		next = current->next;
 		current->name ? free(current->name) : NULL;
-		current->links ? free(current->links) : NULL;
+		lnk = current->links;
+		while (lnk)
+		{
+			next_lnk = lnk->next;
+			free(lnk);
+			lnk = next_lnk;
+		}
 		free(current);
 		current = next;
 	}

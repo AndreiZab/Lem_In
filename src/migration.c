@@ -18,11 +18,15 @@ static void		ft_starts_set(t_lemin *li)
 
 static int		ft_add_move(t_lstr *lstr, t_room *from, t_room *to, int ant)
 {
+	char	*ant_str;
+
 	if (ant != 0)
 		from->ant = ant;
 	to->ant = from->ant;
 	ft_lstr_insert_c(lstr, 'L', 1, lstr->length);
-	ft_lstr_insert_s(lstr, ft_itoa(from->ant), lstr->length);
+	ant_str = ft_itoa(from->ant);
+	ft_lstr_insert_s(lstr, ant_str, lstr->length);
+	free(ant_str);
 	ft_lstr_insert_c(lstr, '-', 1, lstr->length);
 	ft_lstr_insert_s(lstr, to->name, lstr->length);
 	ft_lstr_insert_c(lstr, ' ', 1, lstr->length);
