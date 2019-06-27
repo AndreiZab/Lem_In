@@ -176,23 +176,27 @@ int 	ft_scan_li(t_lemin *li)
 	return (FT_OK);
 }
 
-int 	ft_parse_rooms(int fd, t_lemin *li, t_lstr *lstr)
+int 	ft_parse_rooms(int fd, t_lemin *li, t_lstr *lstr, int err)
 {
 	char	*line;
-	int		err;
 	char	flag;
 
 	flag = FT_NO_FLAGS;
-	err = FT_NO_DATA;
+	if (err == FT_OK)
+		err = FT_NO_DATA;
 	while (get_next_line(fd, &line) > 0)
 	{
 		if (!ft_strcmp(line, "\0"))
+		{
+			free(line);
 			break ;
+		}
 		ft_string_insert(lstr, line, lstr->length);
-		if (err != FT_NO_DATA && err != FT_OK)
+		if ((err != FT_NO_DATA && err != FT_OK) || ft_search_hash(line, &flag, &err))
+		{
+			free(line);
 			continue ;
-		if (ft_search_hash(line, &flag, &err))
-			continue ;
+		}
 		if (err == FT_OK)
 			err = ft_check_room(line, flag);
 		if (err == FT_OK)
@@ -207,4 +211,3 @@ int 	ft_parse_rooms(int fd, t_lemin *li, t_lstr *lstr)
 		free(line);
 	}
 	return (err);
-}
