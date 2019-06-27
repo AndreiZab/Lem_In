@@ -1,4 +1,4 @@
-#include "ft_lem_in.h"
+#include "../include/ft_lem_in.h"
 
 static void		ft_set_path_link(t_lemin *li, t_room *from, t_room *to)
 {

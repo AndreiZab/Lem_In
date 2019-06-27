@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_lem_in.h"
+#include "../include/ft_lem_in.h"
 
 /*
 ** Create new room in room's array and return it

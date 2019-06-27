@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_lem_in.h"
+#include "../include/ft_lem_in.h"
 
 void	ft_string_insert(t_lstr *lstr, char *str, int index)
 {

@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_lem_in.h"
+#include "../include/ft_lem_in.h"
 
 unsigned int		ft_ant_atoi(const char *str)
 {
