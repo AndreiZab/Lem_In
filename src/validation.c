@@ -61,6 +61,7 @@ int 	ft_parse_ants(int fd, t_lemin *li, t_lstr *lstr)
 		err = FT_NO_ANTS;
 	free (line);
 	return (err);
+}
 
 int		ft_validation(int fd, t_lemin *li, t_lstr *lstr)
 {
