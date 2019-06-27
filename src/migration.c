@@ -115,7 +115,6 @@ int				ft_migration(t_lemin *li, t_lstr *lstr)
 		return (FT_OK);
 	}
 	ft_sending_calc(li);
-	ft_putchar('h');
 	while (li->ants_came < li->ants)
 	{
 		path = li->paths;
