@@ -105,7 +105,6 @@ int				ft_migration(t_lemin *li, t_lstr *lstr)
 	t_path			*path;
 
 	ant = 1;
-	ft_lstr_insert_c(lstr, '\n', 1, lstr->length);
 	ft_starts_set(li);
 	if (li->paths->start == li->start_room)
 	{
@@ -124,6 +123,7 @@ int				ft_migration(t_lemin *li, t_lstr *lstr)
 			path = path->next;
 		}
 		lstr->str[lstr->length - 1] = '\n';
+		ft_output(FT_OK, lstr);
 	}
 	return (FT_OK);
 }

@@ -134,6 +134,7 @@ int				ft_free_line(char *line);
 int				ft_scan_li(t_lemin *li);
 int				ft_solution(t_lemin *li);
 int				ft_migration(t_lemin *li, t_lstr *lstr);
+void			ft_output(int error_state, t_lstr *lstr);
 
 /*
 ** rooms.c

@@ -24,7 +24,7 @@ static int	ft_creation(t_lemin **li, t_lstr **lstr)
 	return (FT_OK);
 }
 
-static void	ft_output(int error_state, t_lstr *lstr)
+void		ft_output(int error_state, t_lstr *lstr)
 {
 	if (error_state == FT_OK)
 	{
@@ -79,9 +79,12 @@ int			main(void)
 		err = ft_validation(0, li, lstr);
 	if (err == FT_OK)
 		err = ft_solution(li);
-	if (err == FT_OK)
-		err = ft_migration(li, lstr);
 	ft_output(err, lstr);
+	if (err == FT_OK)
+	{
+		ft_lstr_insert_c(lstr, '\n', 1, lstr->length);
+		err = ft_migration(li, lstr);
+	}
 	ft_free(&li, &lstr);
 	return (0);
 }
