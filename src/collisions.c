@@ -44,14 +44,15 @@ static void	ft_calculate_paths(t_lemin *li)
 	}
 }
 
-static int	ft_make_collision(t_collision *collisions, int lock)
+static int	ft_make_collision(t_collision *collisions, int lock, int old)
 {
 	while (lock != 0)
 	{
 		while (lock != collisions->state)
 			collisions = collisions->prev;
 		lock = collisions->id;
-		collisions->old_room->path_prev = collisions->old_redirect;
+		collisions->old_room->path_prev =
+			old ? collisions->old_redirect : collisions->to_redirect;
 	}
 	return (0);
 }
@@ -64,10 +65,10 @@ int			ft_check_collision(t_lemin *li, t_room *room)
 
 	lock = room->lock;
 	new_depth = room->weight + room->weight_difference + 1;
-	ft_make_collision(li->collisions, lock);
+	ft_make_collision(li->collisions, lock, 0);
 	ft_calculate_paths(li);
 	coll = li->collisions;
 	if (ft_path_cost(li, new_depth) == 0)
-		return (ft_make_collision(coll, lock));
+		return (ft_make_collision(coll, lock, 1));
 	return (1);
 }

@@ -27,7 +27,12 @@ static int	ft_creation(t_lemin **li, t_lstr **lstr)
 static void	ft_output(int error_state, t_lstr *lstr)
 {
 	if (error_state == FT_OK)
+	{
 		ft_lstr_put(lstr);
+		ft_lstr_resize(lstr, 0);
+		lstr->length = 0;
+		lstr->str[0] = 0;
+	}
 	else
 		ft_putstr("ERROR\n");
 }
