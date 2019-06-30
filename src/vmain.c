@@ -10,9 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../include/ft_lem_in.h"
-#include <SDL2_gfxPrimitives.h>
-#include <SDL.h>
+#include "../include/ft_vis.h"
 
 static int	ft_creation(t_lemin **li)
 {

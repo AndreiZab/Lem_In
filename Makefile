@@ -1,25 +1,5 @@
-# **************************************************************************** #
-#                                                                              #
-#                                                         :::      ::::::::    #
-#    Makefile                                           :+:      :+:    :+:    #
-#                                                     +:+ +:+         +:+      #
-#    By: sbrochar <marvin@42.fr>                    +#+  +:+       +#+         #
-#                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2017/05/15 17:13:45 by sbrochar          #+#    #+#              #
-#    Updated: 2019/06/30 12:36:16 by rhealitt         ###   ########.fr        #
-#                                                                              #
-# **************************************************************************** #
-
-NAME = ant
-
-INC_DIR = ./include
-SRC_DIR = ./src
-OBJ_DIR = ./obj
-
-LIB_DIR = ./lib/libft
-LIBFT = $(LIB_DIR)/libft.a
-
-SRC = vmain.c \
+NAME = lem-in
+SRC = lem_in.c \
 	rooms.c \
 	links.c \
 	paths.c \
@@ -31,38 +11,46 @@ SRC = vmain.c \
 	validation.c \
 	parse_rooms.c \
 	parse_lins.c
+CC = gcc -Wall -Wextra -Werror
 
-OBJ = $(patsubst %.c,$(OBJ_DIR)/%.o,$(SRC))
+HEAD_DIR = ./include/
+HEAD = ./include/ft_lem_in.h
 
-CC = gcc
-CFLAGS = -g -c -Wall -Wextra -Werror -I$(INC_DIR) -I$(LIB_DIR) `sdl2-config --cflags`
-LFLAGS = -L$(LIB_DIR) -lft `sdl2-config --libs` -lSDL2_gfx -lSDL2_ttf -lm
+LIBFT = ./lib/libft/libft.a
+LIBFT_DIR = ./lib/libft/
+LIBRARIES = -L ./lib/libft/
 
-all: $(LIBFT) $(NAME)
+INCLUDES = -I ./include/ -I$(LIBFT_DIR)
 
-$(NAME): $(OBJ)
-	@printf "%-54c\rLinking...\n" ' '
-	@$(CC) -o $@ $^ $(LFLAGS)
-	@printf "Done !\n"
+OBJ_DIR = ./obj/
+OBJECTS = $(patsubst %.c, %.o, $(SRC))
+OBJ	= $(addprefix ./obj/, $(OBJECTS))
 
-$(OBJ_DIR)/%.o: $(SRC_DIR)/%.c
+
+all: $(NAME)
+
+$(NAME): $(LIBFT) $(OBJ_DIR) $(OBJ)
+	@$(CC) $(INCLUDES) $(OBJ) -o $(NAME) $(LIBRARIES) $(LIBFT)
+
+$(OBJ_DIR):
 	@mkdir -p $(OBJ_DIR)
-	@$(CC) $(CFLAGS) -o $@ $^
-	@printf "Compiling... %-21s => %-21s\r" $^ $@
+
+$(OBJ_DIR)%.o : ./src/%.c $(HEAD)
+	@$(CC) -c $(INCLUDES) $< -o $@
 
 $(LIBFT):
-	make -C $(LIB_DIR)
+	$(MAKE) -sC $(LIBFT_DIR)
 
 clean:
-	@make -C $(LIB_DIR) clean
-	@rm -f $(OBJ)
-	@printf "Removed objs\n"
+	@$(MAKE) -sC $(LIBFT_DIR) clean
+	@rm -rf $(OBJ_DIR)
 
 fclean: clean
-	@make -C $(LIB_DIR) fclean
+	@rm -f $(LIBFT)
 	@rm -f $(NAME)
-	@printf "Removed $(NAME)\n"
 
-re: fclean all
+re:
+	@$(MAKE) fclean
+	@$(MAKE) all
 
-.PHONY: all clean fclean re
+.PHONY: all clean fclean
