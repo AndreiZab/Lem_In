@@ -6,7 +6,7 @@
 #    By: sbrochar <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/05/15 17:13:45 by sbrochar          #+#    #+#              #
-#    Updated: 2019/06/30 12:36:16 by rhealitt         ###   ########.fr        #
+#    Updated: 2019/06/30 12:35:32 by rhealitt         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -35,7 +35,7 @@ SRC = vmain.c \
 OBJ = $(patsubst %.c,$(OBJ_DIR)/%.o,$(SRC))
 
 CC = gcc
-CFLAGS = -g -c -Wall -Wextra -Werror -I$(INC_DIR) -I$(LIB_DIR) `sdl2-config --cflags`
+CFLAGS = -g -c -Wall -Wextra -I$(INC_DIR) -I$(LIB_DIR) `sdl2-config --cflags`
 LFLAGS = -L$(LIB_DIR) -lft `sdl2-config --libs` -lSDL2_gfx -lSDL2_ttf -lm
 
 all: $(LIBFT) $(NAME)
