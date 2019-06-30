@@ -6,7 +6,7 @@
 /*   By: rhealitt <rhealitt@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/30 11:59:23 by rhealitt          #+#    #+#             */
-/*   Updated: 2019/06/30 15:48:30 by rhealitt         ###   ########.fr       */
+/*   Updated: 2019/06/30 15:59:09 by rhealitt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,20 +29,27 @@ void	ft_move_ants(SDL_Renderer *ren, t_lemin *li, t_visualization *vis)
 	static int step_num = 0;
 	t_ant	*ant = vis->ants;
 
-	if (step_num == 0) {
-		ant->x = li->start_room->x * vis->scale;
-		ant->y = li->start_room->y * vis->scale;
-		ant->step_x = (li->rooms->next->x - li->rooms->x) / 10.0;
-		ant->step_y = (li->rooms->next->y - li->rooms->y) / 10.0;
+	if (step_num == 0 && ant->to != NULL) {
+		ant->x = ant->from->x * vis->scale;
+		ant->y = ant->from->y * vis->scale;
+		ant->step_x = (ant->to->x - ant->from->x) / 50.0;
+		ant->step_y = (ant->to->y - ant->from->y) / 50.0;
 	}
-	ant->x += ant->step_x * vis->scale;
-	ant->y += ant->step_y * vis->scale;
+	if (ant->to != NULL) {
+		ant->x += ant->step_x * vis->scale;
+		ant->y += ant->step_y * vis->scale;
+	}
 	filledCircleColor(ren, ant->x + vis->offset_x, ant->y + vis->offset_y, (int)(0.1 * vis->scale), 0xFFFFFFFF);
 
 	step_num++;
-	if (step_num == 10)
+	if (step_num == 50)
 	{
-		if
+		if (ant->to)
+		{
+			ant->from = ant->to;
+			ant->to = ant->to->next;
+		}
+
 		step_num = 0;
 	}
 
@@ -90,6 +97,19 @@ void	ft_move(t_visualization *vis)
 		vis->offset_x -= 5;
 }
 
+void	ft_update_ants(t_visualization *vis, int old_scale, int new_scale)
+{
+	t_ant *ant_ptr;
+
+	ant_ptr = vis->ants;
+	while (ant_ptr)
+	{
+		ant_ptr->x =(int)((double)ant_ptr->x / old_scale * new_scale);
+		ant_ptr->y = (int)((double)ant_ptr->y / old_scale * new_scale);
+		ant_ptr = ant_ptr->next;
+	}
+}
+
 void	ft_keyboard(t_visualization *vis, int *err)
 {
 	if (vis->e.type == SDL_QUIT || (vis->e.type == SDL_KEYDOWN && vis->e.key.keysym.sym == SDLK_ESCAPE))
@@ -104,10 +124,14 @@ void	ft_keyboard(t_visualization *vis, int *err)
 			vis->move_keys |= FT_DIR_LEFT;
 		else if (vis->e.key.keysym.sym == SDLK_d || vis->e.key.keysym.sym == SDLK_RIGHT)
 			vis->move_keys |= FT_DIR_RIGHT;
-		if (vis->e.key.keysym.sym == SDLK_PLUS || vis->e.key.keysym.sym == SDLK_KP_PLUS)
+		if (vis->e.key.keysym.sym == SDLK_PLUS || vis->e.key.keysym.sym == SDLK_KP_PLUS) {
+			ft_update_ants(vis, vis->scale, vis->scale + 5);
 			vis->scale += 5;
-		else if (vis->e.key.keysym.sym == SDLK_MINUS || vis->e.key.keysym.sym == SDLK_KP_MINUS)
+		}
+		else if (vis->e.key.keysym.sym == SDLK_MINUS || vis->e.key.keysym.sym == SDLK_KP_MINUS) {
+			ft_update_ants(vis, vis->scale, vis->scale - 5);
 			vis->scale -= 5;
+		}
 	}
 	else if (vis->e.type == SDL_KEYUP)
 	{
