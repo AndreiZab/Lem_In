@@ -230,14 +230,14 @@ int		main(void)
 	err = ft_creation(&li);
 	if (err == FT_OK)
 		err = ft_validation(0, li, ft_lstr_new_empty());
-	if (err == FT_OK)
+	if (err < 1)
 	{
 		ft_search_scale(li, &vis);
 		ft_read_step(li, &vis);
 		SDL_Init(SDL_INIT_VIDEO | SDL_INIT_EVENTS);
 		vis.win = SDL_CreateWindow("ant", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 2560, 1440, SDL_WINDOW_FULLSCREEN_DESKTOP);
 		vis.ren = SDL_CreateRenderer(vis.win, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
-		while (!err)
+		while (err < 1)
 		{
 			while (SDL_PollEvent(&vis.e))
 				ft_keyboard(&vis, &err);
