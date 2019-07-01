@@ -56,6 +56,6 @@ void	ft_read_step(t_lemin *li, t_visualization *vis)
 		splited = ft_strsplit(line, ' ');
 		i = 0;
 		while (splited[i] != NULL)
-			ft_set_ant_movement(vis, splited[i++]);
+			ft_set_ant_movement(li, vis, splited[i++]);
 	}
 }
