@@ -1,13 +1,17 @@
 #ifndef FT_VIS_H
 # define FT_VIS_H
+# define FT_DIR_LEFT (1)
+# define FT_DIR_RIGHT (1 << 1)
+# define FT_DIR_UP (1 << 2)
+# define FT_DIR_DOWN (1 << 3)
+# define FT_ANT_NOT_SPAWNED 0
+# define FT_ANT_ON_PATH 1
+# define FT_ANT_AT_END 2
 # include "ft_lem_in.h"
 # include <SDL.h>
 # include <SDL2_gfxPrimitives.h>
 
-#define FT_DIR_LEFT (1)
-#define FT_DIR_RIGHT (1 << 1)
-#define FT_DIR_UP (1 << 2)
-#define FT_DIR_DOWN (1 << 3)
+
 
 typedef struct	s_visualization
 {
@@ -25,10 +29,11 @@ typedef struct	s_visualization
 
 typedef struct	s_ant
 {
+	int		number;
 	t_room	*from;
 	t_room	*to;
-	double		step_x;
-	double		step_y;
+	double	step_x;
+	double	step_y;
 	int		x;
 	int		y;
 	struct s_ant *next;

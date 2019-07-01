@@ -41,6 +41,7 @@
 # include <limits.h>
 # include "../lib/libft/libft.h"
 # include "../lib/libft/get_next_line.h"
+# define FT_NOT_A_STEP 16
 
 typedef struct	s_room
 {
@@ -141,6 +142,7 @@ void			ft_output(int error_state, t_lstr *lstr);
 */
 void			ft_coordinate_room(t_room *room, char *line, int i);
 int				ft_create_room(char *line, t_lemin *li, char *flag);
+t_room			*ft_room_by_name(t_room *rooms, char *name);
 t_room			*ft_room_new(t_lemin *li, t_room **rooms);
 void			ft_room_full_free(t_room **rooms);
 void			ft_rooms_reset(t_room *rooms);

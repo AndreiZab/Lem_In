@@ -40,6 +40,21 @@ t_room	*ft_room_new(t_lemin *li, t_room **rooms)
 }
 
 /*
+** Find room in list by name
+*/
+
+t_room	*ft_room_by_name(t_room *rooms, char *name)
+{
+	while (rooms)
+	{
+		if (ft_strcmp(name, rooms->name) == 0)
+			return (rooms);
+		rooms = rooms->next;
+	}
+	return (NULL);
+}
+
+/*
 ** Frees an array of rooms
 */
 
