@@ -27,10 +27,10 @@ SRC = vmain.c \
 	collisions.c \
 	collisions_2.c \
 	lock.c \
-	migration.c \
 	validation.c \
 	parse_rooms.c \
-	parse_lins.c
+	parse_lins.c \
+	step_reader.c
 
 OBJ = $(patsubst %.c,$(OBJ_DIR)/%.o,$(SRC))
 

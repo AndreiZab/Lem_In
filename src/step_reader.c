@@ -1,8 +1,10 @@
 #include "../include/ft_vis.h"
 
-static	ft_ant_state(t_visualization *vis, int ant_n, t_ant **finded)
+static int	ft_ant_state(t_lemin * li, 
+				t_visualization *vis, int ant_n, t_ant **finded)
 {
 	t_ant	*ant;
+	t_ant	*prev;
 
 	ant = vis->ants;
 	while (ant)
@@ -10,11 +12,18 @@ static	ft_ant_state(t_visualization *vis, int ant_n, t_ant **finded)
 		if (ant->number == ant_n)
 		{
 			*finded = ant;
-			return (ant->to == NULL) ? FT_ANT_AT_END : FT_ANT_ON_PATH;
+			return (FT_ANT_ON_PATH);
 		}
+		prev = ant;
 		ant = ant->next;
 	}
-	*finded = NULL; //or create new
+	*finded = (t_ant*)ft_memalloc(sizeof(t_ant));
+	(*finded)->number = ant_n;
+	(*finded)->from = li->start_room;
+	if (vis->ants == NULL)
+		vis->ants = *finded;
+	else
+		prev->next = *finded;
 	return (FT_ANT_NOT_SPAWNED);
 }
 
@@ -35,13 +44,9 @@ int		ft_set_ant_movement(t_lemin *li, t_visualization *vis, char *str_move)
 	if ((room = ft_room_by_name(li->rooms, splited[1])) == NULL)
 		return (FT_NOT_A_STEP);
 	ant = NULL;
-	ant_state = ft_ant_state(vis, ant_number, &ant);
-	if (ant_state == FT_ANT_NOT_SPAWNED)
-		ant->from = li->start_room;
-	else if (ant_state == FT_ANT_ON_PATH)
-		ant->from = ant->to;
+	ant_state = ft_ant_state(li, vis, ant_number, &ant);
 	ant->to = room;
-		
+	return (FT_OK);
 }
 
 void	ft_read_step(t_lemin *li, t_visualization *vis)

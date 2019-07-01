@@ -22,37 +22,52 @@ static int	ft_creation(t_lemin **li)
 	return (FT_OK);
 }
 
+static void	ft_stop_ants(t_visualization *vis)
+{
+	t_ant	*ant;
+
+	ant = vis->ants;
+	while (ant)
+	{
+		if (ant->to)
+		{
+			ant->from = ant->to;
+			ant->to = NULL;
+		}
+		ant = ant->next;
+	}
+}
+
 void	ft_move_ants(SDL_Renderer *ren, t_lemin *li, t_visualization *vis)
 {
 	static int step_num = 0;
 	t_ant	*ant = vis->ants;
 
-	if (step_num == 0 && ant->to != NULL)
+	while (ant)
 	{
-		ant->x = ant->from->x * vis->scale;
-		ant->y = ant->from->y * vis->scale;
-		ant->step_x = (ant->to->x - ant->from->x) / 50.0;
-		ant->step_y = (ant->to->y - ant->from->y) / 50.0;
-	}
-	if (ant->to != NULL)
-	{
-		ant->x += ant->step_x * vis->scale;
-		ant->y += ant->step_y * vis->scale;
-	}
-	filledCircleColor(ren, ant->x + vis->offset_x, ant->y + vis->offset_y, (int)(0.1 * vis->scale), 0xFFFFFFFF);
-
-	step_num++;
-	if (step_num == 50)
-	{
-		if (ant->to)
+		if (step_num == 0 && ant->to != NULL)
 		{
-			ant->from = ant->to;
-			ant->to = ant->to->next;
+			ant->x = ant->from->x * vis->scale;
+			ant->y = ant->from->y * vis->scale;
+			ant->step_x = (ant->to->x - ant->from->x) / 50.0;
+			ant->step_y = (ant->to->y - ant->from->y) / 50.0;
 		}
-
-		step_num = 0;
+		if (ant->to != NULL)
+		{
+			ant->x += ant->step_x * vis->scale;
+			ant->y += ant->step_y * vis->scale;
+		}
+		filledCircleColor(ren, ant->x + vis->offset_x, ant->y + vis->offset_y, (int)(0.1 * vis->scale), 0xFFFFFFFF);
+		ant = ant->next;
 	}
-
+	step_num++;
+	if (step_num == 5)
+	{
+		ft_stop_ants(vis);
+		ft_read_step(li, vis);
+		step_num = 0;
+		
+	}
 }
 
 void	ft_draw_lines(SDL_Renderer *ren, t_lemin *li, t_visualization *vis)
@@ -211,9 +226,7 @@ int		main(void)
 	if (err == FT_OK)
 		err = ft_validation(0, li, ft_lstr_new_empty());
 	ft_search_scale(li, &vis);
-	vis.ants = ft_memalloc(sizeof(t_ant));
-	vis.ants->to = li->rooms->next;
-	vis.ants->from = li->rooms;
+	ft_read_step(li, &vis);
 	if (err == FT_OK)
 	{
 		SDL_Init(SDL_INIT_VIDEO | SDL_INIT_EVENTS);

@@ -39,4 +39,6 @@ typedef struct	s_ant
 	struct s_ant *next;
 }				t_ant;
 
+void	ft_read_step(t_lemin *li, t_visualization *vis);
+
 #endif
