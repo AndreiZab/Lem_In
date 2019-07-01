@@ -6,10 +6,10 @@
 /*   By: rhealitt <rhealitt@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/30 11:59:23 by rhealitt          #+#    #+#             */
-/*   Updated: 2019/06/30 15:59:09 by rhealitt         ###   ########.fr       */
+/*   Updated: 2019/07/01 10:28:58 by rhealitt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
+/*
 #include "../include/ft_vis.h"
 
 static int	ft_creation(t_lemin **li)
@@ -27,13 +27,15 @@ void	ft_move_ants(SDL_Renderer *ren, t_lemin *li, t_visualization *vis)
 	static int step_num = 0;
 	t_ant	*ant = vis->ants;
 
-	if (step_num == 0 && ant->to != NULL) {
+	if (step_num == 0 && ant->to != NULL)
+	{
 		ant->x = ant->from->x * vis->scale;
 		ant->y = ant->from->y * vis->scale;
 		ant->step_x = (ant->to->x - ant->from->x) / 50.0;
 		ant->step_y = (ant->to->y - ant->from->y) / 50.0;
 	}
-	if (ant->to != NULL) {
+	if (ant->to != NULL)
+	{
 		ant->x += ant->step_x * vis->scale;
 		ant->y += ant->step_y * vis->scale;
 	}
@@ -122,11 +124,13 @@ void	ft_keyboard(t_visualization *vis, int *err)
 			vis->move_keys |= FT_DIR_LEFT;
 		else if (vis->e.key.keysym.sym == SDLK_d || vis->e.key.keysym.sym == SDLK_RIGHT)
 			vis->move_keys |= FT_DIR_RIGHT;
-		if (vis->e.key.keysym.sym == SDLK_PLUS || vis->e.key.keysym.sym == SDLK_KP_PLUS) {
+		if (vis->e.key.keysym.sym == SDLK_PLUS || vis->e.key.keysym.sym == SDLK_KP_PLUS)
+		{
 			ft_update_ants(vis, vis->scale, vis->scale + 5);
 			vis->scale += 5;
 		}
-		else if (vis->e.key.keysym.sym == SDLK_MINUS || vis->e.key.keysym.sym == SDLK_KP_MINUS) {
+		else if (vis->e.key.keysym.sym == SDLK_MINUS || vis->e.key.keysym.sym == SDLK_KP_MINUS)
+		{
 			ft_update_ants(vis, vis->scale, vis->scale - 5);
 			vis->scale -= 5;
 		}
@@ -144,6 +148,56 @@ void	ft_keyboard(t_visualization *vis, int *err)
 	}
 }
 
+int			ft_biggest_dif(int x_max, int x_min, int y_max, int y_min)
+{
+	int	size;
+	if (x_max - x_min > y_max - y_min)
+		size = x_max - x_min;
+	else
+		size = y_max - y_min;
+	return (size);
+
+}
+
+int			ft_size_map(t_room *rooms)
+{
+	t_room *ptr;
+	int y_max;
+	int x_min;
+	int x_max;
+	int y_min;
+
+	ptr = rooms;
+	y_max = ptr->y;
+	x_min = ptr->x;
+	x_max = ptr->x;
+	y_min = ptr->y;
+	while (ptr)
+	{
+		if (ptr->x > x_max)
+			x_max = ptr->x;
+		if (ptr->x < x_min)
+			x_min = ptr->x;
+		if (ptr->y > y_max)
+			y_max = ptr->y;
+		if(ptr->y < y_min)
+			y_min = ptr->y;
+		ptr = ptr->next;
+	}
+	return (ft_biggest_dif(x_max, x_min, y_max, y_min));
+
+}
+
+void		ft_search_scale(t_lemin *li, t_visualization *vis)
+{
+	int size;
+
+	size = ft_size_map(li->rooms);
+	vis->scale = 500 / size;
+	vis->room_size = 0.2;
+	vis->line_size = 0.1;
+}
+
 int		main(void)
 {
 	t_visualization vis;
@@ -152,17 +206,17 @@ int		main(void)
 
 	ft_bzero(&vis, sizeof(t_visualization));
 
-	vis.scale = 50;
-	vis.room_size = 0.3;
-	vis.line_size = 0.1;
+
 	li = NULL;
 	err = ft_creation(&li);
 	if (err == FT_OK)
 		err = ft_validation(0, li, ft_lstr_new_empty());
+	ft_search_scale(li, &vis);
 	vis.ants = ft_memalloc(sizeof(t_ant));
 	vis.ants->to = li->rooms->next;
 	vis.ants->from = li->rooms;
-	if (err == FT_OK) {
+	if (err == FT_OK)
+	{
 		SDL_Init(SDL_INIT_VIDEO | SDL_INIT_EVENTS);
 		vis.win = SDL_CreateWindow("ant", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 2560, 1440, SDL_WINDOW_FULLSCREEN_DESKTOP);
 		vis.ren = SDL_CreateRenderer(vis.win, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
@@ -171,7 +225,7 @@ int		main(void)
 			while (SDL_PollEvent(&vis.e))
 				ft_keyboard(&vis, &err);
 			ft_move(&vis);
-			SDL_SetRenderDrawColor(vis.ren, 0, 255, 0, 255);
+			SDL_SetRenderDrawColor(vis.ren, 0, 200, 200, 140);
 			SDL_RenderClear(vis.ren);
 			ft_draw_lines(vis.ren, li, &vis);
 			ft_draw_rooms(vis.ren, li, &vis);
@@ -183,4 +237,4 @@ int		main(void)
 		SDL_Quit();
 	}
 
-}
+} */

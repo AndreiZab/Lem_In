@@ -6,7 +6,7 @@
 /*   By: rhealitt <rhealitt@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/21 20:52:15 by rhealitt          #+#    #+#             */
-/*   Updated: 2019/06/27 15:41:50 by rhealitt         ###   ########.fr       */
+/*   Updated: 2019/07/01 10:28:29 by rhealitt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,10 +77,10 @@ int			main(void)
 	err = ft_creation(&li, &lstr);
 	if (err == FT_OK)
 		err = ft_validation(0, li, lstr);
-	if (err == FT_OK)
+	if (err < 1)
 		err = ft_solution(li);
 	ft_output(err, lstr);
-	if (err == FT_OK)
+	if (err < 1)
 	{
 		ft_lstr_insert_c(lstr, '\n', 1, lstr->length);
 		err = ft_migration(li, lstr);

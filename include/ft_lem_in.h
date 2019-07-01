@@ -6,7 +6,7 @@
 /*   By: larlyne <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/20 16:57:12 by larlyne           #+#    #+#             */
-/*   Updated: 2019/06/30 14:48:07 by rhealitt         ###   ########.fr       */
+/*   Updated: 2019/07/01 10:41:56 by rhealitt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@
 # define FT_DUP_COORDINATES 13
 # define FT_DUP_ROOM 14
 # define FT_NO_DATA 15
+# define FT_LINK_ERR -1
 # define FT_NO_FLAGS 0
 # define FT_START 1
 # define FT_END (1 << 1)

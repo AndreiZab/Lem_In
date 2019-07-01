@@ -81,7 +81,7 @@ static int	ft_parse_linkname(t_lemin *li, char *name1, char *name2)
 		ptr3 = ptr3->next;
 	}
 	if (!ptr1 || !ptr2 || ptr1 == ptr2 || ft_search_dup_link(ptr1, ptr2))
-		return (FT_DUP_NAME);
+		return (FT_LINK_ERR);
 	ft_link_set(ptr1, ptr2);
 	ft_link_set(ptr2, ptr1);
 	return (FT_OK);
