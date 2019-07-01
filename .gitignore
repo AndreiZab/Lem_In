@@ -2,6 +2,7 @@
 **.o
 **.a
 lem-in
+ant
 CMakeLists.txt
 cmake-build-debug
 .vscode
