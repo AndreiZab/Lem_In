@@ -1,3 +1,4 @@
+
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
@@ -54,19 +55,18 @@ void	ft_move_ants(SDL_Renderer *ren, t_lemin *li, t_visualization *vis)
 		}
 		if (ant->to != NULL)
 		{
-			ant->x += ant->step_x * vis->scale;
+			ant->x += ant->step_x * vis->scale; // можно складывать остатки
 			ant->y += ant->step_y * vis->scale;
 		}
 		filledCircleColor(ren, ant->x + vis->offset_x, ant->y + vis->offset_y, (int)(0.1 * vis->scale), 0xFFFFFFFF);
 		ant = ant->next;
 	}
 	step_num++;
-	if (step_num == 5)
+	if (step_num == 50)
 	{
 		ft_stop_ants(vis);
 		ft_read_step(li, vis);
 		step_num = 0;
-		
 	}
 }
 
@@ -95,6 +95,11 @@ void	ft_draw_rooms(SDL_Renderer *ren, t_lemin *li, t_visualization *vis)
 	room = li->rooms;
 	while (room)
 	{
+		if (room == li->start_room)
+			filledCircleColor(ren, room->x * vis->scale + vis->offset_x, room->y * vis->scale + vis->offset_y, (int)(vis->room_size * vis->scale), 0xFF2EAF02);
+		else if (room == li->end_room)
+			filledCircleColor(ren, room->x * vis->scale + vis->offset_x, room->y * vis->scale + vis->offset_y, (int)(vis->room_size * vis->scale), 0xFF2E1AAF);
+		else
 		filledCircleColor(ren, room->x * vis->scale + vis->offset_x, room->y * vis->scale + vis->offset_y, (int)(vis->room_size * vis->scale), 0xFF2E1A6B);
 		room = room->next;
 	}
@@ -167,9 +172,9 @@ int			ft_biggest_dif(int x_max, int x_min, int y_max, int y_min)
 {
 	int	size;
 	if (x_max - x_min > y_max - y_min)
-		size = x_max - x_min;
+		size = 2200 / (x_max - x_min);
 	else
-		size = y_max - y_min;
+		size = 1150 / (y_max - y_min);
 	return (size);
 
 }
@@ -189,13 +194,13 @@ int			ft_size_map(t_room *rooms)
 	y_min = ptr->y;
 	while (ptr)
 	{
-		if (ptr->x > x_max)
+		if (++ptr->x > x_max)
 			x_max = ptr->x;
 		if (ptr->x < x_min)
 			x_min = ptr->x;
-		if (ptr->y > y_max)
+		if (++ptr->y > y_max)
 			y_max = ptr->y;
-		if(ptr->y < y_min)
+		if (ptr->y++ < y_min)
 			y_min = ptr->y;
 		ptr = ptr->next;
 	}
@@ -204,10 +209,7 @@ int			ft_size_map(t_room *rooms)
 
 void		ft_search_scale(t_lemin *li, t_visualization *vis)
 {
-	int size;
-
-	size = ft_size_map(li->rooms);
-	vis->scale = 500 / size;
+	vis->scale = ft_size_map(li->rooms);
 	vis->room_size = 0.2;
 	vis->line_size = 0.1;
 }
@@ -225,10 +227,10 @@ int		main(void)
 	err = ft_creation(&li);
 	if (err == FT_OK)
 		err = ft_validation(0, li, ft_lstr_new_empty());
-	ft_search_scale(li, &vis);
-	ft_read_step(li, &vis);
 	if (err == FT_OK)
 	{
+		ft_search_scale(li, &vis);
+		ft_read_step(li, &vis);
 		SDL_Init(SDL_INIT_VIDEO | SDL_INIT_EVENTS);
 		vis.win = SDL_CreateWindow("ant", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 2560, 1440, SDL_WINDOW_FULLSCREEN_DESKTOP);
 		vis.ren = SDL_CreateRenderer(vis.win, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
@@ -248,5 +250,5 @@ int		main(void)
 		SDL_DestroyWindow(vis.win);
 		SDL_Quit();
 	}
-
+	return (0);
 }
