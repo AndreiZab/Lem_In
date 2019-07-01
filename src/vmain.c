@@ -56,7 +56,7 @@ void	ft_move_ants(SDL_Renderer *ren, t_lemin *li, t_visualization *vis)
 		if (ant->to != NULL)
 		{
 			ant->x += ant->step_x * vis->scale * 1000; // можно складывать остатки
-			ant->y += ant->step_y * vis->scale * 1000;
+			ant->y += ant->step_y * vis->scale * 1000; // где мы выделяем память для t_ant?
 		}
 		filledCircleColor(ren, ant->x/1000 + vis->offset_x, ant->y/1000 + vis->offset_y, (int)(0.1 * vis->scale), 0xFFFFFFFF);
 		ant = ant->next;
