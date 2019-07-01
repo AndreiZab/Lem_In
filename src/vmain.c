@@ -48,17 +48,17 @@ void	ft_move_ants(SDL_Renderer *ren, t_lemin *li, t_visualization *vis)
 	{
 		if (step_num == 0 && ant->to != NULL)
 		{
-			ant->x = ant->from->x * vis->scale;
-			ant->y = ant->from->y * vis->scale;
+			ant->x = ant->from->x * vis->scale * 1000;
+			ant->y = ant->from->y * vis->scale * 1000;
 			ant->step_x = (ant->to->x - ant->from->x) / 50.0;
 			ant->step_y = (ant->to->y - ant->from->y) / 50.0;
 		}
 		if (ant->to != NULL)
 		{
-			ant->x += ant->step_x * vis->scale; // можно складывать остатки
-			ant->y += ant->step_y * vis->scale;
+			ant->x += ant->step_x * vis->scale * 1000; // можно складывать остатки
+			ant->y += ant->step_y * vis->scale * 1000;
 		}
-		filledCircleColor(ren, ant->x + vis->offset_x, ant->y + vis->offset_y, (int)(0.1 * vis->scale), 0xFFFFFFFF);
+		filledCircleColor(ren, ant->x/1000 + vis->offset_x, ant->y/1000 + vis->offset_y, (int)(0.1 * vis->scale), 0xFFFFFFFF);
 		ant = ant->next;
 	}
 	step_num++;
