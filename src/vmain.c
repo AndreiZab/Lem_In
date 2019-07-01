@@ -209,9 +209,12 @@ int			ft_size_map(t_room *rooms)
 
 void		ft_search_scale(t_lemin *li, t_visualization *vis)
 {
-	vis->scale = ft_size_map(li->rooms);
-	vis->room_size = 0.2;
-	vis->line_size = 0.1;
+	int size;
+
+	size = ft_size_map(li->rooms);
+	vis->scale = size;
+	vis->room_size = 0.2 / size * 100;
+	vis->line_size = 0.1 / size * 100;
 }
 
 int		main(void)
