@@ -6,10 +6,10 @@
 /*   By: rhealitt <rhealitt@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/30 11:59:23 by rhealitt          #+#    #+#             */
-/*   Updated: 2019/07/01 10:28:58 by rhealitt         ###   ########.fr       */
+/*   Updated: 2019/07/01 11:31:58 by rhealitt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-/*
+
 #include "../include/ft_vis.h"
 
 static int	ft_creation(t_lemin **li)
@@ -66,7 +66,7 @@ void	ft_draw_lines(SDL_Renderer *ren, t_lemin *li, t_visualization *vis)
 		link = room->links;
 		while (link)
 		{
-			thickLineRGBA (ren, room->x * vis->scale + vis->offset_x, room->y * vis->scale + vis->offset_y, link->room->x * vis->scale + vis->offset_x, link->room->y * vis->scale + vis->offset_y, (int)(vis->line_size * vis->scale), 0, 0, 0, 255);
+			thickLineRGBA (ren, room->x * vis->scale + vis->offset_x, room->y * vis->scale + vis->offset_y, link->room->x * vis->scale + vis->offset_x, link->room->y * vis->scale + vis->offset_y, (int)(vis->line_size * vis->scale), 102, 102, 102, 255);
 			link = link->next;
 		}
 		room = room->next;
@@ -80,7 +80,7 @@ void	ft_draw_rooms(SDL_Renderer *ren, t_lemin *li, t_visualization *vis)
 	room = li->rooms;
 	while (room)
 	{
-		filledCircleColor(ren, room->x * vis->scale + vis->offset_x, room->y * vis->scale + vis->offset_y, (int)(vis->room_size * vis->scale), 0xFFFF0000);
+		filledCircleColor(ren, room->x * vis->scale + vis->offset_x, room->y * vis->scale + vis->offset_y, (int)(vis->room_size * vis->scale), 0xFF2E1A6B);
 		room = room->next;
 	}
 }
@@ -185,7 +185,6 @@ int			ft_size_map(t_room *rooms)
 		ptr = ptr->next;
 	}
 	return (ft_biggest_dif(x_max, x_min, y_max, y_min));
-
 }
 
 void		ft_search_scale(t_lemin *li, t_visualization *vis)
@@ -225,7 +224,7 @@ int		main(void)
 			while (SDL_PollEvent(&vis.e))
 				ft_keyboard(&vis, &err);
 			ft_move(&vis);
-			SDL_SetRenderDrawColor(vis.ren, 0, 200, 200, 140);
+			SDL_SetRenderDrawColor(vis.ren, 0, 0, 0, 0);
 			SDL_RenderClear(vis.ren);
 			ft_draw_lines(vis.ren, li, &vis);
 			ft_draw_rooms(vis.ren, li, &vis);
@@ -237,4 +236,4 @@ int		main(void)
 		SDL_Quit();
 	}
 
-} */
+}
