@@ -27,6 +27,17 @@ static int	ft_ant_state(t_lemin * li,
 	return (FT_ANT_NOT_SPAWNED);
 }
 
+int		ft_splited_free(char **splited, int state)
+{
+	int		i;
+
+	i = -1;
+	while (splited[++i])
+		free(splited[i]);
+	free(splited);
+	return (state);
+}
+
 int		ft_set_ant_movement(t_lemin *li, t_visualization *vis, char *str_move)
 {
 	char	**splited;
@@ -39,14 +50,14 @@ int		ft_set_ant_movement(t_lemin *li, t_visualization *vis, char *str_move)
 		return (FT_NOT_A_STEP);
 	splited = ft_strsplit(str_move + 1, '-');
 	if (splited[2] != NULL || !ft_isint(splited[0]))
-		return (FT_NOT_A_STEP);
+		return (ft_splited_free(splited, FT_NOT_A_STEP));
 	ant_number = ft_atoi(splited[0]);
 	if ((room = ft_room_by_name(li->rooms, splited[1])) == NULL)
-		return (FT_NOT_A_STEP);
+		return (ft_splited_free(splited, FT_NOT_A_STEP));
 	ant = NULL;
 	ant_state = ft_ant_state(li, vis, ant_number, &ant);
 	ant->to = room;
-	return (FT_OK);
+	return (ft_splited_free(splited, FT_OK));
 }
 
 void	ft_read_step(t_lemin *li, t_visualization *vis)
@@ -62,5 +73,7 @@ void	ft_read_step(t_lemin *li, t_visualization *vis)
 		i = 0;
 		while (splited[i] != NULL)
 			ft_set_ant_movement(li, vis, splited[i++]);
+		free(line);
+		ft_splited_free(splited, 0);
 	}
 }
