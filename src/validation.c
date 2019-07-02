@@ -12,7 +12,7 @@
 
 #include "../include/ft_lem_in.h"
 
-int		ft_found_flag(t_lemin *li, t_room *room, char flag)
+int			ft_found_flag(t_lemin *li, t_room *room, char flag)
 {
 	if (flag == FT_START)
 	{
@@ -31,7 +31,7 @@ int		ft_found_flag(t_lemin *li, t_room *room, char flag)
 	return (FT_OK);
 }
 
-void	ft_coordinate_room(t_room *room, char *line, int i)
+void		ft_coordinate_room(t_room *room, char *line, int i)
 {
 	int space;
 
@@ -48,7 +48,7 @@ void	ft_coordinate_room(t_room *room, char *line, int i)
 	}
 }
 
-int		ft_create_room(char *line, t_lemin *li, char *flag)
+int			ft_create_room(char *line, t_lemin *li, char *flag)
 {
 	t_room	*room;
 	int		err;
@@ -67,7 +67,7 @@ int		ft_create_room(char *line, t_lemin *li, char *flag)
 	return (err);
 }
 
-int		ft_parse_ants(int fd, t_lemin *li, t_lstr *lstr)
+static int	ft_parse_ants(int fd, t_lemin *li, t_lstr *lstr)
 {
 	char	*line;
 	int		i;
@@ -96,7 +96,7 @@ int		ft_parse_ants(int fd, t_lemin *li, t_lstr *lstr)
 	return (err);
 }
 
-int		ft_validation(int fd, t_lemin *li, t_lstr *lstr)
+int			ft_validation(int fd, t_lemin *li, t_lstr *lstr)
 {
 	int err;
 

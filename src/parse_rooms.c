@@ -6,14 +6,14 @@
 /*   By: rhealitt <rhealitt@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/21 17:59:40 by rhealitt          #+#    #+#             */
-/*   Updated: 2019/07/02 17:47:59 by rhealitt         ###   ########.fr       */
+/*   Updated: 2019/07/02 17:57:02 by rhealitt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/ft_lem_in.h"
 #define FT_LINK 99
 
-int		ft_room_atoi(const char *str)
+static int	ft_room_atoi(const char *str)
 {
 	int		i;
 	long	numb;
@@ -39,7 +39,7 @@ int		ft_room_atoi(const char *str)
 	return ((int)numb * s);
 }
 
-int		ft_err_manager(char *line, int *i, int *space)
+static int	ft_err_manager(char *line, int *i, int *space)
 {
 	if ((line[*i] > 57 || line[*i] < 48) && line[*i] != 45)
 		return (FT_WRONG_FORMAT);
@@ -49,7 +49,7 @@ int		ft_err_manager(char *line, int *i, int *space)
 	return (FT_OK);
 }
 
-int		ft_check_room(char *line, char flag)
+static int	ft_check_room(char *line, char flag)
 {
 	int i;
 	int space;
@@ -78,7 +78,7 @@ int		ft_check_room(char *line, char flag)
 	return (FT_OK);
 }
 
-int		ft_hash(char *line, char *flag, int *err)
+static int	ft_hash(char *line, char *flag, int *err)
 {
 	if (*err == FT_NO_DATA)
 		*err = FT_OK;
@@ -101,7 +101,7 @@ int		ft_hash(char *line, char *flag, int *err)
 	return (0);
 }
 
-int		ft_parse_rooms(int fd, t_lemin *li, t_lstr *lstr, int err)
+int			ft_parse_rooms(int fd, t_lemin *li, t_lstr *lstr, int err)
 {
 	char *line;
 	char flag;
