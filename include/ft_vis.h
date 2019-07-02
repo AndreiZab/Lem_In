@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_vis.h                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: rhealitt <rhealitt@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2019/07/02 12:57:25 by rhealitt          #+#    #+#             */
+/*   Updated: 2019/07/02 12:57:25 by rhealitt         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef FT_VIS_H
 # define FT_VIS_H
 # define FT_DIR_LEFT (1)
@@ -12,32 +24,41 @@
 # include <SDL2_gfxPrimitives.h>
 # include <SDL_ttf.h>
 
-typedef struct	s_visualization
+typedef struct		s_visualization
 {
-	int		scale;
-	double 	room_size;
-	double 	line_size;
-	int		offset_x;
-	int		offset_y;
-	char 	move_keys;
-	SDL_Event	e;
-	SDL_Window	*win;
+	int				scale;
+	double			room_size;
+	double			line_size;
+	int				offset_x;
+	int				offset_y;
+	char			move_keys;
+	SDL_Event		e;
+	SDL_Window		*win;
 	SDL_Renderer	*ren;
-	struct s_ant *ants;
-}				t_visualization;
+	struct s_ant	*ants;
+}					t_visualization;
 
-typedef struct	s_ant
+typedef struct		s_ant
 {
-	int		number;
-	t_room	*from;
-	t_room	*to;
-	double	step_x;
-	double	step_y;
-	int		x;
-	int		y;
-	struct	s_ant *next;
-}				t_ant;
+	int				number;
+	t_room			*from;
+	t_room			*to;
+	double			step_x;
+	double			step_y;
+	int				x;
+	int				y;
+	struct s_ant	*next;
+}					t_ant;
 
-void	ft_read_step(t_lemin *li, t_visualization *vis);
+void				ft_read_step(t_lemin *li, t_visualization *vis);
+void				ft_draw_lines(SDL_Renderer *ren, t_lemin *li,
+		t_visualization *vis);
+void				ft_draw_rooms(SDL_Renderer *ren, t_lemin *li,
+		t_visualization *vis);
+void				ft_move_ants(SDL_Renderer *ren, t_lemin *li,
+		t_visualization *vis);
+void				ft_search_scale(t_lemin *li, t_visualization *vis);
+void				ft_main_draw(t_lemin *li, t_visualization vis, int err);
+void				ft_keyboard(t_visualization *vis, int *err);
 
 #endif

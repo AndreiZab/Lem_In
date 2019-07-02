@@ -6,7 +6,7 @@
 #    By: sbrochar <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/05/15 17:13:45 by sbrochar          #+#    #+#              #
-#    Updated: 2019/06/30 12:35:32 by rhealitt         ###   ########.fr        #
+#    Updated: 2019/07/02 12:49:20 by rhealitt         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -30,7 +30,9 @@ SRC = vmain.c \
 	validation.c \
 	parse_rooms.c \
 	parse_lins.c \
-	step_reader.c
+	step_reader.c \
+	draw.c \
+	visualization_tools.c
 
 OBJ = $(patsubst %.c,$(OBJ_DIR)/%.o,$(SRC))
 
