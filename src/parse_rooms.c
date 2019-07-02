@@ -6,7 +6,7 @@
 /*   By: rhealitt <rhealitt@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/21 17:59:40 by rhealitt          #+#    #+#             */
-/*   Updated: 2019/07/02 17:46:42 by rhealitt         ###   ########.fr       */
+/*   Updated: 2019/07/02 17:47:59 by rhealitt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -124,7 +124,5 @@ int		ft_parse_rooms(int fd, t_lemin *li, t_lstr *lstr, int err)
 		if (err == FT_OK)
 			err = ft_scan_li(li);
 	}
-	if (flag)
-		err = FT_ONE_MORE_END;
 	return (err);
 }
