@@ -6,7 +6,7 @@
 /*   By: rhealitt <rhealitt@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/02 14:57:05 by rhealitt          #+#    #+#             */
-/*   Updated: 2019/07/02 17:14:24 by rhealitt         ###   ########.fr       */
+/*   Updated: 2019/07/02 19:18:51 by rhealitt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,8 @@ void	ft_text_init(t_lemin *li, t_visualization *vis)
 	vis->rect.x = 15;
 	vis->rect.y = 15;
 	vis->rect.w = 200 + ft_strlen(vis->str_ants) * 40;
-	vis->rect.h = 100;
-	vis->font = TTF_OpenFont("/Library/Fonts/Courier New.ttf", 256);
+	vis->rect.h = 50;
+	vis->font = TTF_OpenFont("/include/arnamu_mono.ttf", 256);
 	vis->color.a = 255;
 	vis->color.b = 255;
 	vis->color.g = 255;
