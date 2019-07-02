@@ -36,6 +36,12 @@ typedef struct		s_visualization
 	SDL_Window		*win;
 	SDL_Renderer	*ren;
 	struct s_ant	*ants;
+	TTF_Font	*font;
+	SDL_Texture	*texture;
+	SDL_Surface	*surf;
+	SDL_Rect	rect;
+	SDL_Color	color;
+	char		*str_ants;
 }					t_visualization;
 
 typedef struct		s_ant
