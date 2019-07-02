@@ -1,10 +1,21 @@
-#include "ft_vis.h"
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   text.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: rhealitt <rhealitt@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2019/07/02 14:57:05 by rhealitt          #+#    #+#             */
+/*   Updated: 2019/07/02 17:14:24 by rhealitt         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "../include/ft_vis.h"
 
 void	ft_text_init(t_lemin *li, t_visualization *vis)
 {
 	TTF_Init();
 	vis->str_ants = ft_itoa(li->ants);
-
 	vis->rect.x = 15;
 	vis->rect.y = 15;
 	vis->rect.w = 200 + ft_strlen(vis->str_ants) * 40;
@@ -16,12 +27,40 @@ void	ft_text_init(t_lemin *li, t_visualization *vis)
 	vis->color.r = 255;
 }
 
-void	ft_text_show(t_lemin	*li, t_visualization *vis)
+void	ft_free(t_lemin **li)
+{
+	t_path		*path;
+	t_path		*path_next;
+	t_collision	*collision;
+
+	if (li && *li)
+	{
+		path = (*li)->paths;
+		while (path)
+		{
+			path_next = path->next;
+			free(path);
+			path = path_next;
+		}
+		collision = (*li)->collisions;
+		while (collision->prev)
+		{
+			collision = collision->prev;
+			free(collision->next);
+		}
+		free(collision);
+		ft_room_full_free(&(*li)->rooms);
+		free(*li);
+		*li = NULL;
+	}
+}
+
+void	ft_text_show(t_lemin *li, t_visualization *vis)
 {
 	SDL_Surface	*surf;
 	SDL_Texture	*texture;
-	t_lstr	*lstr;
-	char	*num;
+	t_lstr		*lstr;
+	char		*num;
 
 	lstr = ft_lstr_new_copy("Ants: ");
 	num = ft_itoa(li->ants_came);

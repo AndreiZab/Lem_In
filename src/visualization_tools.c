@@ -6,7 +6,7 @@
 /*   By: rhealitt <rhealitt@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/02 12:50:17 by rhealitt          #+#    #+#             */
-/*   Updated: 2019/07/02 12:50:17 by rhealitt         ###   ########.fr       */
+/*   Updated: 2019/07/02 14:51:24 by rhealitt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,64 +15,73 @@
 static void	ft_move(t_visualization *vis)
 {
 	if (vis->move_keys & FT_DIR_UP)
-		vis->offset_y -= 5;
-	if (vis->move_keys & FT_DIR_DOWN)
 		vis->offset_y += 5;
+	if (vis->move_keys & FT_DIR_DOWN)
+		vis->offset_y -= 5;
 	if (vis->move_keys & FT_DIR_RIGHT)
-		vis->offset_x += 5;
-	if (vis->move_keys & FT_DIR_LEFT)
 		vis->offset_x -= 5;
+	if (vis->move_keys & FT_DIR_LEFT)
+		vis->offset_x += 5;
 }
 
-static int	ft_biggest_dif(int x_max, int x_min, int y_max, int y_min)
+static void	ft_size_map(int *coor, t_visualization *vis)
 {
-	int size;
-
-	if (x_max - x_min > y_max - y_min)
-		size = 2200 / (x_max - x_min);
+	if (coor[0] - coor[1] > coor[2] - coor[3])
+		vis->scale = 2200 / (coor[0] - coor[1]);
 	else
-		size = 1150 / (y_max - y_min);
-	return (size);
-}
-
-static int	ft_size_map(t_room *rooms)
-{
-	t_room	*ptr;
-	int		y_max;
-	int		x_min;
-	int		x_max;
-	int		y_min;
-
-	ptr = rooms;
-	y_max = ptr->y;
-	x_min = ptr->x;
-	x_max = ptr->x;
-	y_min = ptr->y;
-	while (ptr)
-	{
-		if (++ptr->x > x_max)
-			x_max = ptr->x;
-		if (ptr->x < x_min)
-			x_min = ptr->x;
-		if (++ptr->y > y_max)
-			y_max = ptr->y;
-		if (ptr->y++ < y_min)
-			y_min = ptr->y;
-		ptr = ptr->next;
-	}
-	return (ft_biggest_dif(x_max, x_min, y_max, y_min));
-}
-
-void		ft_search_scale(t_lemin *li, t_visualization *vis)
-{
-	vis->scale = ft_size_map(li->rooms);
+		vis->scale = 1150 / (coor[2] - coor[3]);
 	vis->room_size = 0.2 / vis->scale * 100;
 	vis->line_size = 0.1 / vis->scale * 100;
+}
+
+/*
+**	coor[0] x_max
+**	coor[1] x_min
+**	coor[2] y_max
+**	coor[3] y_min
+*/
+
+static int	*ft_search_scale(t_lemin *li, t_visualization *vis)
+{
+	t_room	*ptr;
+	int		*coor;
+
+	coor = (int*)ft_memalloc(sizeof(int) * 4);
+	ptr = li->rooms;
+	coor[0] = ptr->y;
+	coor[1] = ptr->x;
+	coor[2] = ptr->x;
+	coor[3] = ptr->y;
+	while (ptr)
+	{
+		if (++ptr->x > coor[0])
+			coor[0] = ptr->x;
+		if (ptr->x < coor[1])
+			coor[1] = ptr->x;
+		if (ptr->y > coor[2])
+			coor[2] = ptr->y;
+		if (ptr->y < coor[3])
+			coor[3] = ptr->y;
+		ptr = ptr->next;
+	}
+	ft_size_map(coor, vis);
+	return (coor);
+}
+
+static void	ft_centering(t_lemin *li, t_visualization *vis)
+{
+	int *coor_ptr;
+
+	coor_ptr = ft_search_scale(li, vis);
+	vis->offset_x = -coor_ptr[1] * vis->scale + (vis->scale / 1.22);
+	vis->offset_y = -coor_ptr[3] * vis->scale + (vis->scale / 2.57);
+	free(coor_ptr);
 }
 
 void		ft_main_draw(t_lemin *li, t_visualization *vis, int err)
 {
 	ft_text_init(li, vis);
+	ft_centering(li, vis);
 	while (err < 1)
 	{
 		while (SDL_PollEvent(&(vis->e)))

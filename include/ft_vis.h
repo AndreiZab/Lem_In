@@ -6,7 +6,7 @@
 /*   By: rhealitt <rhealitt@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/02 12:57:25 by rhealitt          #+#    #+#             */
-/*   Updated: 2019/07/02 12:57:25 by rhealitt         ###   ########.fr       */
+/*   Updated: 2019/07/02 17:23:25 by rhealitt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,12 +36,12 @@ typedef struct		s_visualization
 	SDL_Window		*win;
 	SDL_Renderer	*ren;
 	struct s_ant	*ants;
-	TTF_Font	*font;
-	SDL_Texture	*texture;
-	SDL_Surface	*surf;
-	SDL_Rect	rect;
-	SDL_Color	color;
-	char		*str_ants;
+	TTF_Font		*font;
+	SDL_Texture		*texture;
+	SDL_Surface		*surf;
+	SDL_Rect		rect;
+	SDL_Color		color;
+	char			*str_ants;
 }					t_visualization;
 
 typedef struct		s_ant
@@ -63,9 +63,9 @@ void				ft_draw_rooms(SDL_Renderer *ren, t_lemin *li,
 		t_visualization *vis);
 void				ft_move_ants(SDL_Renderer *ren, t_lemin *li,
 		t_visualization *vis);
-void				ft_search_scale(t_lemin *li, t_visualization *vis);
 void				ft_main_draw(t_lemin *li, t_visualization *vis, int err);
 void				ft_keyboard(t_visualization *vis, int *err);
+void				ft_free(t_lemin **li);
 void				ft_text_init(t_lemin *li, t_visualization *vis);
 void				ft_text_show(t_lemin	*li, t_visualization *vis);
 

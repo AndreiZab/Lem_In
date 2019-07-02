@@ -1,7 +1,19 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   step_reader.c                                      :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: rhealitt <rhealitt@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2019/07/02 17:20:00 by rhealitt          #+#    #+#             */
+/*   Updated: 2019/07/02 17:21:15 by rhealitt         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../include/ft_vis.h"
 
-static int	ft_ant_state(t_lemin * li, 
-				t_visualization *vis, int ant_n, t_ant **finded)
+static int	ft_ant_state(t_lemin *li, t_visualization *vis,
+		int ant_n, t_ant **finded)
 {
 	t_ant	*ant;
 	t_ant	*prev;
@@ -27,7 +39,7 @@ static int	ft_ant_state(t_lemin * li,
 	return (FT_ANT_NOT_SPAWNED);
 }
 
-int		ft_splited_free(char **splited, int state)
+int			ft_splited_free(char **splited, int state)
 {
 	int		i;
 
@@ -38,7 +50,8 @@ int		ft_splited_free(char **splited, int state)
 	return (state);
 }
 
-int		ft_set_ant_movement(t_lemin *li, t_visualization *vis, char *str_move)
+int			ft_set_ant_movement(t_lemin *li,
+		t_visualization *vis, char *str_move)
 {
 	char	**splited;
 	int		ant_number;
@@ -60,7 +73,7 @@ int		ft_set_ant_movement(t_lemin *li, t_visualization *vis, char *str_move)
 	return (ft_splited_free(splited, FT_OK));
 }
 
-void	ft_read_step(t_lemin *li, t_visualization *vis)
+void		ft_read_step(t_lemin *li, t_visualization *vis)
 {
 	char	*line;
 	char	**splited;

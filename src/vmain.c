@@ -6,7 +6,7 @@
 /*   By: rhealitt <rhealitt@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/30 11:59:23 by rhealitt          #+#    #+#             */
-/*   Updated: 2019/07/02 12:53:44 by rhealitt         ###   ########.fr       */
+/*   Updated: 2019/07/02 17:14:32 by rhealitt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,7 +99,6 @@ int			main(void)
 		err = ft_validation(0, li, ft_lstr_new_empty());
 	if (err < 1)
 	{
-		ft_search_scale(li, &vis);
 		ft_read_step(li, &vis);
 		SDL_Init(SDL_INIT_VIDEO | SDL_INIT_EVENTS);
 		vis.win = SDL_CreateWindow("ant_window", SDL_WINDOWPOS_CENTERED,
@@ -112,5 +111,6 @@ int			main(void)
 		SDL_DestroyWindow(vis.win);
 		SDL_Quit();
 	}
-	return (0);
+	ft_free(&li);
+	exit(0);
 }

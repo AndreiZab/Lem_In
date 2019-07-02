@@ -128,7 +128,7 @@ int				ft_split_link(char *line, char **name1, char **name2);
 ** parse_rooms.c
 */
 
-int 			ft_parse_rooms(int fd, t_lemin *li, t_lstr *lstr, int err);
+int				ft_parse_rooms(int fd, t_lemin *li, t_lstr *lstr, int err);
 int				ft_found_flag(t_lemin *li, t_room *room, char flag);
 int				ft_validation(int fd, t_lemin *li, t_lstr *lstr);
 void			ft_string_insert(t_lstr *lstr, char *str, int index);
