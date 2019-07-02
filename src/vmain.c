@@ -55,10 +55,10 @@ void	ft_move_ants(SDL_Renderer *ren, t_lemin *li, t_visualization *vis)
 		}
 		if (ant->to != NULL)
 		{
-			ant->x += ant->step_x * vis->scale * 1000; // можно складывать остатки
-			ant->y += ant->step_y * vis->scale * 1000; // где мы выделяем память для t_ant?
+			ant->x += ant->step_x * vis->scale * 1000;
+			ant->y += ant->step_y * vis->scale * 1000;
 		}
-		filledCircleColor(ren, ant->x/1000 + vis->offset_x, ant->y/1000 + vis->offset_y, (int)(0.1 * vis->scale), 0xFFFFFFFF);
+		filledCircleColor(ren, ant->x/1000 + vis->offset_x, ant->y/1000 + vis->offset_y, (int)(0.09 / vis->scale * 100 * vis->scale), 0xFFFFFFFF);
 		ant = ant->next;
 	}
 	step_num++;
@@ -209,17 +209,15 @@ int			ft_size_map(t_room *rooms)
 
 void		ft_search_scale(t_lemin *li, t_visualization *vis)
 {
-	int size;
-
-	size = ft_size_map(li->rooms);
-	vis->scale = size;
-	vis->room_size = 0.2 / size * 100;
-	vis->line_size = 0.1 / size * 100;
+	vis->scale = ft_size_map(li->rooms);
+	vis->room_size = 0.2 / vis->scale * 100;
+	vis->line_size = 0.1 / vis->scale * 100;
 }
 
 int		main(void)
 {
 	t_visualization vis;
+
 	int		err;
 	t_lemin	*li;
 

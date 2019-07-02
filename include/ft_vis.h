@@ -10,8 +10,7 @@
 # include "ft_lem_in.h"
 # include <SDL.h>
 # include <SDL2_gfxPrimitives.h>
-
-
+# include <SDL_ttf.h>
 
 typedef struct	s_visualization
 {
@@ -36,7 +35,7 @@ typedef struct	s_ant
 	double	step_y;
 	int		x;
 	int		y;
-	struct s_ant *next;
+	struct	s_ant *next;
 }				t_ant;
 
 void	ft_read_step(t_lemin *li, t_visualization *vis);
