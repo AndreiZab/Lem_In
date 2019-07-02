@@ -6,7 +6,7 @@
 /*   By: rhealitt <rhealitt@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/21 12:46:04 by rhealitt          #+#    #+#             */
-/*   Updated: 2019/06/27 20:50:20 by rhealitt         ###   ########.fr       */
+/*   Updated: 2019/07/02 20:32:01 by rhealitt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,29 +71,29 @@ static int	ft_parse_ants(int fd, t_lemin *li, t_lstr *lstr)
 {
 	char	*line;
 	int		i;
-	int		err;
 
-	err = FT_OK;
+	line = NULL;
 	get_next_line(fd, &line);
+	if (!line)
+		return (FT_NO_DATA);
 	ft_string_insert(lstr, line, lstr->length);
 	if (line[0] == '#' && line[1] != '#')
 		return (ft_parse_ants(fd, li, lstr));
-	i = 0;
-	while (line[i] != '\0')
+	i = -1;
+	while (line[++i] != '\0')
 	{
 		if (line[i] == '-')
-			err = FT_NO_ANTS;
+			return (FT_NO_ANTS);
 		if (i == 0 && line[i] == '+')
 			i++;
 		if (line[i] > 57 || line[i] < 48)
-			err = FT_WRONG_FORMAT;
-		i++;
+			return (FT_WRONG_FORMAT);
 	}
 	li->ants = (ft_isint(line)) ? ft_atoi(line) : 0;
 	if (li->ants <= 0 || li->ants > 2147483647)
-		err = FT_NO_ANTS;
+		return (FT_NO_ANTS);
 	free(line);
-	return (err);
+	return (FT_OK);
 }
 
 int			ft_validation(int fd, t_lemin *li, t_lstr *lstr)

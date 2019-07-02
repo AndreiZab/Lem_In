@@ -6,7 +6,7 @@
 /*   By: rhealitt <rhealitt@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/02 17:20:00 by rhealitt          #+#    #+#             */
-/*   Updated: 2019/07/02 17:21:15 by rhealitt         ###   ########.fr       */
+/*   Updated: 2019/07/02 20:36:48 by rhealitt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,6 +82,8 @@ void		ft_read_step(t_lemin *li, t_visualization *vis)
 	line = NULL;
 	if (get_next_line(0, &line) > 0)
 	{
+		if (!line)
+			return ;
 		splited = ft_strsplit(line, ' ');
 		i = 0;
 		while (splited[i] != NULL)

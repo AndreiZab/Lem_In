@@ -6,7 +6,7 @@
 /*   By: rhealitt <rhealitt@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/21 20:30:22 by rhealitt          #+#    #+#             */
-/*   Updated: 2019/07/02 18:02:18 by rhealitt         ###   ########.fr       */
+/*   Updated: 2019/07/02 18:04:14 by rhealitt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,8 @@ void		ft_string_insert(t_lstr *lstr, char *str, int index)
 
 int			ft_free_line(char *line)
 {
-	free(line);
+	if (line)
+		free(line);
 	return (1);
 }
 
