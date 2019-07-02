@@ -107,7 +107,7 @@ int			main(void)
 				SDL_WINDOW_FULLSCREEN_DESKTOP);
 		vis.ren = SDL_CreateRenderer(vis.win, -1, SDL_RENDERER_ACCELERATED
 		| SDL_RENDERER_PRESENTVSYNC);
-		ft_main_draw(li, vis, err);
+		ft_main_draw(li, &vis, err);
 		SDL_DestroyRenderer(vis.ren);
 		SDL_DestroyWindow(vis.win);
 		SDL_Quit();

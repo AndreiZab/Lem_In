@@ -56,7 +56,7 @@ void		ft_draw_rooms(SDL_Renderer *ren, t_lemin *li, t_visualization *vis)
 	}
 }
 
-static void	ft_stop_ants(t_visualization *vis)
+static void	ft_stop_ants(t_lemin *li, t_visualization *vis)
 {
 	t_ant	*ant;
 
@@ -65,6 +65,8 @@ static void	ft_stop_ants(t_visualization *vis)
 	{
 		if (ant->to)
 		{
+			if (ant->to == li->end_room)
+				++li->ants_came;
 			ant->from = ant->to;
 			ant->to = NULL;
 		}
@@ -102,7 +104,7 @@ void		ft_move_ants(SDL_Renderer *ren, t_lemin *li, t_visualization *vis)
 	step_num++;
 	if (step_num == 50)
 	{
-		ft_stop_ants(vis);
+		ft_stop_ants(li, vis);
 		ft_read_step(li, vis);
 		step_num = 0;
 	}

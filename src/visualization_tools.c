@@ -70,18 +70,23 @@ void		ft_search_scale(t_lemin *li, t_visualization *vis)
 	vis->line_size = 0.1 / vis->scale * 100;
 }
 
-void		ft_main_draw(t_lemin *li, t_visualization vis, int err)
+void		ft_main_draw(t_lemin *li, t_visualization *vis, int err)
 {
+	ft_text_init(li, vis);
 	while (err < 1)
 	{
-		while (SDL_PollEvent(&vis.e))
-			ft_keyboard(&vis, &err);
-		ft_move(&vis);
-		SDL_SetRenderDrawColor(vis.ren, 0, 0, 0, 0);
-		SDL_RenderClear(vis.ren);
-		ft_draw_lines(vis.ren, li, &vis);
-		ft_draw_rooms(vis.ren, li, &vis);
-		ft_move_ants(vis.ren, li, &vis);
-		SDL_RenderPresent(vis.ren);
+		while (SDL_PollEvent(&(vis->e)))
+			ft_keyboard(vis, &err);
+		ft_move(vis);
+		SDL_SetRenderDrawColor(vis->ren, 0, 0, 0, 0);
+		SDL_RenderClear(vis->ren);
+		ft_draw_lines(vis->ren, li, vis);
+		ft_draw_rooms(vis->ren, li, vis);
+		ft_move_ants(vis->ren, li, vis);
+		ft_text_show(li, vis);
+		SDL_RenderPresent(vis->ren);
 	}
+	free(vis->str_ants);
+	TTF_CloseFont(vis->font);
+	TTF_Quit();
 }

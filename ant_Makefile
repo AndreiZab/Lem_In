@@ -32,7 +32,8 @@ SRC = vmain.c \
 	parse_lins.c \
 	step_reader.c \
 	draw.c \
-	visualization_tools.c
+	visualization_tools.c \
+	text.c
 
 OBJ = $(patsubst %.c,$(OBJ_DIR)/%.o,$(SRC))
 
