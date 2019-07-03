@@ -63,7 +63,7 @@ static void		ft_move_on_path(t_lemin *li, t_lstr *lstr, t_path *path,
 		while ((room = room->path_prev) != NULL && room != li->start_room)
 			if (room->ant != 0)
 				ft_add_move(lstr, room, room->path_next, 0);
-	if (path->order != 0)
+	if (path->order != 0 && *ant_i <= (size_t)li->ants)
 	{
 		ft_add_move(lstr, li->start_room, path->start, *ant_i);
 		++(*ant_i);
