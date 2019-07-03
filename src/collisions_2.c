@@ -30,11 +30,11 @@ int			ft_path_cost(t_lemin *li, int depth)
 	path = li->paths;
 	while (path)
 	{
-		ret -= mean_length - path->length + (mod > 0 ? mod : 0);
+		ret -= mean_length - path->length + (mod > 0);
 		--mod;
 		path = path->next;
 	}
-	return (ret > 0 ? ret : 0);
+	return (ret > 0);
 }
 
 static void	ft_try_recollision(t_lemin *li, t_room *current, int depth)
@@ -43,17 +43,20 @@ static void	ft_try_recollision(t_lemin *li, t_room *current, int depth)
 	t_room	*linked;
 
 	link = current->links;
+	
 	while (link)
 	{
 		linked = link->room;
 		if (linked->lock == 0 && linked != li->start_room)
 		{
+			
 			linked->lock = li->collisions_i;
 			if (linked->weight > depth || linked->weight == 0)
 			{
 				linked->weight = depth;
 				linked->weight_difference = current->weight_difference;
 				linked->path_prev = current;
+				
 			}
 		}
 		link = link->next;
@@ -84,10 +87,12 @@ void		ft_collision(t_lemin *li, t_room *room, t_room *coll_room,
 	next_depth = depth + 1;
 	current = coll_room->path_prev;
 	++li->collisions_i;
-	while (current->path_prev && !current->path_prev->closed)
+	
+	while (current->path_prev && !current->path_next->closed)
 	{
 		current->lock = li->collisions_i;
 		current->weight_difference = next_depth - depth - 2;
+		
 		ft_try_recollision(li, current, next_depth);
 		--next_depth;
 		current = current->path_prev;

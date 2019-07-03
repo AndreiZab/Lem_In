@@ -35,6 +35,7 @@ void		ft_lock_paths(t_lemin *li)
 {
 	t_path	*path;
 
+	li->paths_count = 0;
 	li->mean_length = li->ants;
 	path = li->paths;
 	while (path)

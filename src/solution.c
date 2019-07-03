@@ -39,7 +39,7 @@ static int		ft_set_weights(t_lemin *li, t_room *current)
 			return (1);
 		ft_set_path_link(li, current, linked);
 		if (current != li->start_room && linked->lock == 1 &&
-			(!linked->closed && linked->lock != 1))
+			(!linked->closed && current->lock != 1))
 		{
 			ft_collision(li, current, linked, current->weight);
 			return (0);
@@ -53,11 +53,10 @@ static t_room	*ft_step(t_lemin *li, int depth)
 {
 	t_room	*current;
 
-	--depth;
 	current = li->rooms;
 	while (current)
 	{
-		if (current->weight == depth && current->lock != 1 &&
+		if (current->weight == depth - 1 && current->lock != 1 &&
 			(current->weight || current == li->start_room))
 		{
 			if (ft_set_weights(li, current))
@@ -83,7 +82,6 @@ static int		ft_find_shortest(t_lemin *li)
 			{
 				if (room_holder == NULL)
 					room_holder = temp;
-				//WARNING
 				path = ft_path_new(&li->paths);
 				path->end = temp;
 				path->end->path_next = li->end_room;
@@ -109,7 +107,6 @@ int				ft_solution(t_lemin *li)
 		++i;
 	}
 	ft_collision_clear(li);
-	//WARNING
 	ft_lock_paths(li);
 	if (i)
 		return (FT_OK);

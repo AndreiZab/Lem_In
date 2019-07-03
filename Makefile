@@ -41,7 +41,7 @@ $(OBJ_DIR)%.o : ./src/%.c $(HEAD)
 	@printf "Compiling... %-21s => %-21s\r" $^ $@
 
 $(LIBFT):
-	$(MAKE) -sC $(LIBFT_DIR)
+	@$(MAKE) -sC $(LIBFT_DIR)
 
 clean:
 	@$(MAKE) -sC $(LIBFT_DIR) clean

@@ -29,6 +29,7 @@ static void	ft_calculate_paths(t_lemin *li)
 	unsigned int	length;
 
 	path = li->paths;
+	li->mean_length = li->ants;
 	while (path)
 	{
 		room = path->end;
