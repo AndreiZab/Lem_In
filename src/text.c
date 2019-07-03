@@ -6,7 +6,7 @@
 /*   By: rhealitt <rhealitt@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/02 14:57:05 by rhealitt          #+#    #+#             */
-/*   Updated: 2019/07/02 20:23:00 by rhealitt         ###   ########.fr       */
+/*   Updated: 2019/07/03 13:05:13 by rhealitt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ void	ft_text_init(t_lemin *li, t_visualization *vis)
 	vis->color.r = 255;
 }
 
-void	ft_free(t_lemin **li, t_lstr **lstr)
+int		ft_free(t_lemin **li, t_lstr **lstr)
 {
 	t_path		*path;
 	t_path		*path_next;
@@ -51,9 +51,9 @@ void	ft_free(t_lemin **li, t_lstr **lstr)
 		free(collision);
 		ft_room_full_free(&(*li)->rooms);
 		free(*li);
-		*li = NULL;
 	}
 	lstr ? ft_lstr_destroy(lstr) : NULL;
+	return (0);
 }
 
 void	ft_text_show(t_lemin *li, t_visualization *vis)

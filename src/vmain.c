@@ -6,7 +6,7 @@
 /*   By: rhealitt <rhealitt@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/30 11:59:23 by rhealitt          #+#    #+#             */
-/*   Updated: 2019/07/02 17:14:32 by rhealitt         ###   ########.fr       */
+/*   Updated: 2019/07/03 13:02:31 by rhealitt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,9 +96,8 @@ int			main(void)
 	lstr = ft_lstr_new_empty();
 	ft_bzero(&vis, sizeof(t_visualization));
 	li = NULL;
-	err = ft_creation(&li);
-	if (err == FT_OK)
-		err = ft_validation(0, li, lstr);
+	ft_creation(&li);
+	err = ft_validation(0, li, lstr);
 	if (err < 1)
 	{
 		ft_read_step(li, &vis);
@@ -113,6 +112,5 @@ int			main(void)
 		SDL_DestroyWindow(vis.win);
 		SDL_Quit();
 	}
-	ft_free(&li, &lstr);
-	exit(0);
+	exit(ft_free(&li, &lstr));
 }
