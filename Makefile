@@ -31,12 +31,14 @@ all: $(NAME)
 
 $(NAME): $(LIBFT) $(OBJ_DIR) $(OBJ)
 	@$(CC) $(INCLUDES) $(OBJ) -o $(NAME) $(LIBRARIES) $(LIBFT)
+	@printf "%-54c\rDone !\n" ' '
 
 $(OBJ_DIR):
 	@mkdir -p $(OBJ_DIR)
 
 $(OBJ_DIR)%.o : ./src/%.c $(HEAD)
 	@$(CC) -c $(INCLUDES) $< -o $@
+	@printf "Compiling... %-21s => %-21s\r" $^ $@
 
 $(LIBFT):
 	$(MAKE) -sC $(LIBFT_DIR)
