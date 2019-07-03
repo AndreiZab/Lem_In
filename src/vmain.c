@@ -91,12 +91,14 @@ int			main(void)
 	t_visualization	vis;
 	int				err;
 	t_lemin			*li;
+	t_lstr			*lstr;
 
+	lstr = ft_lstr_new_empty();
 	ft_bzero(&vis, sizeof(t_visualization));
 	li = NULL;
 	err = ft_creation(&li);
 	if (err == FT_OK)
-		err = ft_validation(0, li, ft_lstr_new_empty());
+		err = ft_validation(0, li, lstr);
 	if (err < 1)
 	{
 		ft_read_step(li, &vis);
@@ -111,6 +113,6 @@ int			main(void)
 		SDL_DestroyWindow(vis.win);
 		SDL_Quit();
 	}
-	ft_free(&li);
+	ft_free(&li, &lstr);
 	exit(0);
 }

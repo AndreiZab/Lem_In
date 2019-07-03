@@ -63,7 +63,7 @@ void				ft_move_ants(SDL_Renderer *ren, t_lemin *li,
 		t_visualization *vis);
 void				ft_main_draw(t_lemin *li, t_visualization *vis, int err);
 void				ft_keyboard(t_visualization *vis, int *err);
-void				ft_free(t_lemin **li);
+void				ft_free(t_lemin **li, t_lstr **lstr);
 void				ft_text_init(t_lemin *li, t_visualization *vis);
 void				ft_text_show(t_lemin	*li, t_visualization *vis);
 

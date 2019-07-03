@@ -27,7 +27,7 @@ void	ft_text_init(t_lemin *li, t_visualization *vis)
 	vis->color.r = 255;
 }
 
-void	ft_free(t_lemin **li)
+void	ft_free(t_lemin **li, t_lstr **lstr)
 {
 	t_path		*path;
 	t_path		*path_next;
@@ -53,6 +53,7 @@ void	ft_free(t_lemin **li)
 		free(*li);
 		*li = NULL;
 	}
+	lstr ? ft_lstr_destroy(lstr) : NULL;
 }
 
 void	ft_text_show(t_lemin *li, t_visualization *vis)
