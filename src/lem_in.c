@@ -83,7 +83,7 @@ int			main(void)
 	if (err < 1)
 	{
 		ft_lstr_insert_c(lstr, '\n', 1, lstr->length);
-		err = ft_migration(li, lstr);  // err используется дальше?
+		err = ft_migration(li, lstr);
 	}
 	ft_free(&li, &lstr);
 	return (0);
