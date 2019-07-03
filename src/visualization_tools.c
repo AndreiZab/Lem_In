@@ -6,7 +6,7 @@
 /*   By: rhealitt <rhealitt@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/02 12:50:17 by rhealitt          #+#    #+#             */
-/*   Updated: 2019/07/02 14:51:24 by rhealitt         ###   ########.fr       */
+/*   Updated: 2019/07/03 12:04:38 by rhealitt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,10 +26,17 @@ static void	ft_move(t_visualization *vis)
 
 static void	ft_size_map(int *coor, t_visualization *vis)
 {
-	if (coor[0] - coor[1] > coor[2] - coor[3])
-		vis->scale = 2200 / (coor[0] - coor[1]);
+	if ((coor[0] - coor[1]) > (coor[2] - coor[3]))
+	{
+		if ((coor[0] - coor[1]) > (coor[2] - coor[3]) * 1.78)
+			vis->scale = 2091 / (coor[0] - coor[1]);
+		else
+			vis->scale = 1224 / (coor[2] - coor[3]);
+	}
 	else
-		vis->scale = 1150 / (coor[2] - coor[3]);
+	{
+		vis->scale = 1224 / (coor[2] - coor[3]);
+	}
 	vis->room_size = 0.2 / vis->scale * 100;
 	vis->line_size = 0.1 / vis->scale * 100;
 }
@@ -48,13 +55,13 @@ static int	*ft_search_scale(t_lemin *li, t_visualization *vis)
 
 	coor = (int*)ft_memalloc(sizeof(int) * 4);
 	ptr = li->rooms;
-	coor[0] = ptr->y;
+	coor[0] = ptr->x;
 	coor[1] = ptr->x;
-	coor[2] = ptr->x;
+	coor[2] = ptr->y;
 	coor[3] = ptr->y;
 	while (ptr)
 	{
-		if (++ptr->x > coor[0])
+		if (ptr->x > coor[0])
 			coor[0] = ptr->x;
 		if (ptr->x < coor[1])
 			coor[1] = ptr->x;
@@ -73,8 +80,8 @@ static void	ft_centering(t_lemin *li, t_visualization *vis)
 	int *coor_ptr;
 
 	coor_ptr = ft_search_scale(li, vis);
-	vis->offset_x = -coor_ptr[1] * vis->scale + (vis->scale / 1.22);
-	vis->offset_y = -coor_ptr[3] * vis->scale + (vis->scale / 2.57);
+	vis->offset_x = (int)(-coor_ptr[1] * vis->scale + (vis->scale / 2));
+	vis->offset_y = (int)(-coor_ptr[3] * vis->scale + (vis->scale / 2));
 	free(coor_ptr);
 }
 

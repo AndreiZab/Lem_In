@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: sbrochar <marvin@42.fr>                    +#+  +:+       +#+         #
+#    By: rhealitt <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/07/02 14:01:06 by rhealitt          #+#    #+#              #
-#    Updated: 2019/07/02 14:01:06 by rhealitt         ###   ########.fr        #
+#    Updated: 2019/07/03 12:06:37 by rhealitt         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -20,6 +20,7 @@ LIB_DIR = ./lib/libft
 LIBFT = $(LIB_DIR)/libft.a
 
 SRC = vmain.c \
+	visualization_tools.c \
 	rooms.c \
 	links.c \
 	paths.c \
@@ -32,7 +33,6 @@ SRC = vmain.c \
 	parse_lins.c \
 	step_reader.c \
 	draw.c \
-	visualization_tools.c \
 	text.c
 
 OBJ = $(patsubst %.c,$(OBJ_DIR)/%.o,$(SRC))
@@ -44,7 +44,7 @@ LFLAGS = -L$(LIB_DIR) -lft `sdl2-config --libs` -lSDL2_gfx -lSDL2_ttf -lm
 all: $(LIBFT) $(NAME)
 
 $(NAME): $(OBJ)
-	@printf "%-54c\rLinking...\n" ' '
+	@printf "%-70c\rLinking...\n" ' '
 	@$(CC) -o $@ $^ $(LFLAGS)
 	@printf "Done !\n"
 
