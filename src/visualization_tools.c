@@ -6,7 +6,7 @@
 /*   By: rhealitt <rhealitt@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/02 12:50:17 by rhealitt          #+#    #+#             */
-/*   Updated: 2019/07/03 12:04:38 by rhealitt         ###   ########.fr       */
+/*   Updated: 2019/07/03 12:59:04 by rhealitt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,8 +37,8 @@ static void	ft_size_map(int *coor, t_visualization *vis)
 	{
 		vis->scale = 1224 / (coor[2] - coor[3]);
 	}
-	vis->room_size = 0.2 / vis->scale * 100;
-	vis->line_size = 0.1 / vis->scale * 100;
+	vis->room_size = 20.0 / vis->scale;
+	vis->line_size = 10.0 / vis->scale;
 }
 
 /*
@@ -80,8 +80,10 @@ static void	ft_centering(t_lemin *li, t_visualization *vis)
 	int *coor_ptr;
 
 	coor_ptr = ft_search_scale(li, vis);
-	vis->offset_x = (int)(-coor_ptr[1] * vis->scale + (vis->scale / 2));
-	vis->offset_y = (int)(-coor_ptr[3] * vis->scale + (vis->scale / 2));
+	vis->offset_x = (int)(-coor_ptr[1] * vis->scale +
+			(2560 - vis->scale * (coor_ptr[0] - coor_ptr[1])) / 2);
+	vis->offset_y = (int)(-coor_ptr[3] * vis->scale +
+			(1440 - vis->scale * (coor_ptr[2] - coor_ptr[3])) / 2);
 	free(coor_ptr);
 }
 
