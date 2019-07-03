@@ -68,7 +68,7 @@ int			ft_set_ant_movement(t_lemin *li,
 	if ((room = ft_room_by_name(li->rooms, splited[1])) == NULL)
 		return (ft_splited_free(splited, FT_NOT_A_STEP));
 	ant = NULL;
-	ant_state = ft_ant_state(li, vis, ant_number, &ant);
+	ant_state = ft_ant_state(li, vis, ant_number, &ant); // не спользуется ant_state?
 	ant->to = room;
 	return (ft_splited_free(splited, FT_OK));
 }

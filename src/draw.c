@@ -6,7 +6,7 @@
 /*   By: rhealitt <rhealitt@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/02 12:38:16 by rhealitt          #+#    #+#             */
-/*   Updated: 2019/07/02 14:01:06 by rhealitt         ###   ########.fr       */
+/*   Updated: 2019/07/02 20:23:00 by rhealitt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,8 +94,8 @@ void		ft_move_ants(SDL_Renderer *ren, t_lemin *li, t_visualization *vis)
 			ft_step_newroom(ant, vis);
 		if (ant->to != NULL)
 		{
-			ant->x += ant->step_x * vis->scale * 1000;
-			ant->y += ant->step_y * vis->scale * 1000;
+			ant->x += (int)(ant->step_x * vis->scale * 1000);
+			ant->y += (int)(ant->step_y * vis->scale * 1000);
 		}
 		filledCircleColor(ren, ant->x / 1000 + vis->offset_x, ant->y / 1000 +
 		vis->offset_y, (int)(0.09 / vis->scale * 100 * vis->scale), 0xFFFFFFFF);

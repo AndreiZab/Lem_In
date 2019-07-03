@@ -37,7 +37,7 @@ typedef struct		s_visualization
 	SDL_Renderer	*ren;
 	struct s_ant	*ants;
 	TTF_Font		*font;
-	SDL_Texture		*texture;
+	SDL_Texture		*texture; // Используется?
 	SDL_Surface		*surf;
 	SDL_Rect		rect;
 	SDL_Color		color;
