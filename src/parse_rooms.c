@@ -6,7 +6,7 @@
 /*   By: rhealitt <rhealitt@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/21 17:59:40 by rhealitt          #+#    #+#             */
-/*   Updated: 2019/07/02 17:57:02 by rhealitt         ###   ########.fr       */
+/*   Updated: 2019/07/04 15:18:19 by rhealitt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,22 +82,22 @@ static int	ft_hash(char *line, char *flag, int *err)
 {
 	if (*err == FT_NO_DATA)
 		*err = FT_OK;
-	if (line[0] == '#' && line[1] != '#')
-		return (1);
-	else if (!ft_strcmp(line, "##end"))
+	if (!ft_strcmp(line, "##end"))
 	{
 		if (*flag != FT_NO_FLAGS)
 			*err = FT_ONE_MORE_END;
 		*flag = FT_END;
 		return (1);
 	}
-	else if (!ft_strcmp(line, "##start"))
+	if (!ft_strcmp(line, "##start"))
 	{
 		if (*flag != FT_NO_FLAGS)
 			*err = FT_ONE_MORE_START;
 		*flag = FT_START;
 		return (1);
 	}
+	if (line[0] == '#')
+		return (1);
 	return (0);
 }
 
