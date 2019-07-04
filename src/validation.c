@@ -75,25 +75,24 @@ static int	ft_parse_ants(int fd, t_lemin *li, t_lstr *lstr)
 	line = NULL;
 	get_next_line(fd, &line);
 	if (!line)
-		return (FT_NO_DATA);
+		return (FT_NO_DATA + ft_free_line(line) - 1);
 	ft_string_insert(lstr, line, lstr->length);
 	if (line[0] == '#' && line[1] != '#')
-		return (ft_parse_ants(fd, li, lstr));
+		return (ft_parse_ants(fd, li, lstr) + ft_free_line(line) - 1);
 	i = -1;
 	while (line[++i] != '\0')
 	{
 		if (line[i] == '-')
-			return (FT_NO_ANTS);
+			return (FT_NO_ANTS + ft_free_line(line) - 1);
 		if (i == 0 && line[i] == '+')
 			i++;
 		if (line[i] > 57 || line[i] < 48)
-			return (FT_WRONG_FORMAT);
+			return (FT_WRONG_FORMAT + ft_free_line(line) - 1);
 	}
 	li->ants = (ft_isint(line)) ? ft_atoi(line) : 0;
 	if (li->ants <= 0 || li->ants > 2147483647)
-		return (FT_NO_ANTS);
-	free(line);
-	return (FT_OK);
+		return (FT_NO_ANTS + ft_free_line(line) - 1);
+	return (FT_OK + ft_free_line(line) - 1);
 }
 
 int			ft_validation(int fd, t_lemin *li, t_lstr *lstr)
