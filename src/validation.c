@@ -6,7 +6,7 @@
 /*   By: rhealitt <rhealitt@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/21 12:46:04 by rhealitt          #+#    #+#             */
-/*   Updated: 2019/07/02 20:32:01 by rhealitt         ###   ########.fr       */
+/*   Updated: 2019/07/04 13:46:31 by rhealitt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,8 +77,8 @@ static int	ft_parse_ants(int fd, t_lemin *li, t_lstr *lstr)
 	if (!line)
 		return (FT_NO_DATA + ft_free_line(line) - 1);
 	ft_string_insert(lstr, line, lstr->length);
-	if (line[0] == '#' && line[1] != '#')
-		return (ft_parse_ants(fd, li, lstr) + ft_free_line(line) - 1);
+	if (line[0] == '#')
+		return (ft_free_line(line) - 1 + ft_parse_ants(fd, li, lstr));
 	i = -1;
 	while (line[++i] != '\0')
 	{

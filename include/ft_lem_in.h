@@ -6,7 +6,7 @@
 /*   By: larlyne <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/20 16:57:12 by larlyne           #+#    #+#             */
-/*   Updated: 2019/07/01 10:41:56 by rhealitt         ###   ########.fr       */
+/*   Updated: 2019/07/04 15:46:20 by rhealitt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,6 @@ typedef struct	s_room
 	int				weight_difference;
 	int				lock;
 	char			closed;
-
 	int				flags;
 
 	struct s_room	*path_next;
@@ -120,29 +119,35 @@ typedef struct	s_lemin
 ** parse_lins.c
 */
 
-int				ft_search_dup_link(t_room *room1, t_room *room2);
 int				ft_parse_links(char *line, t_lemin *li, char *flag);
-int				ft_split_link(char *line, char **name1, char **name2);
+void			ft_string_insert(t_lstr *lstr, char *str, int index);
+int				ft_free_line(char *line);
+int				ft_scan_li(t_lemin *li);
+
+/*
+**validation.c
+*/
+
+int				ft_validation(int fd, t_lemin *li, t_lstr *lstr);
+void			ft_coordinate_room(t_room *room, char *line, int i);
+int				ft_create_room(char *line, t_lemin *li, char *flag);
+int				ft_found_flag(t_lemin *li, t_room *room, char flag);
+/*
+** migration.c
+*/
+
+int				ft_migration(t_lemin *li, t_lstr *lstr);
 
 /*
 ** parse_rooms.c
 */
 
 int				ft_parse_rooms(int fd, t_lemin *li, t_lstr *lstr, int err);
-int				ft_found_flag(t_lemin *li, t_room *room, char flag);
-int				ft_validation(int fd, t_lemin *li, t_lstr *lstr);
-void			ft_string_insert(t_lstr *lstr, char *str, int index);
-int				ft_free_line(char *line);
-int				ft_scan_li(t_lemin *li);
-int				ft_solution(t_lemin *li);
-int				ft_migration(t_lemin *li, t_lstr *lstr);
-void			ft_output(int error_state, t_lstr *lstr);
 
 /*
 ** rooms.c
 */
-void			ft_coordinate_room(t_room *room, char *line, int i);
-int				ft_create_room(char *line, t_lemin *li, char *flag);
+
 t_room			*ft_room_by_name(t_room *rooms, char *name);
 t_room			*ft_room_new(t_lemin *li, t_room **rooms);
 void			ft_room_full_free(t_room **rooms);
@@ -153,6 +158,8 @@ void			ft_rooms_reset(t_room *rooms);
 */
 
 void			ft_link_set(t_room *room1, t_room *room2);
+int				ft_split_link(char *line, char **name1, char **name2);
+int				ft_search_dup_link(t_room *room1, t_room *room2);
 
 /*
 ** paths.c
@@ -173,11 +180,24 @@ int				ft_check_collision(t_lemin *li, t_room *room);
 
 int				ft_path_cost(t_lemin *li, int depth);
 void			ft_collision(t_lemin *li, t_room *room, t_room *coll_room,
-					int depth);
+		int depth);
 
 /*
 ** lock.c
 */
 
 void			ft_lock_paths(t_lemin *li);
+
+/*
+** solution.c
+*/
+
+int				ft_solution(t_lemin *li);
+
+/*
+** lem_in.c
+*/
+
+void			ft_output(int error_state, t_lstr *lstr);
+
 #endif
