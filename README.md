@@ -1,3 +1,3 @@
 # Lem_In
 
-[Russian Version](README_RUS.md)
+[Russian Version of this text](README_RUS.md)
