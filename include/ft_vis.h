@@ -6,7 +6,7 @@
 /*   By: rhealitt <rhealitt@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/02 12:57:25 by rhealitt          #+#    #+#             */
-/*   Updated: 2019/07/03 13:02:31 by rhealitt         ###   ########.fr       */
+/*   Updated: 2019/07/12 11:55:51 by rhealitt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,16 +54,45 @@ typedef struct		s_ant
 	struct s_ant	*next;
 }					t_ant;
 
+/*
+** step_reader.c
+*/
+
 void				ft_read_step(t_lemin *li, t_visualization *vis);
+
+/*
+** draw.c
+*/
+
 void				ft_draw_lines(SDL_Renderer *ren, t_lemin *li,
-		t_visualization *vis);
+								  t_visualization *vis);
 void				ft_draw_rooms(SDL_Renderer *ren, t_lemin *li,
 		t_visualization *vis);
 void				ft_move_ants(SDL_Renderer *ren, t_lemin *li,
 		t_visualization *vis);
+
+/*
+** visualization_tools.c
+*/
+
 void				ft_main_draw(t_lemin *li, t_visualization *vis, int err);
+
+/*
+** vmain.c
+*/
+
 void				ft_keyboard(t_visualization *vis, int *err);
+
+/*
+** lem_in.c
+*/
+
 int					ft_free(t_lemin **li, t_lstr **lstr);
+
+/*
+** text.c
+*/
+
 void				ft_text_init(t_lemin *li, t_visualization *vis);
 void				ft_text_show(t_lemin	*li, t_visualization *vis);
 
